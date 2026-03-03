@@ -64,10 +64,17 @@ label {
 }
 
 
-input {
+input, textarea, select {
+    box-sizing: border-box;
     width: 90%;
     padding: 10px;
     margin: 10px 0px 20px 0;
+}
+
+textarea {
+    field-sizing: content;
+    min-height: 3rem;
+    resize: vertical;
 }
 
 button {
@@ -81,4 +88,17 @@ button {
 
 button:hover {
     background-color: #5f0808;
+}
+
+.clean-btn {
+    width: 50%;
+    padding: 10px;
+    background-color: #656061;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.clean-btn:hover {
+    background-color: #454142;
 }
