@@ -10,4 +10,9 @@ class Event extends Model
     protected $primaryKey = 'idEvento';
 
     public $timestamps = false;
+
+    public function subEvents()
+    {
+        return $this->hasMany(SubEvent::class, 'Evento_idEvento');
+    }
 }

@@ -3,7 +3,7 @@
 @push('styles')
     <style>
         .event-container {
-            margin-top: 80px;
+            margin-top: 2%;
             display: flex;
             justify-content: space-around;
             flex-wrap: wrap;
@@ -14,6 +14,16 @@
             align-self: flex-start;
         }
 
+        .event-row-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .event-row-controls > div {
+            width: 45%;
+        }
+
         .buttons {
             display: flex;
             justify-content: space-around;
@@ -21,6 +31,7 @@
 
         .buttons button {
             width: 30%;
+            border-radius: 7px;
         }
 
         .list {
@@ -69,14 +80,15 @@
             align-items: center;
         }
 
+        .actions a,
+        .actions a:visited {
+            color: black;
+        }
+
         .icon-btn {
             background: transparent;
             cursor: pointer;
             font-size: 2rem;
-        }
-
-        .icon-btn:hover {
-            font-size: 2.5rem;
         }
     </style>
 @endpush
@@ -98,6 +110,8 @@
             document.getElementById('name').value = eventData.nombreE;
             document.getElementById('description').value = eventData.descripcionE;
             document.getElementById('state').value = eventData.estadoE;
+            document.getElementById('event-date1').value = eventData.fechaInicioE;
+            document.getElementById('event-date2').value = eventData.fechaFinE;
 
             selectedEvent = eventData;
         }
@@ -108,7 +122,7 @@
             const form = document.getElementById('event-form');
             const formData = new FormData(form);
 
-            let url = '{{url("eventos")}}';
+            let url = '{{ url("eventos") }}';
 
             if (selectedEvent) {
                 if (!selectedEvent.idEvento) {
@@ -145,13 +159,24 @@
     <div class="login-box">
         <form id="event-form">
             @csrf
-            <h3>Registro de Evento</h3>
+            <h3 style="color: #656061;">Registro de Evento</h3>
 
             <label for="name">Nombre del evento:</label>
             <input id="name" type="text" name="name" placeholder="Ingrese el nombre del evento">
 
-            <label for="description">Descripci&oacute;n</label>
+            <label for="description">Descripci&oacute;n:</label>
             <textarea id="description" name="description" placeholder="Ingrese la descripción del evento"></textarea>
+
+            <div class="event-row-controls">
+                <div>
+                    <label for="event-date1">Fecha de inicio:</label>
+                    <input id="event-date1" type="date" name="event-date1">
+                </div>
+                <div>
+                    <label for="event-date2">Fecha de Finalizaci&oacute;n:</label>
+                    <input id="event-date2" type="date" name="event-date2">
+                </div>
+            </div>
 
             <label for="state">Estado:</label>
             <select id="state" name="state">
@@ -172,7 +197,20 @@
 
         <div class="list-events">
             @foreach ($events as $event)
-                @include('event.list', ['event' => $event])
+            <div class="element" id="{{ $event->idEvento }}">
+                <div class="info">
+                    <h4 class="title">{{ $event->nombreE }}</h4>
+                    <span class="date">{{ date('d/m/Y', strtotime($event->fechaInicioE)) }}</span>
+                    <span class="state">Estado: {{ $event->estadoE }}</span>
+                </div>
+
+                <div class="actions">
+                    <i class="fa-solid fa-pen-to-square icon-btn" onclick="edit(event, {{ $event }})"></i>
+                    <a href="{{ route('subeventos.evento', ['eventId' => $event->idEvento]) }}">
+                        <i class="fa-solid fa-play icon-btn"></i>
+                    </a>
+                </div>
+            </div>
             @endforeach
         </div>
     </div>

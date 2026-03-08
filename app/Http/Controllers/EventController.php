@@ -18,9 +18,11 @@ class EventController extends Controller
     {
         $event = new Event();
 
-        $event->nombreE = $request->name;
-        $event->descripcionE = $request->description;
-        $event->estadoE = $request->state;
+        $event->nombreE = $request->input('name');
+        $event->descripcionE = $request->input('description');
+        $event->fechaInicioE = $request->input('event-date1');
+        $event->fechaFinE = $request->input('event-date2');
+        $event->estadoE = $request->input('state');
 
         $event->save();
 
@@ -31,9 +33,11 @@ class EventController extends Controller
     {
         $event = Event::find($eventId);
 
-        $event->nombreE = $request->name == null ? $event->nombreE : $request->name;
-        $event->descripcionE = $request->description == null ? $event->descripcionE : $request->description;
-        $event->estadoE = $request->state == null ? $event->estadoE : $request->state;
+        $event->nombreE = $request->input('name', $event->nombreE);
+        $event->descripcionE = $request->input('description', $event->descripcionE);
+        $event->fechaInicioE = $request->input('event-date1', $event->fechaInicioE);
+        $event->fechaFinE = $request->input('event-date2', $event->fechaFinE);
+        $event->estadoE = $request->input('state', $event->estadoE);
 
         $event->save();
 
