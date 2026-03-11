@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\EventPatchRequest;
+use App\Http\Requests\EventPostRequest;
 use App\Models\Event;
 use Illuminate\Http\Request;
 
@@ -9,12 +11,12 @@ class EventController extends Controller
 {
     public function list()
     {
-        $events = Event::all();
+        $events = Event::orderBy('fechaInicioE', 'desc')->get();
 
         return view('event.event', ['events' => $events]);
     }
 
-    public function store(Request $request)
+    public function store(EventPostRequest $request)
     {
         $event = new Event();
 
@@ -29,7 +31,7 @@ class EventController extends Controller
         return redirect('eventos');
     }
 
-    public function update(int $eventId, Request $request)
+    public function update(int $eventId, EventPatchRequest $request)
     {
         $event = Event::find($eventId);
 

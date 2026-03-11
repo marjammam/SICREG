@@ -102,3 +102,17 @@ button:hover {
 .clean-btn:hover {
     background-color: #454142;
 }
+
+.is-invalid {
+    border-color: red;
+    outline: none;
+    margin-bottom: 0;
+}
+
+.alert {
+    margin: 0;
+    padding: 0;
+    font-size: 0.8rem;
+    color: red;
+    align-self: flex-start;
+}

@@ -259,19 +259,19 @@
 
         <tbody>
             @foreach ($subEvents as $subEvent)
-            <tr>
-                <td>{{ $subEvent->nombreSE }}</td>
-                <td>{{ $subEvent->tipoEvento }}</td>
-                <td>{{ date('d/m/Y', strtotime($subEvent->fechaSE)) }}</td>
-                <td>{{ $subEvent->estadoSE }}</td>
-                <td>
-                    <div class="element-actions">
-                        <i class="fa-solid fa-pen-to-square icon-btn", onclick="edit(event, {{ $subEvent }})"></i>
-                        <i class="fa-solid fa-trash icon-btn" onclick="deleteById(event, {{ $subEvent->idSubevento }})"></i>
-                        <i class="fa-solid fa-play icon-btn"></i>
-                    </div>
-                </td>
-            </tr>
+                <tr>
+                    <td>{{ $subEvent->nombreSE }}</td>
+                    <td>{{ $subEvent->tipoEvento }}</td>
+                    <td>{{ date('d/m/Y', strtotime($subEvent->fechaSE)) }}</td>
+                    <td>{{ $subEvent->estadoSE }}</td>
+                    <td>
+                        <div class="element-actions">
+                            <i class="fa-solid fa-pen-to-square icon-btn", onclick="edit(event, {{ $subEvent }})"></i>
+                            <i class="fa-solid fa-trash icon-btn" onclick="deleteById(event, {{ $subEvent->idSubevento }})"></i>
+                            <i class="fa-solid fa-play icon-btn"></i>
+                        </div>
+                    </td>
+                </tr>
             @endforeach
         </tbody>
     </table>
