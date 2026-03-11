@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SubEventPatchRequest;
+use App\Http\Requests\SubEventPostRequest;
 use App\Models\SubEvent;
 use Illuminate\Http\Request;
 
@@ -17,7 +19,7 @@ class SubEventController extends Controller
         ]);
     }
 
-    public function store(Request $request)
+    public function store(SubEventPostRequest $request)
     {
         $subEvent = new SubEvent();
 
@@ -34,7 +36,7 @@ class SubEventController extends Controller
         return redirect('subeventos/evento/' . $subEvent->Evento_idEvento);
     }
 
-    public function update(int $subEventId, Request $request)
+    public function update(int $subEventId, SubEventPatchRequest $request)
     {
         $subEvent = SubEvent::find($subEventId);
 

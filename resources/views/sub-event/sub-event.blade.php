@@ -127,7 +127,12 @@
 
 @push('scripts')
     <script>
-        let selectedSubEvent = null;
+        document.addEventListener('DOMContentLoaded', function () {
+            @if ($errors->any())
+                const modal = document.getElementById('subevent-modal');
+                modal.classList.remove('hidden');
+            @endif
+        });
 
         function openModal(e, modalName) {
             e.preventDefault();
@@ -140,13 +145,30 @@
         function closeModal(e, modalName) {
             e.preventDefault();
 
+            const form = document.getElementById('subevent-form');
+            const formMethod = document.getElementById('form-method');
+            const subeventIdInput = document.getElementById('subeventId');
             const modal = document.getElementById(modalName);
 
+            form.reset();
+            form.action = '/eventos';
+            formMethod.disabled = true;
+            subeventIdInput.value = null;
+            subeventIdInput.disable = true;
             modal.classList.add('hidden');
         }
 
         function edit(e, subeventData) {
             e.preventDefault();
+
+            const form = document.getElementById('subevent-form');
+            const formMethod = document.getElementById('form-method');
+            const subeventIdInput = document.getElementById('subeventId');
+
+            form.action = `/subeventos/${subeventData.idSubevento}`;
+            formMethod.disabled = false;
+            subeventIdInput.value = subeventData.idSubevento;
+            subeventIdInput.disable = false;
 
             document.getElementById('subevent-name').value = subeventData.nombreSE;
             document.getElementById('subevent-type').value = subeventData.tipoEvento;
@@ -155,54 +177,13 @@
             document.getElementById('subevent-time2').value = subeventData.horaFin;
             document.getElementById('subevent-state').value = subeventData.estadoSE;
 
-            selectedSubEvent = subeventData;
-
-            console.log(subeventData);
-
             openModal(e, 'subevent-modal');
         }
 
-        function sendData(e) {
+        function deleteById(e, subeventId) {
             e.preventDefault();
 
-            const form = document.getElementById('subevent-form');
-            const formData = new FormData(form);
-
-            let url = '{{ url("subeventos") }}';
-
-            if (selectedSubEvent) {
-                if (!selectedSubEvent.idSubevento) {
-                    return;
-                }
-
-                url = url + `/${selectedSubEvent.idSubevento}`;
-
-                formData.append('_method', 'PATCH');
-            } else {
-                formData.append('eventId', {{ $eventId }});
-            }
-
-            fetch(url, {
-                method: 'post',
-                credentials: 'same-origin',
-                body: formData,
-            })
-            .then((response) => {
-                if (response.redirected) {
-                    window.location.href = response.url;
-                }
-
-                return response;
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-        }
-
-        function deleteById(e, subEventId) {
-            e.preventDefault();
-
-            const url = `{{ url("subeventos") }}/${subEventId}`;
+            const url = `{{ url("subeventos") }}/${subeventId}`;
             const formData = new FormData();
 
             formData.append('_method', 'DELETE');
@@ -283,50 +264,125 @@
             <i class="fa-solid fa-circle-xmark"></i>
         </a>
 
-        <form id="subevent-form">
+        <form
+            id="subevent-form"
+            action="{{ old('subeventId') ? '/subeventos/' . old('subeventId') : '/subeventos' }}"
+            method="POST"
+        >
             @csrf
+            <input
+                type="hidden"
+                id="form-method"
+                name="_method"
+                value="PATCH"
+                {{ old('subeventId') ? '' : 'disabled' }}
+            >
+            <input
+                type="hidden"
+                id="subeventId"
+                name="subeventId"
+                value="{{ old('subeventId') }}"
+            >
+            <input
+                type="hidden"
+                id="eventId"
+                name="eventId"
+                value="{{ $eventId }}"
+            >
             <h3 style="color: #656061;">Registro de Subevento</h3>
 
             <label for="subevent-name">Nombre del subevento:</label>
-            <input id="subevent-name" type="text" name="subevent-name">
+            <input
+                id="subevent-name"
+                type="text"
+                name="subevent-name"
+                placeholder="Ingrese el nombre del subevento"
+                value="{{ old('subevent-name') }}"
+                class="@error('subevent-name') is-invalid @enderror"
+            >
+            @error('subevent-name')
+                <div class="alert">{{ $message }}</div>
+            @enderror
 
             <div class="subevent-row-controls">
                 <div>
                     <label for="subevent-type">Tipo de evento:</label>
-                    <select id="subevent-type" name="subevent-type">
-                        <option value="Delegados">Delegados</option>
-                        <option value="Congreso">Congreso</option>
+                    <select
+                        id="subevent-type"
+                        name="subevent-type"
+                        class="@error('subevent-type') is-invalid @enderror"
+                    >
+                        <option value="Delegados" {{ old('subevent-type') == 'Delegados' ? 'selected' : '' }}>Delegados</option>
+                        <option value="Congreso" {{ old('subevent-type') == 'Congreso' ? 'selected' : '' }}>Congreso</option>
                     </select>
+                    @error('subevent-type')
+                        <div class="alert">{{ $message }}</div>
+                    @enderror
                 </div>
                 <div>
                     <label for="subevent-date">Fecha:</label>
-                    <input id="subevent-date" type="date" name="subevent-date">
+                    <input
+                        id="subevent-date"
+                        type="date"
+                        name="subevent-date"
+                        value="{{ old('subevent-date') }}"
+                        class="@error('subevent-date') is-invalid @enderror"
+                    >
+                    @error('subevent-date')
+                        <div class="alert">{{ $message }}</div>
+                    @enderror
                 </div>
             </div>
 
             <div class="subevent-row-controls">
                 <div>
                     <label for="subevent-time1">Hora de inicio:</label>
-                    <input id="subevent-time1" type="time" name="subevent-time1">
+                    <input
+                        id="subevent-time1"
+                        type="time"
+                        name="subevent-time1"
+                        value="{{ old('subevent-time1') }}"
+                        class="@error('subevent-time1') is-invalid @enderror"
+                    >
+                    @error('subevent-time1')
+                        <div class="alert">{{ $message }}</div>
+                    @enderror
                 </div>
                 <div>
                     <label for="subevent-time2">Hora de Finalizaci&oacute;n:</label>
-                    <input id="subevent-time2" type="time" name="subevent-time2">
+                    <input
+                        id="subevent-time2"
+                        type="time"
+                        name="subevent-time2"
+                        value="{{ old('subevent-time2') }}"
+                        class="@error('subevent-time2') is-invalid @enderror"
+                    >
+                    @error('subevent-time2')
+                        <div class="alert">{{ $message }}</div>
+                    @enderror
                 </div>
             </div>
 
             <label for="subevent-state">Estado:</label>
-            <select id="subevent-state" name="subevent-state">
-                <option value="Activo">Activo</option>
-                <option value="Inactivo">Inactivo</option>
-                <option value="Finalizado">Finalizado</option>
+            <select
+                id="subevent-state"
+                name="subevent-state"
+                class="@error('subevent-state') is-invalid @enderror"
+            >
+                <option value="Activo" {{ old('subevent-state') == 'Activo' ? 'selected' : '' }}>Activo</option>
+                <option value="Inactivo" {{ old('subevent-state') == 'Inactivo' ? 'selected' : '' }}>Inactivo</option>
+                <option value="Finalizado" {{ old('subevent-state') == 'Finalizado' ? 'selected' : '' }}>Finalizado</option>
             </select>
+            @error('subevent-state')
+                <div class="alert">{{ $message }}</div>
+            @enderror
 
             <div class="subevent-form-buttons">
-                <button onclick="sendData(event)">Guardar</button>
+                <button type="submit">Guardar</button>
                 <button class="clean-btn" onclick="closeModal(event, 'subevent-modal')">Cancelar</button>
             </div>
         </form>
+    </div>
 </div>
 
 @endsection
