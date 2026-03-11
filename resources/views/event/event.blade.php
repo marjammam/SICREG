@@ -152,7 +152,6 @@
                 id="eventId"
                 name="eventId"
                 value="{{ old('eventId') }}"
-                {{ old('eventId') ? '' : 'disabled' }}
             >
             <h3 style="color: #656061;">Registro de Evento</h3>
 

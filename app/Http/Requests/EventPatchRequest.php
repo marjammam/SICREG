@@ -16,11 +16,11 @@ class EventPatchRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['nullable', 'string', 'max:100', 'not_regex:/^\s*$/'],
-            'description' => ['nullable', 'string', 'max:255', 'not_regex:/^\s*$/'],
-            'event-date1' => ['nullable', 'date'],
-            'event-date2' => ['nullable', 'date'],
-            'state' => ['nullable', 'string', 'in:Activo,Inactivo,Finalizado'],
+            'name' => ['sometimes', 'string', 'max:100', 'not_regex:/^\s*$/'],
+            'description' => ['sometimes', 'nullable', 'string', 'max:255', 'not_regex:/^\s*$/'],
+            'event-date1' => ['sometimes', 'date'],
+            'event-date2' => ['sometimes', 'nullable', 'date'],
+            'state' => ['sometimes', 'string', 'in:Activo,Inactivo,Finalizado'],
         ];
     }
 
