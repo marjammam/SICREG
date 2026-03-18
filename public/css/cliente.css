@@ -1,0 +1,342 @@
+.tabla-clientes{
+width:90%;
+margin:auto;
+font-family:Arial;
+}
+
+/* BARRA SUPERIOR */
+
+.barra-superior{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    /* reduce space above/below para que quede mas cerca de la tabla */
+    margin-top:20px;     /* separa del header */
+    margin-bottom:10px;  /* acerca a la tabla */
+}
+
+
+/* CONTENEDOR BUSCADOR */
+
+.buscador{
+display:flex;
+align-items:stretch;
+}
+
+/* INPUT */
+
+.buscador input{
+height:38px;
+width:400px;
+padding:0 12px;
+border:1px solid #ccc;
+border-right:none;
+font-size:14px;
+box-sizing:border-box;
+margin:0;
+}
+
+/* BOTON BUSCAR */
+
+.btn-buscar{
+height:39px;
+width:40px;
+border:1px solid #ccc;
+background:#eee;
+cursor:pointer;
+box-sizing:border-box;
+display:flex;
+align-items:center;
+justify-content:center;
+
+box-sizing:border-box;
+margin:0;
+}
+
+
+/* BOTONES DERECHA */
+
+.acciones-superior{
+display:flex;
+gap:8px;
+}
+
+/* BOTON REGISTRAR */
+
+.btn-registrar{
+background:#8f8f8f;
+color:white;
+border:none;
+height:38px;
+padding:0 18px;
+font-size:14px;
+cursor:pointer;
+}
+
+/* BOTON IMPRIMIR */
+
+.btn-imprimir{
+background:green;
+color:white;
+border:none;
+height:38px;
+padding:0 18px;
+font-size:14px;
+cursor:pointer;
+}
+
+/* TABLA */
+
+table{
+width:100%;
+border-collapse:collapse;
+font-size:13px;
+}
+
+/* ENCABEZADO */
+
+thead{
+background:#b33b35;
+color:white;
+}
+
+th{
+padding:4px 6px;
+text-align:left;
+font-size:13px;
+}
+
+td{
+padding:3px 6px;
+border-bottom:1px solid #eee;
+font-size:13px;
+}
+/* ACCIONES */
+
+.acciones span{
+cursor:pointer;
+font-size:16px;
+transition:0.2s;
+}
+
+.acciones .editar:hover{
+color:#2b7cff;
+}
+
+.acciones .eliminar:hover{
+color:#e53935;
+}
+
+/* ocultar checkbox original */
+
+.check-item,
+#checkAll{
+appearance:none;
+-webkit-appearance:none;
+width:15px;
+height:15px;
+border:2px solid #b33b35;
+border-radius:4px;
+cursor:pointer;
+position:relative;
+}
+
+/* cuando está marcado */
+
+.check-item:checked,
+#checkAll:checked{
+background:#b33b35;
+}
+
+/* icono check */
+
+.check-item:checked::after,
+#checkAll:checked::after{
+content:"✔";
+color:white;
+font-size:12px;
+position:absolute;
+top:-2px;
+left:2px;
+}
+
+/* fondo modal */
+
+.modal{
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.45);
+justify-content:center;
+align-items:center;
+z-index:1000;
+}
+
+/* tarjeta modal */
+
+.modal-card{
+background:white;
+width:500px;
+border-radius:8px;
+padding:20px;
+box-shadow:0 5px 20px rgba(0,0,0,0.3);
+animation:aparecer .2s ease;
+}
+
+/* animacion */
+
+@keyframes aparecer{
+from{
+transform:scale(.9);
+opacity:0;
+}
+to{
+transform:scale(1);
+opacity:1;
+}
+}
+
+/* header */
+
+.modal-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:15px;
+}
+
+.modal-header h2{
+font-size:18px;
+}
+
+.cerrar{
+border:none;
+background:none;
+font-size:20px;
+cursor:pointer;
+}
+
+/* grid formulario */
+
+.grid-form{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:12px;
+}
+
+/* campos */
+
+.campo label{
+font-size:13px;
+display:block;
+margin-bottom:5px;
+}
+
+.campo input,
+.campo select{
+width:90%;
+height:36px;
+border:1px solid #ccc;
+padding:0 10px;
+border-radius:4px;
+}
+
+/* botones */
+
+.acciones-modal{
+display:flex;
+justify-content:flex-end;
+gap:10px;
+margin-top:15px;
+}
+
+.btn-guardar{
+background:#b33b35;
+color:white;
+border:none;
+padding:8px 16px;
+cursor:pointer;
+border-radius:4px;
+}
+
+.btn-cancelar{
+background:#777;
+color:white;
+border:none;
+padding:8px 16px;
+cursor:pointer;
+border-radius:4px;
+}
+
+.tabla-scroll{
+max-height:500px;   /* alto de la tabla */
+overflow-y:auto;    /* scroll vertical */
+border:1px solid #ddd;
+}
+thead{
+background:#b33b35;
+color:white;
+position:sticky;
+top:0;
+z-index:2;
+}
+
+/* MODAL */
+
+.modaleve{
+display:none;
+position:fixed;
+z-index:1000;
+left:0;
+top:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.5);
+}
+
+/* CONTENIDO MODAL */
+
+.modal-contenidoeve{
+
+background:white;
+width:350px;
+padding:20px;
+border-radius:6px;
+
+position:absolute;
+top:50%;
+left:50%;
+
+transform:translate(-50%,-50%);
+text-align:center;
+
+box-shadow:0 3px 10px rgba(0,0,0,0.3);
+
+}
+
+/* SELECT */
+
+.modaleve select{
+
+width:100%;
+padding:8px;
+margin-top:10px;
+margin-bottom:15px;
+
+}
+
+/* BOTON */
+
+.btn-modaleve{
+
+padding:10px 20px;
+background:#a53b37;
+color:white;
+border:none;
+cursor:pointer;
+border-radius:4px;
+
+}

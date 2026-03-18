@@ -70,7 +70,7 @@ input {
     margin: 10px 0px 20px 0;
 }
 
-button {
+.btn-ingresar {
     width: 50%;
     padding: 10px;
     background-color: #850B0B;
@@ -79,6 +79,6 @@ button {
     cursor: pointer;
 }
 
-button:hover {
+.btn-ingresar:hover {
     background-color: #5f0808;
 }
