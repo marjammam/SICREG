@@ -7,6 +7,9 @@
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    @stack('styles')
+    @stack('scripts')
 </head>
 <body>
 
@@ -19,7 +22,7 @@
 
     <nav>
         <a href="#">Inicio</a>
-        <a href="#">Evento</a>
+        <a href="/eventos">Evento</a>
         <a href="{{ route('credencial') }}">Credencial</a>
         <a href="{{ route('cliente') }}">Clientes</a>
         <a href="#">Iniciar Sesión</a>
