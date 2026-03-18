@@ -17,7 +17,7 @@
         <label>Contraseña</label>
         <input type="password" placeholder="Ingrese su contraseña">
         
-        <button lass="btn-ingresar" type="submit">Ingresar</button>
+        <button class="btn-ingresar" type="submit">Ingresar</button>
     </form>
     </div>
 </div>

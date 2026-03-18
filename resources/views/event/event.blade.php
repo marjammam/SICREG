@@ -223,7 +223,7 @@
             @enderror
 
             <div class="buttons">
-                <button class="submit-btn" type="submit">Guardar</button>
+                <button class="btn-ingresar submit-btn" type="submit">Guardar</button>
                 <button class="clean-btn" onclick="clean(event)">Limpiar</button>
             </div>
         </form>

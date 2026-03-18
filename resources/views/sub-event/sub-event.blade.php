@@ -216,12 +216,12 @@
     <div class="top-actions">
         <div class="search">
             <input type="search" placeholder="Escriba aquí el nombre del subevento">
-            <button>
+            <button class="btn-ingresar">
                 <i class="fa-solid fa-magnifying-glass"></i>
             </button>
         </div>
 
-        <button onclick="openModal(event, 'subevent-modal')">
+        <button class="btn-ingresar" onclick="openModal(event, 'subevent-modal')">
             <i class="fa-solid fa-circle-plus"></i>
             <span>REGISTRAR</span>
         </button>
@@ -378,7 +378,7 @@
             @enderror
 
             <div class="subevent-form-buttons">
-                <button type="submit">Guardar</button>
+                <button class="btn-ingresar" type="submit">Guardar</button>
                 <button class="clean-btn" onclick="closeModal(event, 'subevent-modal')">Cancelar</button>
             </div>
         </form>
