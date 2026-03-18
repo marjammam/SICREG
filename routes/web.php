@@ -38,4 +38,5 @@ Route::get('/cliente', function () {
 Route::get('/cliente', [PersonaController::class,'index'])->name('cliente');
 Route::get('/buscar-persona/{ci}', [PersonaController::class,'buscar'])->name('buscar-persona');
 
-Route::post('/credenciales/imprimir',[CredencialController::class,'imprimirMasivo']);
+
+Route::post('/credenciales/preview', [CredencialController::class, 'preview']);

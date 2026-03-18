@@ -91,6 +91,7 @@ table{
 width:100%;
 border-collapse:collapse;
 font-size:13px;
+user-select: none;
 }
 
 /* ENCABEZADO */
@@ -340,3 +341,16 @@ cursor:pointer;
 border-radius:4px;
 
 }
+
+
+.btn-cancelareve{
+
+padding:10px 20px;
+background:#777;;
+color:white;
+border:none;
+cursor:pointer;
+border-radius:4px;
+
+}
+

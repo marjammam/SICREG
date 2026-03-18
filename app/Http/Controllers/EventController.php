@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 
 class EventController extends Controller
 {
+
     public function list()
     {
         $events = Event::orderBy('fechaInicioE', 'desc')->get();

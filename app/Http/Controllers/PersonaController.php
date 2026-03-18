@@ -4,13 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Persona;
-
+use App\Models\Event;
 class PersonaController extends Controller
 {
     public function index()
     {
-        $personas = Persona::all();
-        return view('cliente.cliente', compact('personas'));
+        $personas = Persona::paginate(50);
+       // return view('cliente.cliente', compact('personas'));
+        $eventos = Event::all(); 
+         return view('cliente.cliente', compact('personas','eventos'));
     }
 
     public function buscar($ci)

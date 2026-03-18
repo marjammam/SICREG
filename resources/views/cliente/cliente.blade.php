@@ -2,6 +2,10 @@
 
 @section('content')
 <link rel="stylesheet" href="{{ asset('css/cliente.css') }}">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
 <div class="tabla-clientes">
 
@@ -13,7 +17,7 @@
     </div>
     <div class="acciones-superior">
     <button class="btn-registrar"onclick="abrirModal()"><i class="fa fa-plus"></i>  Registrar</button>
-    <button class="btn-imprimir" onclick="Credenciales()"><i class="fa fa-print"></i>  Imprimir</button>
+    <button class="btn-imprimir" onclick="Credenciales()">  Generar Credenciales</button>
     </div>
 
 </div>
@@ -35,11 +39,16 @@
 
 <tbody>
 @foreach($personas as $i => $p)
-<tr>
+<tr 
+data-id="{{ $p->idPersona }}"
+data-nombre="{{ $p->nombre }}"
+data-apellido="{{ $p->apellidos }}"
+data-ci="{{ $p->ci }}"
+>
 <td>
-<input type="checkbox" class="check-item"value="{{ $p->idPersona }}">
+<input type="checkbox" class="check-item"  value="{{ $p->idPersona }}">
 </td>
-<td>{{ $i + 1 }}</td>
+<td>{{ $personas->firstItem() + $i }}</td>
 
 <td>{{ $p->ci }}</td>
 
@@ -58,6 +67,9 @@
 @endforeach
 </tbody>
 </table>
+</div>
+<div class="d-flex justify-content-center mt-3">
+    {{ $personas->links() }}
 </div>
 </div>
 
@@ -125,108 +137,89 @@
 
 <div id="modalEvento" class="modaleve">
 
-<div class="modal-contenidoeve">
+    <div class="modal-contenidoeve">
 
-<h3>Seleccionar Evento</h3>
+    <h3>Seleccionar Evento</h3>
 
-<select id="evento">
-<option value="">Seleccione evento</option>
-<option value="Congreso">Congreso</option>
-<option value="Asamblea">Asamblea</option>
-<option value="Reunion">Reunion</option>
-</select>
-<button class="btn-modaleve" onclick="confirmarEvento()">Generar Credenciales</button>
+    <select id="evento">
+    <option value="">Seleccione evento</option>
+    
+    @foreach($eventos as $e)
+    <option value="{{ $e->nombreE }}"> {{ $e->nombreE}} </option>
+    @endforeach
+    </select>
+    <button class="btn-cancelareve" onclick="cerrarModalEvento()">Cancelar</button>
+    <button class="btn-modaleve" onclick="confirmarEvento()">Aceptar</button>
+    </div>
+</div>
+
+
 
 <script>
 
-let personasSeleccionadas = [];
+function cerrarModalEvento(){
+document.getElementById("modalEvento").style.display="none";
+}
 
-/* abrir modal */
+let personasSeleccionadas = [];
 
 function Credenciales(){
 
 personasSeleccionadas = [];
 
-document.querySelectorAll(".check-item:checked").forEach(function(el){
-
+document.querySelectorAll(".check-item:checked").forEach(el=>{
 personasSeleccionadas.push(el.value);
-
 });
 
-if(personasSeleccionadas.length === 0){
-
+if(personasSeleccionadas.length===0){
 alert("Seleccione personas");
-
 return;
-
 }
 
-document.getElementById("modalEvento").style.display = "block";
-
+document.getElementById("modalEvento").style.display="block";
 }
-
-/* confirmar evento */
 
 function confirmarEvento(){
 
-let evento = document.getElementById("evento").value;
+let evento=document.getElementById("evento").value;
 
-if(evento === ""){
-
+if(evento===""){
 alert("Seleccione evento");
-
 return;
+}
+
+document.getElementById("modalEvento").style.display="none";
+
+enviarPreview(evento);
 
 }
 
-/* cerrar modal */
+function enviarPreview(evento){
 
-document.getElementById("modalEvento").style.display = "none";
+let form=document.createElement("form");
 
-/* generar PDF */
+form.method="POST";
+form.action="/credenciales/preview";
 
-generarCredenciales(evento);
-
-}
-
-/* enviar al servidor */
-
-function generarCredenciales(evento){
-
-let form = document.createElement("form");
-
-form.method = "POST";
-form.action = "/credenciales/imprimir";
-form.target = "_blank";
-
-/* token */
-
-let token = document.createElement("input");
-
-token.type = "hidden";
-token.name = "_token";
-token.value = "{{ csrf_token() }}";
-
+/* TOKEN */
+let token=document.createElement("input");
+token.type="hidden";
+token.name="_token";
+token.value="{{ csrf_token() }}";
 form.appendChild(token);
 
-/* personas */
-
-let ids = document.createElement("input");
-
-ids.type = "hidden";
-ids.name = "personas";
-ids.value = JSON.stringify(personasSeleccionadas);
-
+/* IDS */
+let ids=document.createElement("input");
+ids.type="hidden";
+ids.name="personas";
+ids.value=JSON.stringify(personasSeleccionadas);
 form.appendChild(ids);
 
-/* evento */
-
-let ev = document.createElement("input");
-
-ev.type = "hidden";
-ev.name = "evento";
-ev.value = evento;
-
+/* EVENTO */
+let ev=document.createElement("input");
+ev.type="hidden";
+ev.name="evento";
+ev.value=evento;
 form.appendChild(ev);
 
 document.body.appendChild(form);
@@ -235,11 +228,16 @@ form.submit();
 
 }
 
+
+
+
+
+
 </script>
 
+
+
 <script>
-
-
 /*modal registro cliente*/
 function abrirModal(){
 document.getElementById("modalCliente").style.display="flex";
