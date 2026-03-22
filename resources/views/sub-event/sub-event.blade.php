@@ -154,7 +154,7 @@
             form.action = '/eventos';
             formMethod.disabled = true;
             subeventIdInput.value = null;
-            subeventIdInput.disable = true;
+            subeventIdInput.disabled = true;
             modal.classList.add('hidden');
         }
 
@@ -168,7 +168,7 @@
             form.action = `/subeventos/${subeventData.idSubevento}`;
             formMethod.disabled = false;
             subeventIdInput.value = subeventData.idSubevento;
-            subeventIdInput.disable = false;
+            subeventIdInput.disabled = false;
 
             document.getElementById('subevent-name').value = subeventData.nombreSE;
             document.getElementById('subevent-type').value = subeventData.tipoEvento;
@@ -282,6 +282,7 @@
                 id="subeventId"
                 name="subeventId"
                 value="{{ old('subeventId') }}"
+                {{ old('subeventId') ? '' : 'disabled' }}
             >
             <input
                 type="hidden"

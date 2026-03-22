@@ -5,6 +5,7 @@ use App\Http\Controllers\SubEventController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PersonaController;
 use App\Http\Controllers\CredencialController;
+use App\Http\Controllers\UserController;
 
 /*Route::get('/', function () {
     return view('welcome');
@@ -39,3 +40,9 @@ Route::get('/cliente', [PersonaController::class,'index'])->name('cliente');
 Route::get('/buscar-persona/{ci}', [PersonaController::class,'buscar'])->name('buscar-persona');
 
 Route::post('/credenciales/imprimir',[CredencialController::class,'imprimirMasivo']);
+
+Route::controller(UserController::class)->group(function() {
+    Route::get('usuarios', 'list')->name('usuarios');
+    Route::post('usuarios', 'store');
+    Route::patch('usuarios/{userId}', 'update');
+});
