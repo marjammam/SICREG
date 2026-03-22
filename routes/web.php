@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\SubEventController;
 use Illuminate\Support\Facades\Route;
@@ -7,9 +8,10 @@ use App\Http\Controllers\PersonaController;
 use App\Http\Controllers\CredencialController;
 use App\Http\Controllers\UserController;
 
-/*Route::get('/', function () {
-    return view('welcome');
-});*/
+Route::controller(AuthController::class)->group(function() {
+    Route::post('login', 'login');
+});
+
 Route::get('/', function () {
     return view('home');
 });
