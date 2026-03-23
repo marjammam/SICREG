@@ -21,16 +21,47 @@
     </div>
 
     <nav>
-        <a href="#">Inicio</a>
-        <a href="/eventos">Evento</a>
-        <a href="{{ route('credencial') }}">Credencial</a>
-        <a href="{{ route('cliente') }}">Clientes</a>
-        <a href="{{ route('usuarios') }}">Usuarios</a>
-        <a href="#">Iniciar Sesión</a>
+        @auth
+            <a href="{{ route('eventos') }}">Evento</a>
+            <a href="{{ route('credencial') }}">Credencial</a>
+            <a href="{{ route('cliente') }}">Clientes</a>
+            <a href="{{ route('usuarios') }}">Usuarios</a>
+            <a onclick="logout(event)">Cerrar sesión</a>
+        @endauth
+
+        @guest
+            <a href="{{ route('login') }}">Iniciar Sesión</a>
+        @endguest
     </nav>
 </header>
 
 @yield('content')
 
 </body>
+
+<script>
+    function logout(e) {
+        e.preventDefault();
+
+        const formData = new FormData();
+
+        formData.append('_token', '{{ csrf_token() }}');
+
+        fetch('{{ url("logout") }}', {
+            method: 'post',
+            credentials: 'same-origin',
+            body: formData,
+        })
+        .then((response) => {
+            if (response.redirected) {
+                window.location.href = response.url;
+            }
+
+            return response;
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+    }
+</script>
 </html>
