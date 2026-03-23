@@ -22,10 +22,17 @@
 
     <nav>
         @auth
-            <a href="{{ route('eventos') }}">Evento</a>
-            <a href="{{ route('credencial') }}">Credencial</a>
-            <a href="{{ route('cliente') }}">Clientes</a>
-            <a href="{{ route('usuarios') }}">Usuarios</a>
+            @if(auth()->user()->rol === 'ADMINISTRADOR')
+                <a href="{{ route('eventos') }}">Evento</a>
+                <a href="{{ route('credencial') }}">Credencial</a>
+                <a href="{{ route('cliente') }}">Clientes</a>
+                <a href="{{ route('usuarios') }}">Usuarios</a>
+            @elseif(auth()->user()->rol === 'MODERADOR')
+                <a href="{{ route('eventos') }}">Evento</a>
+                <a href="{{ route('credencial') }}">Credencial</a>
+                <a href="{{ route('cliente') }}">Clientes</a>
+            @endif
+
             <a onclick="logout(event)">Cerrar sesión</a>
         @endauth
 

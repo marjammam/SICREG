@@ -249,9 +249,9 @@
                             name="role"
                             class="@error('role') is-invalid @enderror"
                         >
-                            <option value="Administrador" {{ old('role') == 'Administrador' ? 'selected' : '' }}>Administrador</option>
-                            <option value="Moderador" {{ old('role') == 'Moderador' ? 'selected' : '' }}>Moderador</option>
-                            <option value="Usuario" {{ old('role') == 'Usuario' ? 'selected' : '' }}>Usuario</option>
+                            <option value="ADMINISTRADOR" {{ old('role') == 'ADMINISTRADOR' ? 'selected' : '' }}>ADMINISTRADOR</option>
+                            <option value="MODERADOR" {{ old('role') == 'MODERADOR' ? 'selected' : '' }}>MODERADOR</option>
+                            <option value="INVITADO" {{ old('role') == 'INVITADO' ? 'selected' : '' }}>INVITADO</option>
                         </select>
                         @error('role')
                             <div class="alert">{{ $message }}</div>

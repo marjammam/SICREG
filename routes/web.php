@@ -20,7 +20,7 @@ Route::get('/', function () {
     return view('home');
 });
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'role:ADMINISTRADOR,MODERADOR'])->group(function () {
     Route::controller(AuthController::class)->group(function () {
         Route::post('logout', 'logout');
     });
@@ -51,7 +51,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/buscar-persona/{ci}', [PersonaController::class,'buscar'])->name('buscar-persona');
 
     Route::post('/credenciales/imprimir',[CredencialController::class,'imprimirMasivo']);
+});
 
+Route::middleware(['auth', 'role:ADMINISTRADOR'])->group(function () {
     Route::controller(UserController::class)->group(function () {
         Route::get('usuarios', 'list')->name('usuarios');
         Route::post('usuarios', 'store');
