@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\EventPatchRequest;
 use App\Http\Requests\EventPostRequest;
 use App\Models\Event;
-use Illuminate\Http\Request;
 
 class EventController extends Controller
 {

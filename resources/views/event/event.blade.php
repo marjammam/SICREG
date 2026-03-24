@@ -106,7 +106,7 @@
             form.action = '/eventos';
             formMethod.disabled = true;
             eventIdInput.value = null;
-            eventIdInput.disable = true;
+            eventIdInput.disabled = true;
         }
 
         function edit(e, eventData) {
@@ -119,7 +119,7 @@
             form.action = `/eventos/${eventData.idEvento}`;
             formMethod.disabled = false;
             eventIdInput.value = eventData.idEvento;
-            eventIdInput.disable = false;
+            eventIdInput.disabled = false;
 
             document.getElementById('name').value = eventData.nombreE;
             document.getElementById('description').value = eventData.descripcionE;
@@ -152,6 +152,7 @@
                 id="eventId"
                 name="eventId"
                 value="{{ old('eventId') }}"
+                {{ old('eventId') ? '' : 'disabled' }}
             >
             <h3 style="color: #656061;">Registro de Evento</h3>
 
