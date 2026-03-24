@@ -20,7 +20,7 @@ class UserPatchRequest extends FormRequest
             'name' => ['sometimes', 'string', 'max:60', 'not_regex:/^\s*$/'],
             'email' => ['sometimes', 'email', 'max:60', 'not_regex:/^\s*$/'],
             'username' => ['sometimes', 'alpha_dash', 'max:45', 'not_regex:/^\s*$/'],
-            'role' => ['sometimes', 'string', 'in:Administrador,Moderador,Usuario'],
+            'role' => ['sometimes', 'string', 'in:ADMINISTRADOR,MODERADOR,INVITADO'],
             'state' => ['sometimes', 'string', 'in:ACTIVO,INACTIVO'],
             'password' => [
                 'sometimes',

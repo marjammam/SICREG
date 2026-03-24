@@ -20,7 +20,7 @@ class UserPostRequest extends FormRequest
             'name' => ['required', 'string', 'max:60', 'not_regex:/^\s*$/'],
             'email' => ['required', 'email', 'max:60', 'not_regex:/^\s*$/'],
             'username' => ['required', 'alpha_dash', 'max:45', 'not_regex:/^\s*$/'],
-            'role' => ['required', 'string', 'in:Administrador,Moderador,Usuario'],
+            'role' => ['required', 'string', 'in:ADMINISTRADOR,MODERADOR,INVITADO'],
             'state' => ['required', 'string', 'in:ACTIVO,INACTIVO'],
             'password' => [
                 'required',
