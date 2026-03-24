@@ -151,13 +151,12 @@ background-image:url("/image/credencialF.png");
 }
 
 .atras{
-background-image:url("/image/credencialA.png");
+background-image:url("/image/credencial_atras.png");
 }
 
 
 
-/* FOTO */
-
+/* FOTO 
 .foto{
 position:absolute;
 top:110px;
@@ -167,6 +166,19 @@ height:130px;
 object-fit:cover;
 border-radius:15px;
 border:2px solid #d4d4d4;
+}*/
+.foto{
+background-image: url("/image/perfil.png");
+position:absolute;
+top:110px;
+left:70px;
+width:120px;
+height:130px;
+border-radius:15px;
+border:2px solid #d4d4d4;
+background-size: cover;
+background-position: center;
+background-repeat: no-repeat;
 }
 
 /* DATOS */
@@ -248,3 +260,78 @@ border-radius:4px;
     background-color: #6b6868;
 }
 
+
+
+
+/*DISENIO MODAL*/
+.modal{
+    display:none;
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.5);
+    justify-content:center;
+    align-items:center;
+    z-index:999;
+}
+
+.modal-content{
+    position:relative;
+    background:#fff;
+    padding:25px;
+    border-radius:10px;
+    width:320px;
+    text-align:center;
+    box-shadow:0 5px 15px rgba(0,0,0,0.3);
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+}
+
+/* BOTÓN X */
+.close{
+    position:absolute;
+    top:10px;
+    right:15px;
+    font-size:20px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+/* BOTONES */
+.opciones{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+    margin-top:15px;
+    margin-bottom: 10px;
+}
+
+.btn-imp{
+    background:#2e7d32;
+    color:white;
+    padding:10px;
+    border:none;
+    border-radius:6px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.btn-pdf{
+    background:#1976d2;
+    color:white;
+    padding:10px;
+    border:none;
+    border-radius:6px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+/* HOVER */
+.btn-imp:hover{
+    background:#1b5e20;
+}
+
+.btn-pdf:hover{
+    background:#0d47a1;
+}

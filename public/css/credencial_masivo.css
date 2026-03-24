@@ -71,7 +71,7 @@ font-weight:bold;
 
 .qr{
 position:absolute;
-top:25mm;
+top:27mm;
 left:50%;
 transform:translateX(-50%);
 }
@@ -80,12 +80,13 @@ transform:translateX(-50%);
 
 .datos{
 position:absolute;
+text-align:center;
 top:230px;
 }
 
 /* NOMBRE CENTRADO Y DESTACADO */
 .nombre{
-text-align:center;
+
 font-size:11px;
 font-weight:bold;
 /*CONTROL DE ANCHO */
@@ -100,7 +101,7 @@ overflow-wrap:break-word;
 
 /* DATOS PEQUEÑOS Y A LA IZQUIERDA */
 .info{
-text-align:center;
+
 font-size:8px;
 padding:0 4mm;
 margin:6px 0;
