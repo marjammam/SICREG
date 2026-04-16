@@ -12,7 +12,8 @@
 <!-- COLUMNA FORMULARIO -->
 <div class="formulario">
     <div class="buscador">
-    <input type="text"  id="buscar_ci" placeholder="Escriba aquí su carnet de identidad">
+    <input type="text" id="buscar_ci" placeholder="Escriba aquí su carnet de identidad"
+    onkeypress="if(event.key === 'Enter') buscarPersona()">
     <button class="btn-buscar"onclick="buscarPersona()"><i class="fas fa-search"></i></button>
     </div>
     <label>NOMBRE(S):</label>
@@ -47,6 +48,7 @@
 <!-- FRENTE -->
 <div class="credencial-box" id="credencial-frente">
     <div class="credencial frente">
+        <img src="/image/FRENTE.png" class="bg">
         <div class="foto" id="fotoCredencial"></div>
         <!--<img src="{{ asset('image/perfil.png') }}" class="foto" id="fotoCredencial">-->
         <div class="datos">
@@ -62,19 +64,36 @@
 </div>
 
 
-<!-- ATRAS -->
-<div class="credencial-box"id="credencial-atras">
+
+<div class="credencial-box" id="credencial-atras">
     <div class="credencial atras">
-        <div class="titulo">
-        Secretaria de Organizacion y<br>
-        Vinculacion Sindical
+        <div class="contenido-superior">
+            <div class="titulo"> 
+                <br>Secretaría de Organización y<br>
+                Vinculación Sindical
+            </div>
+            <div class="qr" id="qrCredencial"></div>
         </div>
-        <div class="qr" id="qrCredencial"></div>
+
+        <div class="seccion-firmas">
+            <div class="firma-col">
+                <img src="image/ejecutivo_firma.png" class="img-firma">
+                <p class="nombre-firma">Prof. Wilson Velasquez Pinto</p>
+                <p class="cargo-firma">EJECUTIVO GENERAL <br>
+                                        F.D.T.E.U.C.</p>
+               
+                
+            </div>
+            <div class="firma-col">
+                <img src="image/secretario_firma.png" class="img-firma">
+                  <p class="nombre-firma">Prof. Luis Villarroel Castellon</p>
+                <p class="cargo-firma">STRIA. DE ORGANIZACIÓN Y VINCULACIÓN SINDICAL</p>
+               
+            </div>
+        </div>
     </div>
     <br>
     <button class="btn-print" onclick="abrirImprimirA()">IMPRIMIR</button>
-</div>
-</div>
 </div>
 
 <!-- Modal para impresion-->
@@ -84,8 +103,8 @@
     <span class="close" onclick="cerrarModal()">×</span>
     <h3>Imprimir Credencial</h3>
     <div class="opciones">
-        <button class="btn-imp" onclick="imprimirFrente()"> Impresora directa</button>
-        <button class="btn-pdf" onclick="pdfFrente()"> Descargar PDF</button>
+        <button class="btn-imp" onclick="imprimirFrente()"> Impresora Directa</button>
+        <button class="btn-pdf" onclick="pdfFrente()"> Descargar Imagen</button>
     </div>
   </div>
 </div>
@@ -108,24 +127,34 @@
 
 <script>
 function buscarPersona(){
-    let ci = document.getElementById("buscar_ci").value;
+    let ci = document.getElementById("buscar_ci").value.trim();
+    if(ci === ""){
+        alert("Ingrese un CI");
+        return;
+    }
     fetch("/buscar-persona/" + ci)
     .then(response => response.json())
     .then(data => {
-    if(!data){
-    alert("Persona no encontrada");
-    return;
-    }
-    document.getElementById("nombre").value = data.nombre;
-    document.getElementById("apellidos").value = data.apellidos;
-    document.getElementById("ci").value = data.ci;
-    document.getElementById("institucion").value = data.tipoInstitucion;
-    document.getElementById("distrito").value = data.distrito;
-    /* marcar radio automáticamente */
-    document.getElementById("ue").checked = true;
+        if(!data){
+            alert("Persona no encontrada");
+            return;
+        }
+        document.getElementById("nombre").value = data.nombre;
+        document.getElementById("apellidos").value = data.apellidos;
+        document.getElementById("ci").value = data.ci;
+        document.getElementById("institucion").value = data.tipoInstitucion;
+        document.getElementById("distrito").value = data.distrito;
+        document.getElementById("ue").checked = true;
     })
     .catch(error => console.error(error));
 }
+document.getElementById("buscar_ci").addEventListener("keypress", function(e) {
+    if (e.key === "Enter") {
+        buscarPersona();
+    }
+});
+
+
 
 function generarCredencial(){
 let nombre = document.getElementById("nombre").value;
@@ -210,7 +239,6 @@ window.onclick = function(e){
 }
 
 
-/* Funciones para imprimir */
 async function conectarQZ(){
     if(!qz.websocket.isActive()){
         try{
@@ -221,104 +249,116 @@ async function conectarQZ(){
         }
     }
 }
-// ejecutar al inicio
-conectarQZ();
 
+async function imprimirFrente() {
 
-async function imprimirFrente(){
+    await conectarQZ();
 
-let credencial = document.querySelector("#credencial-frente .credencial");
+    let original = document.querySelector("#credencial-frente .credencial");
+    if (!original) {
+        alert("No se encontró la credencial");
+        return;
+    }
 
-if(!credencial){
-    alert("Error: no se encontró la credencial");
-    return;
+    // === CLONAR ELEMENTO ===
+    let clone = original.cloneNode(true);
+
+    // Contenedor oculto
+    let container = document.createElement("div");
+    container.style.position = "fixed";
+    container.style.top = "-10000px";
+    container.style.left = "-10000px";
+    container.style.background = "#fff";
+
+    // === TAMAÑO REAL PVC EN PX (300 DPI) ===
+    clone.style.width = "638px";
+    clone.style.height = "1011px";
+    clone.style.transform = "scale(1)";
+    clone.style.transformOrigin = "top left";
+
+    container.appendChild(clone);
+    document.body.appendChild(container);
+
+    await new Promise(r => setTimeout(r, 300));
+
+    // Captura GRANDE
+    let canvas = await html2canvas(clone, {
+        scale: 1,
+        useCORS: true,
+        backgroundColor: "#ffffff"
+    });
+
+    document.body.removeChild(container);
+
+    let base64 = canvas.toDataURL("image/png").split(',')[1];
+
+    // === QZ CONFIG EN PX (A4) ===
+    let config = qz.configs.create("Epson L8050 Series", {
+        size: { width: 2480, height: 3508 }, // A4 en px (300 DPI)
+        units: "px",
+        density: 300
+    });
+
+    let data = [{
+        type: 'image',
+        format: 'base64',
+        data: base64,
+        options: {
+            x: 50,   // margen izquierdo
+            y: 50    // margen superior
+        }
+    }];
+
+    try {
+        await qz.print(config, data);
+        console.log("✅ IMPRESIÓN PERFECTA");
+    } catch (err) {
+        console.error(err);
+        alert("Error: " + err);
+    }
 }
 
-// esperar render
-await new Promise(resolve => setTimeout(resolve, 400));
 
-// generar canvas
-let canvas = await html2canvas(credencial, {
-    scale:2,
-    useCORS: true,
-    backgroundColor: "#ffffff"
-});
 
-// VALIDAR SI ESTÁ VACÍO (más eficiente)
-let base64Full = canvas.toDataURL("image/png");
 
-if(base64Full.length < 10000){
-    alert("❌ Error: credencial vacía");
-    return;
-}
-let base64 = base64Full.split(',')[1];
 
-// CONFIG QZ
-let config = qz.configs.create("Epson L8050 Series", {
-    size: { width: 54, height: 85.6, units: "mm" },
-    margins: 0,
-    scaleContent: true,
-    density: 300
-});
-let data = [{
-    type: 'image',
-    format: 'base64',
-    data: base64
-}];
-try{
-    await qz.print(config, data);
-    console.log("✅ Impresión enviada");
-}catch(err){
-    console.error("❌ Error QZ:", err);
-    alert("Error al imprimir");
-}
 
+
+async function pdfFrente() {
+    let credencial = document.querySelector("#credencial-frente .credencial");
+    
+    // 1. Obtener el CI del usuario desde el DOM
+    // Ajusta el selector '#ci-usuario' al que estés usando en tu HTML
+    let ciElement = document.querySelector("#cred-ci"); 
+    let ciValue = ciElement ? ciElement.innerText.trim() : "credencial";
+
+    if (!credencial) {
+        alert("Error: No se encontró el diseño de la credencial");
+        return;
+    }
+
+    let canvas = await html2canvas(credencial, {
+        scale: 4, 
+        useCORS: true,
+        backgroundColor: null 
+    });
+
+    let imgData = canvas.toDataURL("image/png");
+
+    let link = document.createElement('a');
+    
+    // 2. Aplicamos el nombre dinámico: CI + _frente.png
+    link.download = `${ciValue}_frente.png`; 
+    
+    link.href = imgData;
+    
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
 }
 
-/*async function pdfFrente(){
-const { jsPDF } = window.jspdf;
-let credencial = document.querySelector("#credencial-frente .credencial");
-if(!credencial){
-    alert("Error: no se encontró la credencial");
-    return;
-}
-await new Promise(resolve => setTimeout(resolve, 400));
-let canvas = await html2canvas(credencial,{
-    scale:2,
-    backgroundColor:"#ffffff"
-});
-let img = canvas.toDataURL("image/png");
-let pdf = new jsPDF({
-    orientation:"portrait",
-    unit:"mm",
-    format:[54,85.6]
-});
-pdf.addImage(img,"PNG",0,0,54,85.6);
-// vista previa + imprimir
-pdf.autoPrint();
-window.open(pdf.output('bloburl'), '_blank');
 
-}*/
 
-async function pdfFrente(){
-const { jsPDF } = window.jspdf;
-let credencial=document.querySelector("#credencial-frente .credencial");
-let canvas=await html2canvas(credencial,{
-scale:2
-});
-let img=canvas.toDataURL("image/png");
-let pdf=new jsPDF({
-orientation:"portrait",
-unit:"mm",
-format:[54,85.6]
-});
-pdf.addImage(img,"PNG",0,0,54,85.6, undefined, 'FAST');
-pdf.setDisplayMode('fullwidth', 'continuous');
-// abrir + imprimir
-pdf.autoPrint();
-window.open(pdf.output('bloburl'), '_blank');
-
-}
 
 
 
@@ -356,45 +396,49 @@ await qz.print(config, data);
 
 }
 
-async function pdfAtras(){
-const { jsPDF } = window.jspdf;
-let credencial = document.querySelector("#credencial-atras .credencial");
-await new Promise(resolve => setTimeout(resolve, 500));
-let canvas = await html2canvas(credencial,{
-    scale:2,
-    backgroundColor:"#ffffff"
-});
-let img = canvas.toDataURL("image/png");
 
-let pdf = new jsPDF({
-    orientation:"portrait",
-    unit:"mm",
-    format:[54,85.6]
-});
-pdf.addImage(img,"PNG",0,0,54,85.6);
-pdf.autoPrint();
-window.open(pdf.output('bloburl'), '_blank');
 
+async function pdfAtras() {
+    let credencial = document.querySelector("#credencial-atras .credencial");
+    
+    // 1. Obtener el CI del usuario desde el DOM
+    // Asegúrate de que el elemento que contiene el CI tenga el id="ci-usuario"
+    let ciElement = document.querySelector("#cred-ci"); 
+    let ciValue = ciElement ? ciElement.innerText.trim() : "credencial";
+
+    if (!credencial) {
+        alert("Error: No se encontró la parte posterior de la credencial");
+        return;
+    }
+
+    // Esperar renderizado para asegurar que el QR y las firmas carguen bien
+    await new Promise(resolve => setTimeout(resolve, 500));
+
+    // Generar el canvas con escala 3 para mejor nitidez en PVC
+    let canvas = await html2canvas(credencial, {
+        scale: 3, 
+        useCORS: true,
+        backgroundColor: "#ffffff"
+    });
+
+    // Convertir a base64
+    let imgData = canvas.toDataURL("image/png");
+
+    // Crear el proceso de descarga
+    let link = document.createElement('a');
+    
+    // 2. Nombre dinámico aumentado: CI + _atras.png
+    link.download = `${ciValue}_atras.png`; 
+    
+    link.href = imgData;
+    
+    // Ejecutar descarga
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    
+    console.log(`✅ Imagen trasera descargada como: ${ciValue}_atras.png`);
 }
-
-/*async function pdfAtras(){
-let canvas = await html2canvas(document.querySelector("#credencial-atras .credencial"), {
-    scale:2
-});
-let base64 = canvas.toDataURL("image/png").split(',')[1];
-let config = qz.configs.create("Epson L8050 Series", {
-    size: { width: 54, height: 85.6, units: "mm" },
-    margins: 0,
-    copies: 1,
-    scaleContent: false
-});
-let data = [{
-    type: 'image',
-    format: 'base64',
-    data: base64
-}];
-qz.print(config, data).catch(err => console.error(err));
-}*/
 
 </script>
 

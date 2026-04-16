@@ -9,18 +9,16 @@
 
 <div class="tabla-clientes">
 
-<div class="barra-superior">
-
-    <div class="buscador">
-    <input type="text" placeholder="Escriba aquí el nombre del cliente">
-    <button class="btn-buscar"><i class="fas fa-search"></i></button>
+    <div class="barra-superior">
+        <div class="buscador">
+        <input type="text" placeholder="Escriba aquí el nombre del cliente">
+        <button class="btn-buscar"><i class="fas fa-search"></i></button>
+        </div>
+        <div class="acciones-superior">
+        <button class="btn-registrar"onclick="abrirModal()"><i class="fa fa-plus"></i>  Registrar</button>
+        <button class="btn-imprimir" onclick="Credenciales()">  Generar Credenciales</button>
+        </div>
     </div>
-    <div class="acciones-superior">
-    <button class="btn-registrar"onclick="abrirModal()"><i class="fa fa-plus"></i>  Registrar</button>
-    <button class="btn-imprimir" onclick="Credenciales()">  Generar Credenciales</button>
-    </div>
-
-</div>
 
 <div class="tabla-scroll">
 <table>
@@ -39,34 +37,20 @@
 
 <tbody>
 @foreach($personas as $i => $p)
-<tr 
-data-id="{{ $p->idPersona }}"
-data-nombre="{{ $p->nombre }}"
-data-apellido="{{ $p->apellidos }}"
-data-ci="{{ $p->ci }}"
->
-<td>
-<input type="checkbox" class="check-item"  value="{{ $p->idPersona }}">
-</td>
+<tr data-id="{{ $p->idPersona }}" data-nombre="{{ $p->nombre }}" data-apellido="{{ $p->apellidos }}"data-ci="{{ $p->ci }}">
+<td><input type="checkbox" class="check-item"  value="{{ $p->idPersona }}"></td>
 <td>{{ $personas->firstItem() + $i }}</td>
-
 <td>{{ $p->ci }}</td>
-
 <td>{{ $p->nombre }}</td>
-
 <td>{{ $p->apellidos }}</td>
-
 <td>{{ $p->distrito }}</td>
-
 <td>{{ $p->tipoInstitucion }}</td>
-<td class="acciones">
-<span class="editar">✏️</span>
-<span class="eliminar">🗑</span>
-</td>
+<td class="acciones"><span class="editar">✏️</span><span class="eliminar">🗑</span></td>
 </tr>
 @endforeach
 </tbody>
 </table>
+
 </div>
 <div class="d-flex justify-content-center mt-3">
     {{ $personas->links() }}
@@ -74,76 +58,57 @@ data-ci="{{ $p->ci }}"
 </div>
 
 <div id="modalCliente" class="modal">
-
-<div class="modal-card">
-
-<div class="modal-header">
-<h2>Registrar Cliente</h2>
-<button class="cerrar" onclick="cerrarModal()">✕</button>
-</div>
-
-<form class="form-cliente">
-
-<div class="grid-form">
-
-<div class="campo">
-<label>C.I.</label>
-<input type="text" placeholder="Carnet de identidad">
-</div>
-
-
-<div class="campo">
-<label>Nombres</label>
-<input type="text">
-</div>
-
-<div class="campo">
-<label>Apellidos</label>
-<input type="text">
-</div>
-
-<div class="campo">
-<label>Distrito</label>
-<select>
-<option>Seleccionar</option>
-<option>1</option>
-<option>2</option>
-</select>
-</div>
-
-<div class="campo">
-<label>Unidad Educativa</label>
-<input type="text">
-</div>
-
-<div class="campo">
-<label>Foto</label>
-<input type="file">
-</div>
-
-</div>
-
-<div class="acciones-modal">
-<button type="submit" class="btn-guardar">Guardar</button>
-<button type="button" class="btn-cancelar" onclick="cerrarModal()">Cancelar</button>
-</div>
-
-</form>
-
-</div>
+    <div class="modal-card">
+        <div class="modal-header">
+        <h2>Registrar Cliente</h2>
+        <button class="cerrar" onclick="cerrarModal()">✕</button>
+        </div>
+        <form id="formCliente" class="form-cliente">
+            <div class="grid-form">
+            <div class="campo">
+            <label>C.I.</label>
+            <input type="text"  name="ci" placeholder="Carnet de identidad">
+            </div>
+            <div class="campo">
+            <label>Nombres</label>
+            <input type="text" name="nombres" placeholder="Nombres">
+            </div>
+            <div class="campo">
+            <label>Apellidos</label>
+            <input type="text" name="apellidos" placeholder="Apellidos">
+            </div>
+            <div class="campo">
+            <label>Distrito</label>
+            <select name="distrito">
+            <option>Seleccionar</option>
+            <option>1</option>
+            <option>2</option>
+            </select>
+            </div>
+            <div class="campo">
+            <label>Unidad Educativa</label>
+            <input type="text" name="unidadEducativa" placeholder="Unidad Educativa">
+            </div>
+            <div class="campo">
+            <label>Foto</label>
+            <input type="file" name="foto">
+            </div>
+            </div>
+            <div class="acciones-modal">
+            <button type="submit" class="btn-guardar">Guardar</button>
+            <button type="button" class="btn-cancelar" onclick="cerrarModal()">Cancelar</button>
+            </div>
+        </form>
+    </div>
 </div>
 
 
 
 <div id="modalEvento" class="modaleve">
-
     <div class="modal-contenidoeve">
-
     <h3>Seleccionar Evento</h3>
-
     <select id="evento">
     <option value="">Seleccione evento</option>
-    
     @foreach($eventos as $e)
     <option value="{{ $e->nombreE }}"> {{ $e->nombreE}} </option>
     @endforeach
@@ -160,47 +125,33 @@ data-ci="{{ $p->ci }}"
 function cerrarModalEvento(){
 document.getElementById("modalEvento").style.display="none";
 }
-
 let personasSeleccionadas = [];
-
 function Credenciales(){
-
 personasSeleccionadas = [];
-
 document.querySelectorAll(".check-item:checked").forEach(el=>{
 personasSeleccionadas.push(el.value);
 });
-
 if(personasSeleccionadas.length===0){
 alert("Seleccione personas");
 return;
 }
-
 document.getElementById("modalEvento").style.display="block";
 }
 
 function confirmarEvento(){
-
 let evento=document.getElementById("evento").value;
-
 if(evento===""){
 alert("Seleccione evento");
 return;
 }
-
 document.getElementById("modalEvento").style.display="none";
-
 enviarPreview(evento);
-
 }
 
 function enviarPreview(evento){
-
 let form=document.createElement("form");
-
 form.method="POST";
 form.action="/credenciales/preview";
-
 /* TOKEN */
 let token=document.createElement("input");
 token.type="hidden";
@@ -221,9 +172,7 @@ ev.type="hidden";
 ev.name="evento";
 ev.value=evento;
 form.appendChild(ev);
-
 document.body.appendChild(form);
-
 form.submit();
 
 }

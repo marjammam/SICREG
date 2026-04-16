@@ -249,7 +249,9 @@
                         <div class="element-actions">
                             <i class="fa-solid fa-pen-to-square icon-btn", onclick="edit(event, {{ $subEvent }})"></i>
                             <i class="fa-solid fa-trash icon-btn" onclick="deleteById(event, {{ $subEvent->idSubevento }})"></i>
-                            <i class="fa-solid fa-play icon-btn"></i>
+                            <a href="{{ route('asistencia.index', ['id' => $subEvent->idSubevento]) }}" class="btn-accion">
+                              <i class="fa-solid fa-play icon-btn"></i>
+                            </a>
                         </div>
                     </td>
                 </tr>

@@ -137,36 +137,35 @@ align-items:center;
 width:260px;
 height:420px;
 position:relative;
-background-size:cover;
+background-size:100% 100%;
+/*background-size:cover;*/
 background-position:center;
 border:1px solid #ddd;
 border-radius:6px;
 overflow:hidden;
 }
 
+
+.bg{
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    object-fit:fill;   /* 🔥 CLAVE */
+    z-index:0;
+}
 /* FONDOS DE CANVA */
 
-.frente{
-background-image:url("/image/credencialF.png");
-}
+/*.frente{
+background-image:url("/image/FRENTE.png");
+}*/
 
 .atras{
-background-image:url("/image/credencial_atras.png");
+background-image:url("/image/19.png");
 }
 
 
-
-/* FOTO 
-.foto{
-position:absolute;
-top:110px;
-left:70px;
-width:120px;
-height:130px;
-object-fit:cover;
-border-radius:15px;
-border:2px solid #d4d4d4;
-}*/
 .foto{
 background-image: url("/image/perfil.png");
 position:absolute;
@@ -175,7 +174,7 @@ left:70px;
 width:120px;
 height:130px;
 border-radius:15px;
-border:2px solid #d4d4d4;
+border:3px solid rgb(85, 84, 84);
 background-size: cover;
 background-position: center;
 background-repeat: no-repeat;
@@ -207,7 +206,6 @@ text-align:center;
 padding:20px;
 }
 
-/* TITULO */
 
 .titulo{
 width:100%;
@@ -217,8 +215,6 @@ font-size:16px;
 margin-top:60px;
 margin-bottom:15px;
 }
-
-/* QR */
 
 .qr{
 display:flex;
@@ -231,6 +227,59 @@ margin-top:10px;
 width:150px !important;
 height:150px !important;
 }
+
+/* SECCIÓN DE FIRMAS - Subimos la posición general */
+.seccion-firmas {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    width: 100%;
+    position: absolute;
+    /* Subimos el bloque: de 15px a 35px para que no tape las franjas amarillas */
+    bottom: 55px; 
+    padding: 0 10px;
+    box-sizing: border-box;
+    z-index: 10;
+}
+
+.firma-col {
+    width: 48%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.img-firma {
+    width: 90%;
+    max-height: 70px; /* Aumentamos un poco el tamaño de la firma */
+    object-fit: contain;
+    /* Esto permite que el nombre se acerque a la firma */
+    margin-bottom: -1px; 
+    position: relative;
+    z-index: 11;
+}
+
+.nombre-firma {
+    font-size: 8px;
+    font-weight: bold;
+    color: #5b5b5b;
+    /* Margen negativo para eliminar el hueco y que la firma toque el nombre */
+    margin: -2px 0 0 0; 
+    position: relative;
+    z-index: 10;
+    line-height: 1;
+}
+
+.cargo-firma {
+    font-size: 8.5px;
+    font-weight: bold;
+    color: #000; /* Un poco más oscuro para que se note que es parte de la firma */
+    margin: 2px 0 0 0;
+    line-height: 1;
+    text-transform: uppercase;
+}
+
 /* BOTONES IMPRIMIR */
 
 .botones{
