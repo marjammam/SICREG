@@ -104,12 +104,12 @@ textarea {
 }
 
 .is-invalid {
-    border-color: red;
+    border-color: red !important;
     outline: none;
     margin-bottom: 0;
 }
 
-.alert {
+.alert-msg {
     margin: 0;
     padding: 0;
     font-size: 0.8rem;

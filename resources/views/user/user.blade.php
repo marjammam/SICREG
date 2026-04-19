@@ -163,7 +163,7 @@
                         <td>{{ $user->estado }}</td>
                         <td>
                             <div class="element-actions">
-                                <i class="fa-solid fa-pen-to-square icon-btn", onclick="edit(event, {{ $user }})"></i>
+                                <i class="fa-solid fa-pen-to-square icon-btn" onclick="edit(event, {{ $user }})"></i>
                                 <!--i class="fa-solid fa-trash icon-btn" onclick="deleteById(event, {{ $user->idUsuario }})"></i>
                                 <i class="fa-solid fa-play icon-btn"></i-->
                             </div>
@@ -212,7 +212,7 @@
                     class="@error('name') is-invalid @enderror"
                 >
                 @error('name')
-                    <div class="alert">{{ $message }}</div>
+                    <div class="alert-msg">{{ $message }}</div>
                 @enderror
 
                 <label for="email">Correo electr&oacute;nico:</label>
@@ -225,7 +225,7 @@
                     class="@error('email') is-invalid @enderror"
                 >
                 @error('email')
-                    <div class="alert">{{ $message }}</div>
+                    <div class="alert-msg">{{ $message }}</div>
                 @enderror
 
                 <label for="username">Usuario:</label>
@@ -238,7 +238,7 @@
                     class="@error('username') is-invalid @enderror"
                 >
                 @error('username')
-                    <div class="alert">{{ $message }}</div>
+                    <div class="alert-msg">{{ $message }}</div>
                 @enderror
 
                 <div class="row-controls">
@@ -254,7 +254,7 @@
                             <option value="INVITADO" {{ old('role') == 'INVITADO' ? 'selected' : '' }}>INVITADO</option>
                         </select>
                         @error('role')
-                            <div class="alert">{{ $message }}</div>
+                            <div class="alert-msg">{{ $message }}</div>
                         @enderror
                     </div>
 
@@ -269,7 +269,7 @@
                             <option value="INACTIVO" {{ old('state') == 'INACTIVO' ? 'selected' : '' }}>INACTIVO</option>
                         </select>
                         @error('state')
-                            <div class="alert">{{ $message }}</div>
+                            <div class="alert-msg">{{ $message }}</div>
                         @enderror
                     </div>
                 </div>
@@ -293,7 +293,7 @@
                     class="@error('password') is-invalid @enderror"
                 >
                 @error('password')
-                    <div class="alert">{{ $message }}</div>
+                    <div class="alert-msg">{{ $message }}</div>
                 @enderror
 
                 <label for="password_confirmation">Confirmar contrase&ntilde;a:</label>
@@ -306,7 +306,7 @@
                     class="@error('password_confirmation') is-invalid @enderror"
                 >
                 @error('password_confirmation')
-                    <div class="alert">{{ $message }}</div>
+                    <div class="alert-msg">{{ $message }}</div>
                 @enderror
 
                 <div class="form-buttons">

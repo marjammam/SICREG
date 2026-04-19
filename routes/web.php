@@ -50,6 +50,9 @@ Route::middleware(['auth', 'role:ADMINISTRADOR,MODERADOR'])->group(function () {
 
     Route::get('/cliente', [PersonaController::class,'index'])->name('cliente');
     Route::get('/buscar-persona/{ci}', [PersonaController::class,'buscar'])->name('buscar-persona');
+    Route::post('/cliente', [PersonaController::class, 'store']);
+    Route::patch('/cliente/{personaId}', [PersonaController::class, 'update']);
+    Route::delete('/cliente/{personaId}', [PersonaController::class, 'delete']);
 
     Route::post('/credenciales/preview', [CredencialController::class, 'preview']);
 });

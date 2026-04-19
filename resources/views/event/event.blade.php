@@ -166,7 +166,7 @@
                 class="@error('name') is-invalid @enderror"
             >
             @error('name')
-                <div class="alert">{{ $message }}</div>
+                <div class="alert-msg">{{ $message }}</div>
             @enderror
 
             <label for="description">Descripci&oacute;n:</label>
@@ -177,7 +177,7 @@
                 class="@error('description') is-invalid @enderror"
             >{{ old('description') }}</textarea>
             @error('description')
-                <div class="alert">{{ $message }}</div>
+                <div class="alert-msg">{{ $message }}</div>
             @enderror
 
             <div class="event-row-controls">
@@ -191,7 +191,7 @@
                         class="@error('event-date1') is-invalid @enderror"
                     >
                     @error('event-date1')
-                        <div class="alert">{{ $message }}</div>
+                        <div class="alert-msg">{{ $message }}</div>
                     @enderror
                 </div>
                 <div>
@@ -204,7 +204,7 @@
                         class="@error('event-date2') is-invalid @enderror"
                     >
                     @error('event-date2')
-                        <div class="alert">{{ $message }}</div>
+                        <div class="alert-msg">{{ $message }}</div>
                     @enderror
                 </div>
             </div>
@@ -220,7 +220,7 @@
                 <option value="Finalizado" {{ old('state') == 'Finalizado' ? 'selected' : '' }}>Finalizado</option>
             </select>
             @error('state')
-                <div class="alert">{{ $message }}</div>
+                <div class="alert-msg">{{ $message }}</div>
             @enderror
 
             <div class="buttons">

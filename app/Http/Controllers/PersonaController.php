@@ -2,17 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\PersonaPatchRequest;
+use App\Http\Requests\PersonaPostRequest;
 use App\Models\Persona;
 use App\Models\Event;
+use Illuminate\Support\Facades\File;
+
 class PersonaController extends Controller
 {
     public function index()
     {
         $personas = Persona::paginate(50);
-       // return view('cliente.cliente', compact('personas'));
-        $eventos = Event::all(); 
-         return view('cliente.cliente', compact('personas','eventos'));
+        // return view('cliente.cliente', compact('personas'));
+        $eventos = Event::all();
+        return view('cliente.cliente', compact('personas', 'eventos'));
     }
 
     public function buscar($ci)
@@ -20,30 +23,67 @@ class PersonaController extends Controller
         $persona = Persona::where('ci', $ci)->first();
         return response()->json($persona);
     }
-    public function store(Request $request)
+    public function store(PersonaPostRequest $request)
     {
-        $request->validate([
-        'nombre' => 'required',
-        'apellidos' => 'required',
-        'ci' => 'required|unique:persona,ci',
-        'tipoInstitucion' => 'required',
-        'distrito' => 'required',
-        'foto' => 'image|mimes:jpg,png,jpeg|max:2048',
-        ]);
         $nombreFoto = null;
-        if($request->hasFile('foto')){
-        $nombreFoto = time().'.'.$request->foto->extension();
-        $request->foto->move(public_path('fotos'),$nombreFoto);
+        if ($request->hasFile('foto')) {
+            $nombreFoto = time() . '.' . $request->foto->extension();
+            $request->foto->move(public_path('fotos'), $nombreFoto);
         }
         Persona::create([
-        'nombre' => $request->nombre,
-        'apellidos' => $request->apellidos,
-        'ci' => $request->ci,
-        'tipoInstitucion' => $request->tipoInstitucion,
-        'distrito' => $request->distrito,
-        'foto' => $nombreFoto
+            'nombre' => $request->nombre,
+            'apellidos' => $request->apellidos,
+            'ci' => $request->ci,
+            'tipoInstitucion' => $request->tipoInstitucion,
+            'distrito' => $request->distrito,
+            'foto' => $nombreFoto
         ]);
-        return redirect()->back()->with('success','Registrado');
+        return redirect('cliente');
+    }
+
+    public function update(int $personaId, PersonaPatchRequest $request)
+    {
+        $persona = Persona::findOrFail($personaId);
+        $nombreFoto = $persona->foto;
+
+        if ($request->hasFile('foto')) {
+            $nombreFoto = time() . '.' . $request->foto->extension();
+            $request->foto->move(public_path('fotos'), $nombreFoto);
+
+            if ($persona->foto) {
+                $this->deleteFile(public_path('fotos/' . $persona->foto));
+            }
+        }
+
+        $persona->update([
+            'nombre' => $request->input('nombre', $persona->nombre),
+            'apellidos' => $request->input('apellidos', $persona->apellidos),
+            'ci' => $request->input('ci', $persona->ci),
+            'tipoInstitucion' => $request->input('tipoInstitucion', $persona->tipoInstitucion),
+            'distrito' => $request->input('distrito', $persona->distrito),
+            'foto' => $nombreFoto,
+        ]);
+
+        return redirect('cliente');
+    }
+
+    private function deleteFile(string $path)
+    {
+        if (File::exists($path)) {
+            File::delete($path);
+        }
+    }
+
+    public function delete(int $personaId)
+    {
+        $persona = Persona::findOrFail($personaId);
+
+        if ($persona->foto) {
+            $this->deleteFile(public_path('fotos/' . $persona->foto));
+        }
+
+        $persona->delete();
+
+        return redirect('cliente');
     }
 }
-

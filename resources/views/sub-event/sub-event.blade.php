@@ -247,7 +247,7 @@
                     <td>{{ $subEvent->estadoSE }}</td>
                     <td>
                         <div class="element-actions">
-                            <i class="fa-solid fa-pen-to-square icon-btn", onclick="edit(event, {{ $subEvent }})"></i>
+                            <i class="fa-solid fa-pen-to-square icon-btn" onclick="edit(event, {{ $subEvent }})"></i>
                             <i class="fa-solid fa-trash icon-btn" onclick="deleteById(event, {{ $subEvent->idSubevento }})"></i>
                             <a href="{{ route('asistencia.index', ['id' => $subEvent->idSubevento]) }}" class="btn-accion">
                               <i class="fa-solid fa-play icon-btn"></i>
@@ -304,7 +304,7 @@
                 class="@error('subevent-name') is-invalid @enderror"
             >
             @error('subevent-name')
-                <div class="alert">{{ $message }}</div>
+                <div class="alert-msg">{{ $message }}</div>
             @enderror
 
             <div class="subevent-row-controls">
@@ -319,7 +319,7 @@
                         <option value="Congreso" {{ old('subevent-type') == 'Congreso' ? 'selected' : '' }}>Congreso</option>
                     </select>
                     @error('subevent-type')
-                        <div class="alert">{{ $message }}</div>
+                        <div class="alert-msg">{{ $message }}</div>
                     @enderror
                 </div>
                 <div>
@@ -332,7 +332,7 @@
                         class="@error('subevent-date') is-invalid @enderror"
                     >
                     @error('subevent-date')
-                        <div class="alert">{{ $message }}</div>
+                        <div class="alert-msg">{{ $message }}</div>
                     @enderror
                 </div>
             </div>
@@ -348,7 +348,7 @@
                         class="@error('subevent-time1') is-invalid @enderror"
                     >
                     @error('subevent-time1')
-                        <div class="alert">{{ $message }}</div>
+                        <div class="alert-msg">{{ $message }}</div>
                     @enderror
                 </div>
                 <div>
@@ -361,7 +361,7 @@
                         class="@error('subevent-time2') is-invalid @enderror"
                     >
                     @error('subevent-time2')
-                        <div class="alert">{{ $message }}</div>
+                        <div class="alert-msg">{{ $message }}</div>
                     @enderror
                 </div>
             </div>
@@ -377,7 +377,7 @@
                 <option value="Finalizado" {{ old('subevent-state') == 'Finalizado' ? 'selected' : '' }}>Finalizado</option>
             </select>
             @error('subevent-state')
-                <div class="alert">{{ $message }}</div>
+                <div class="alert-msg">{{ $message }}</div>
             @enderror
 
             <div class="subevent-form-buttons">

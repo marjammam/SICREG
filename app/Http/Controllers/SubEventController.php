@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\SubEventPatchRequest;
 use App\Http\Requests\SubEventPostRequest;
 use App\Models\SubEvent;
-use Illuminate\Http\Request;
 
 class SubEventController extends Controller
 {
