@@ -113,7 +113,7 @@
         </div>
         <div class="v-asist-acciones">
             <button class="btn v-asist-btn-add"><i class="fa fa-plus"></i> Agregar</button>
-            <button class="btn v-asist-btn-print">Exportar Asistencia</button>
+            <button class="btn v-asist-btn-print" onclick="exportToExcel(event)">Exportar Asistencia</button>
         </div>
     </div>
 
@@ -134,7 +134,7 @@
                 @forelse ($asistencias as $index => $asist)
                 <tr>
                     <td>{{ $index + 1 }}</td>
-                    <td>{{ $asist->persona->ci }}</td> 
+                    <td>{{ $asist->persona->ci }}</td>
                     <td>{{ $asist->persona->nombre }} {{ $asist->persona->apellidos }}</td>
                     <td>{{ $asist->persona->distrito ?? 'S/D' }}</td>
                     <td>{{ date('H:i:s', strtotime($asist->fechahoraIngreso)) }}</td>
@@ -246,7 +246,7 @@ function cerrarModal() {
 
 async function procesarEscaneo(ci) {
     console.log("Verificando CI en el servidor: " + ci);
-    
+
     try {
         const response = await fetch(`/buscar-cliente/${ci}`);
         console.log("URL:", `/buscar-cliente/${ci}`);
@@ -265,9 +265,9 @@ async function procesarEscaneo(ci) {
                 <h4>${data.cliente.nombres} ${data.cliente.apellidos}</h4>
                 <p><strong>CI:</strong> ${data.cliente.ci}</p>
             `;
-            
+
             document.getElementById('btn-aceptar-asistencia').dataset.ci = ci;
-            abrirModal(); 
+            abrirModal();
         } else {
             alert("El cliente con CI " + ci + " no existe en la base de datos.");
         }
@@ -275,6 +275,14 @@ async function procesarEscaneo(ci) {
         console.error("Error crítico en la petición:", error);
         alert("No se pudo procesar la respuesta del servidor. Revisa la consola.");
     }
+}
+
+function exportToExcel(e) {
+    e.preventDefault();
+
+    const exportUrl = `/asistencia/exportar/{{ $subevento->idSubevento }}`;
+
+    window.location.href = exportUrl;
 }
 </script>
 @endsection

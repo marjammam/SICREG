@@ -9,7 +9,7 @@ class Asistencia extends Model
     use HasFactory;
     protected $table = 'registroasistencia';
     protected $primaryKey = 'idregistroAsistencia';
-    // Si tu llave primaria no es un BIGINT autoincremental, 
+    // Si tu llave primaria no es un BIGINT autoincremental,
     // pero como en la migración pusimos $table->id(), esto está bien.
     protected $fillable = [
         'codigoQRleido',
@@ -37,6 +37,6 @@ class Asistencia extends Model
     // Te sugiero añadir también la relación con Subevento por si la necesitas
     public function subevento()
     {
-        return $this->belongsTo(Subevento::class, 'Subevento_idSubevento', 'idSubevento');
+        return $this->belongsTo(SubEvent::class, 'Subevento_idSubevento', 'idSubevento');
     }
 }

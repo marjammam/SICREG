@@ -1,10 +1,13 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Exports\AsistenciaExport;
 use Illuminate\Http\Request;
 use App\Models\Persona; // Ajusta según tu modelo de clientes
 use App\Models\Asistencia;
 use App\Models\SubEvent; // Ajusta según tu modelo de subeventos
+use Illuminate\Support\Facades\Auth;
 
 class AsistenciaController extends Controller {
     public function index($id)
@@ -14,15 +17,15 @@ class AsistenciaController extends Controller {
 
         // 2. Usamos el nombre correcto del Modelo: Asistencia
         $asistencias = Asistencia::where('Subevento_idSubevento', $id)
-                        ->with('persona') 
+                        ->with('persona')
                         ->orderBy('fechahoraIngreso', 'desc')
                         ->get();
 
         // 3. Retornamos la vista
         return view('registro.asistencia', compact('subevento', 'asistencias'));
-       
+
     }
-    
+
     public function buscarCliente($ci)
     {
         try {
@@ -49,7 +52,7 @@ class AsistenciaController extends Controller {
             return response()->json(['status' => 'error', 'message' => $e->getMessage()], 500);
         }
     }
-    
+
     public function registrar(Request $request)
     {
         try {
@@ -83,7 +86,7 @@ class AsistenciaController extends Controller {
                 'estadoR' => 'INGRESO', // puedes ajustar según tu lógica
                 'Subevento_idSubevento' => $request->subevento_id,
                 'Persona_idPersona' => $persona->idPersona,
-                'Usuario_idUsuario' => auth()->id() ?? 1 // opcional
+                'Usuario_idUsuario' => Auth::id() ?? 1 // opcional
             ]);
 
             return response()->json([
@@ -100,5 +103,11 @@ class AsistenciaController extends Controller {
         }
     }
 
-    
+
+    public function exportToExcel(int $subEventId)
+    {
+        $subevent = SubEvent::findOrFail($subEventId);
+
+        return (new AsistenciaExport($subEventId))->download('registro_asistencia_' . $subevent->nombreSE . '.xlsx');
+    }
 }

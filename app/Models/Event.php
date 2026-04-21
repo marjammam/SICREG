@@ -11,6 +11,14 @@ class Event extends Model
 
     public $timestamps = false;
 
+    protected $fillable = [
+        'nombreE',
+        'descripcionE',
+        'fechaInicioE',
+        'fechaFinE',
+        'estadoE',
+    ];
+
     public function subEvents()
     {
         return $this->hasMany(SubEvent::class, 'Evento_idEvento');

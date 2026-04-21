@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PersonaController;
 use App\Http\Controllers\CredencialController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\AsistenciaController;
 
 Route::controller(AuthController::class)->group(function () {
     Route::post('login', 'login');
@@ -55,6 +56,19 @@ Route::middleware(['auth', 'role:ADMINISTRADOR,MODERADOR'])->group(function () {
     Route::delete('/cliente/{personaId}', [PersonaController::class, 'delete']);
 
     Route::post('/credenciales/preview', [CredencialController::class, 'preview']);
+
+    Route::get('/buscar-cliente/{ci}', [AsistenciaController::class, 'buscarCliente']);
+    
+    // Registrar asistencia (POST)
+    Route::post('/registrar-asistencia', [AsistenciaController::class, 'registrar'])->name('asistencia.registrar');
+
+    // Ruta para mostrar la lista de asistencia
+    Route::get('/asistencia/{id}', [AsistenciaController::class, 'index'])->name('asistencia.index');
+
+    // Ruta para procesar el registro (la que usará el botón "Aceptar" de tu modal)
+    Route::post('/asistencia/registrar', [AsistenciaController::class, 'registrar'])->name('asistencia.registrar');
+
+    Route::get('/asistencia/exportar/{subEventId}', [AsistenciaController::class, 'exportToExcel']);
 });
 
 Route::middleware(['auth', 'role:ADMINISTRADOR'])->group(function () {
@@ -64,23 +78,3 @@ Route::middleware(['auth', 'role:ADMINISTRADOR'])->group(function () {
         Route::patch('usuarios/{userId}', 'update');
     });
 });
-
-
-
-
-
-
-
-use App\Http\Controllers\AsistenciaController;
-
-Route::get('/buscar-cliente/{ci}', [AsistenciaController::class, 'buscarCliente']);
-// Registrar asistencia (POST)
-Route::post('/registrar-asistencia', [AsistenciaController::class, 'registrar'])->name('asistencia.registrar');
-
-
-
-// Ruta para mostrar la lista de asistencia
-Route::get('/asistencia/{id}', [AsistenciaController::class, 'index'])->name('asistencia.index');
-
-// Ruta para procesar el registro (la que usará el botón "Aceptar" de tu modal)
-Route::post('/asistencia/registrar', [AsistenciaController::class, 'registrar'])->name('asistencia.registrar');

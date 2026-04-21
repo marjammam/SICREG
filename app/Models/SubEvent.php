@@ -11,6 +11,16 @@ class SubEvent extends Model
 
     public $timestamps = false;
 
+    protected $fillable = [
+        'nombreSE',
+        'tipoEvento',
+        'fechaSE',
+        'horaInicio',
+        'horaFin',
+        'estadoSE',
+        'Evento_idEvento',
+    ];
+
     public function event() {
         return $this->belongsTo(Event::class, 'Evento_idEvento');
     }
