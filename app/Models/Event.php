@@ -23,4 +23,9 @@ class Event extends Model
     {
         return $this->hasMany(SubEvent::class, 'Evento_idEvento');
     }
+
+    public function credenciales()
+    {
+        return $this->hasMany(Credencial::class, 'Evento_idEvento');
+    }
 }

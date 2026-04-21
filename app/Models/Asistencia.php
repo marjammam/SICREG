@@ -39,4 +39,9 @@ class Asistencia extends Model
     {
         return $this->belongsTo(SubEvent::class, 'Subevento_idSubevento', 'idSubevento');
     }
+
+    public function usuario()
+    {
+        return $this->belongsTo(User::class, 'Usuario_idUsuario', 'idUsuario');
+    }
 }

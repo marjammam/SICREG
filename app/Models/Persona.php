@@ -20,4 +20,14 @@ class Persona extends Model
         'foto',
         'estado'
     ];
+
+    public function asistencias()
+    {
+        return $this->hasMany(Asistencia::class, 'Persona_idPersona');
+    }
+
+    public function credenciales()
+    {
+        return $this->hasMany(Credencial::class, 'Persona_idPersona');
+    }
 }

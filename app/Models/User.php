@@ -28,4 +28,9 @@ class User extends Authenticatable
     ];
 
     public $timestamps = false;
+
+    public function asistencias()
+    {
+        return $this->hasMany(Asistencia::class, 'Usuario_idUsuario');
+    }
 }

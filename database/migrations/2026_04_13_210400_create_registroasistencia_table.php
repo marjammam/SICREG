@@ -19,9 +19,19 @@ return new class extends Migration
             $table->string('estadoR')->nullable();
 
             // Solo creamos las columnas, sin forzar la relación física
-            $table->unsignedInteger('Subevento_idSubevento');
-            $table->unsignedInteger('Persona_idPersona');
-            $table->unsignedInteger('Usuario_idUsuario');
+            $table->unsignedBigInteger('Subevento_idSubevento');
+            $table->unsignedBigInteger('Persona_idPersona');
+            $table->unsignedBigInteger('Usuario_idUsuario');
+
+            $table->foreign('Subevento_idSubevento')
+                ->references('idSubevento')
+                ->on('subevento');
+            $table->foreign('Persona_idPersona')
+                ->references('idPersona')
+                ->on('persona');
+            $table->foreign('Usuario_idUsuario')
+                ->references('idUsuario')
+                ->on('usuario');
 
             $table->timestamps();
         });
