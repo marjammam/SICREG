@@ -16,8 +16,8 @@ trait PersonaRequestMessages
             'apellidos.max' => 'Los apellidos no pueden tener más de 60 caracteres.',
 
             'ci.required' => 'El CI es obligatorio.',
-            'ci.string' => 'El CI debe ser una cadena de texto.',
-            'ci.max' => 'El CI no puede tener más de 20 caracteres.',
+            'ci.integer' => 'El CI solo debe contener números.',
+            'ci.digits_between' => 'El CI no puede tener más de 20 dígitos.',
             'ci.unique' => 'El CI ya está registrado.',
 
             'tipoInstitucion.required' => 'El tipo de institución es obligatorio.',

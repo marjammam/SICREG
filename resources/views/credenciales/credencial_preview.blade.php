@@ -9,8 +9,14 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
 <div class="barra-top">
-    <a href="{{ url()->previous() }}" class="btn btn-back"><- Volver</a>
-    <button onclick="imprimirPDF()" class="btn btn-print"><i class="fa fa-print"></i> Imprimir</button>
+    <a href="{{ url()->previous() }}" class="btn btn-back" style="text-decoration: none">
+        <i class="fa-solid fa-arrow-left"></i>
+        <span>VOLVER</span>
+    </a>
+    <a onclick="imprimirPDF()" class="btn btn-print">
+        <i class="fa fa-print"></i>
+        <span>IMPRIMIR</span>
+    </a>
 </div>
 
 <div id="hoja" class="page">

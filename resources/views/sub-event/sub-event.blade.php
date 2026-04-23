@@ -84,6 +84,11 @@
             align-items: center;
         }
 
+        .element-actions a,
+        .element-actions a:visited {
+            color: black;
+        }
+
         .icon-btn {
             background: transparent;
             cursor: pointer;
@@ -150,7 +155,19 @@
             const subeventIdInput = document.getElementById('subeventId');
             const modal = document.getElementById(modalName);
 
-            form.reset();
+            form.querySelectorAll('.alert-msg').forEach(alert => alert.remove());
+
+            form.querySelectorAll('.is-invalid').forEach(element => {
+                element.classList.remove('is-invalid');
+            });
+
+            document.getElementById('subevent-name').value = null;
+            document.getElementById('subevent-type').value = 'Delegados';
+            document.getElementById('subevent-date').value = '{{ date("Y-m-d") }}';
+            document.getElementById('subevent-time1').value = '{{ date("H:i") }}';
+            document.getElementById('subevent-time2').value = '{{ date("H:i") }}';
+            document.getElementById('subevent-state').value = 'Activo';
+
             form.action = '/eventos';
             formMethod.disabled = true;
             subeventIdInput.value = null;
@@ -209,6 +226,12 @@
 @endpush
 
 @section('content')
+<div style="padding: 20px 0 0 10px">
+    <a href="{{ route('eventos') }}" class="btn btn-back" style="text-decoration: none;">
+        <i class="fa-solid fa-arrow-left"></i>
+        <span>VOLVER A EVENTOS</span>
+    </a>
+</div>
 
 <div class="subevent-container">
     <h3>Registro de Subeventos</h3>
@@ -239,23 +262,27 @@
         </thead>
 
         <tbody>
-            @foreach ($subEvents as $subEvent)
-                <tr>
-                    <td>{{ $subEvent->nombreSE }}</td>
-                    <td>{{ $subEvent->tipoEvento }}</td>
-                    <td>{{ date('d/m/Y', strtotime($subEvent->fechaSE)) }}</td>
-                    <td>{{ $subEvent->estadoSE }}</td>
-                    <td>
-                        <div class="element-actions">
-                            <i class="fa-solid fa-pen-to-square icon-btn" onclick="edit(event, {{ $subEvent }})"></i>
-                            <i class="fa-solid fa-trash icon-btn" onclick="deleteById(event, {{ $subEvent->idSubevento }})"></i>
-                            <a href="{{ route('asistencia.index', ['id' => $subEvent->idSubevento]) }}" class="btn-accion">
-                              <i class="fa-solid fa-play icon-btn"></i>
-                            </a>
-                        </div>
-                    </td>
-                </tr>
-            @endforeach
+            @forelse ($subEvents as $subEvent)
+            <tr>
+                <td>{{ $subEvent->nombreSE }}</td>
+                <td>{{ $subEvent->tipoEvento }}</td>
+                <td>{{ date('d/m/Y', strtotime($subEvent->fechaSE)) }}</td>
+                <td>{{ $subEvent->estadoSE }}</td>
+                <td>
+                    <div class="element-actions">
+                        <i class="fa-solid fa-pen-to-square icon-btn" onclick="edit(event, {{ $subEvent }})"></i>
+                        <i class="fa-solid fa-trash icon-btn" onclick="deleteById(event, {{ $subEvent->idSubevento }})"></i>
+                        <a href="{{ route('asistencia.index', ['id' => $subEvent->idSubevento]) }}" class="btn-accion">
+                            <i class="fa-solid fa-play icon-btn"></i>
+                        </a>
+                    </div>
+                </td>
+            </tr>
+            @empty
+            <tr>
+                <td colspan="5" style="text-align: center; padding: 20px;">No hay subeventos registradas para este evento.</td>
+            </tr>
+            @endforelse
         </tbody>
     </table>
 </div>
@@ -328,7 +355,7 @@
                         id="subevent-date"
                         type="date"
                         name="subevent-date"
-                        value="{{ old('subevent-date') }}"
+                        value="{{ old('subevent-date', date('Y-m-d')) }}"
                         class="@error('subevent-date') is-invalid @enderror"
                     >
                     @error('subevent-date')
@@ -344,7 +371,7 @@
                         id="subevent-time1"
                         type="time"
                         name="subevent-time1"
-                        value="{{ old('subevent-time1') }}"
+                        value="{{ old('subevent-time1', date('H:i')) }}"
                         class="@error('subevent-time1') is-invalid @enderror"
                     >
                     @error('subevent-time1')
@@ -357,7 +384,7 @@
                         id="subevent-time2"
                         type="time"
                         name="subevent-time2"
-                        value="{{ old('subevent-time2') }}"
+                        value="{{ old('subevent-time2', date('H:i')) }}"
                         class="@error('subevent-time2') is-invalid @enderror"
                     >
                     @error('subevent-time2')

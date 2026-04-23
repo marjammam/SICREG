@@ -45,13 +45,15 @@ nav a:hover {
     padding: 40px;
     width: 350px;
     border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(0,0,0,0.2);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
     text-align: center;
 }
+
 .user-icon {
     font-size: 90px;
     color: #656061;
-    margin-top: -30px;   /* lo sube */
+    margin-top: -30px;
+    /* lo sube */
     margin-bottom: 10px;
 }
 
@@ -64,7 +66,9 @@ label {
 }
 
 
-input, textarea, select {
+input,
+textarea,
+select {
     box-sizing: border-box;
     width: 90%;
     padding: 10px;
@@ -115,4 +119,21 @@ textarea {
     font-size: 0.8rem;
     color: red;
     align-self: flex-start;
+}
+
+.btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.btn-back {
+    background: #6c757d;
+    color: white;
+}
+
+.btn:hover {
+    opacity: 0.8;
 }

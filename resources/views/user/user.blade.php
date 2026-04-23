@@ -276,6 +276,7 @@
 
                 <span id="enablePFbtn" style="display: {{ old('userId') ? 'flex' : 'none' }}; gap: 5px;">
                     <input
+                        id="enablePFcheck"
                         type="checkbox"
                         style="width: auto; margin: 0;"
                         onclick="enablePasswordFields(event)"
@@ -342,7 +343,23 @@
             const modal = document.getElementById(modalName);
             const enablePFInput = document.getElementById('enablePFbtn');
 
-            form.reset();
+            form.querySelectorAll('.alert-msg').forEach(alert => alert.remove());
+
+            form.querySelectorAll('.is-invalid').forEach(element => {
+                element.classList.remove('is-invalid');
+            });
+
+            document.getElementById('name').value = null;
+            document.getElementById('email').value = null;
+            document.getElementById('username').value = null;
+            document.getElementById('role').value = 'ADMINISTRADOR';
+            document.getElementById('state').value = 'ACTIVO';
+            document.getElementById('password').value = null;
+            document.getElementById('password').disabled = false;
+            document.getElementById('password_confirmation').value = null;
+            document.getElementById('password_confirmation').disabled = false;
+            document.getElementById('enablePFcheck').checked = false;
+
             form.action = '/usuarios';
             formMethod.disabled = true;
             userIdInput.value = null;

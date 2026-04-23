@@ -36,7 +36,7 @@
                 </thead>
 
                 <tbody>
-                    @foreach ($personas as $i => $p)
+                    @forelse ($personas as $i => $p)
                         <tr data-id="{{ $p->idPersona }}" data-nombre="{{ $p->nombre }}"
                             data-apellido="{{ $p->apellidos }}"data-ci="{{ $p->ci }}">
                             <td><input type="checkbox" class="check-item" value="{{ $p->idPersona }}"></td>
@@ -51,7 +51,12 @@
                                 <i class="fa-solid fa-trash icon-btn" onclick="deleteById(event, {{ $p->idPersona }})"></i>
                             </td>
                         </tr>
-                    @endforeach
+
+                        @empty
+                        <tr>
+                            <td colspan="8" style="text-align: center; padding: 20px;">No hay personas registrados.</td>
+                        </tr>
+                    @endforelse
                 </tbody>
             </table>
 
@@ -282,7 +287,7 @@
             const formMethod = document.getElementById('form-method');
             const personaIdInput = document.getElementById('personaId');
 
-            form.querySelectorAll('.alert').forEach(alert => alert.remove());
+            form.querySelectorAll('.alert-msg').forEach(alert => alert.remove());
 
             form.querySelectorAll('.is-invalid').forEach(element => {
                 element.classList.remove('is-invalid');
@@ -291,7 +296,7 @@
             document.getElementById('ci').value = null;
             document.getElementById('nombre').value = null;
             document.getElementById('apellidos').value = null;
-            document.getElementById('distrito').value = null;
+            document.getElementById('distrito').value = 'Seleccionar';
             document.getElementById('tipoInstitucion').value = null;
             document.getElementById('foto').value = null;
 

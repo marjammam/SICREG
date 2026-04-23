@@ -102,7 +102,18 @@
             const formMethod = document.getElementById('form-method');
             const eventIdInput = document.getElementById('eventId');
 
-            form.reset();
+            form.querySelectorAll('.alert-msg').forEach(alert => alert.remove());
+
+            form.querySelectorAll('.is-invalid').forEach(element => {
+                element.classList.remove('is-invalid');
+            });
+
+            document.getElementById('name').value = null;
+            document.getElementById('description').value = null;
+            document.getElementById('state').value = 'Activo';
+            document.getElementById('event-date1').value = '{{ date("Y-m-d") }}';
+            document.getElementById('event-date2').value = '{{ date("Y-m-d") }}';
+
             form.action = '/eventos';
             formMethod.disabled = true;
             eventIdInput.value = null;
@@ -187,7 +198,7 @@
                         id="event-date1"
                         type="date"
                         name="event-date1"
-                        value="{{ old('event-date1') }}"
+                        value="{{ old('event-date1', date('Y-m-d')) }}"
                         class="@error('event-date1') is-invalid @enderror"
                     >
                     @error('event-date1')
@@ -200,7 +211,7 @@
                         id="event-date2"
                         type="date"
                         name="event-date2"
-                        value="{{ old('event-date2') }}"
+                        value="{{ old('event-date2', date('Y-m-d')) }}"
                         class="@error('event-date2') is-invalid @enderror"
                     >
                     @error('event-date2')
@@ -234,22 +245,26 @@
         <h3>Eventos Registrados</h3>
 
         <div class="list-events">
-            @foreach ($events as $event)
-                <div class="element" id="{{ $event->idEvento }}">
-                    <div class="info">
-                        <h4 class="title">{{ $event->nombreE }}</h4>
-                        <span class="date">{{ date('d/m/Y', strtotime($event->fechaInicioE)) }}</span>
-                        <span class="state">Estado: {{ $event->estadoE }}</span>
-                    </div>
-
-                    <div class="actions">
-                        <i class="fa-solid fa-pen-to-square icon-btn" onclick="edit(event, {{ $event }})"></i>
-                        <a href="{{ route('subeventos.evento', ['eventId' => $event->idEvento]) }}">
-                            <i class="fa-solid fa-play icon-btn"></i>
-                        </a>
-                    </div>
+            @forelse ($events as $event)
+            <div class="element" id="{{ $event->idEvento }}">
+                <div class="info">
+                    <h4 class="title">{{ $event->nombreE }}</h4>
+                    <span class="date">{{ date('d/m/Y', strtotime($event->fechaInicioE)) }}</span>
+                    <span class="state">Estado: {{ $event->estadoE }}</span>
                 </div>
-            @endforeach
+
+                <div class="actions">
+                    <i class="fa-solid fa-pen-to-square icon-btn" onclick="edit(event, {{ $event }})"></i>
+                    <a href="{{ route('subeventos.evento', ['eventId' => $event->idEvento]) }}">
+                        <i class="fa-solid fa-play icon-btn"></i>
+                    </a>
+                </div>
+            </div>
+            @empty
+            <div style="text-align: center; padding: 20px;">
+                No hay eventos registrados.
+            </div>
+            @endforelse
         </div>
     </div>
 </div>

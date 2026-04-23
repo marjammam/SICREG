@@ -105,6 +105,13 @@
     }
 </style>
 
+<div style="padding: 20px 0 0 20px">
+    <a href="{{ url('subeventos/evento') . '/' . $subevento->Evento_idEvento }}" class="btn btn-back" style="text-decoration: none;">
+        <i class="fa-solid fa-arrow-left"></i>
+        <span>VOLVER A SUBEVENTOS</span>
+    </a>
+</div>
+
 <div class="v-asist-container">
     <div class="v-asist-barra">
         <div class="v-asist-buscador">

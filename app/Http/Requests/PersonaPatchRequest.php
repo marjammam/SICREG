@@ -21,8 +21,8 @@ class PersonaPatchRequest extends FormRequest
             'apellidos' => ['sometimes', 'string', 'max:60'],
             'ci' => [
                 'sometimes',
-                'string',
-                'max:20',
+                'integer',
+                'digits_between:0,20',
                 Rule::unique('persona', 'ci')->ignore($this->route('personaId'), 'idPersona'),
             ],
             'tipoInstitucion' => ['sometimes', 'string', 'max:100'],
