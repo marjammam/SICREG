@@ -21,17 +21,20 @@ return new class extends Migration
             // Solo creamos las columnas, sin forzar la relación física
             $table->unsignedBigInteger('Subevento_idSubevento');
             $table->unsignedBigInteger('Persona_idPersona');
-            $table->unsignedBigInteger('Usuario_idUsuario');
+            $table->unsignedBigInteger('Usuario_idUsuario')->nullable();
 
             $table->foreign('Subevento_idSubevento')
                 ->references('idSubevento')
-                ->on('subevento');
+                ->on('subevento')
+                ->cascadeOnDelete();
             $table->foreign('Persona_idPersona')
                 ->references('idPersona')
-                ->on('persona');
+                ->on('persona')
+                ->cascadeOnDelete();
             $table->foreign('Usuario_idUsuario')
                 ->references('idUsuario')
-                ->on('usuario');
+                ->on('usuario')
+                ->onDelete('set null');
 
             $table->timestamps();
         });

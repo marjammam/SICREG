@@ -18,10 +18,12 @@ return new class extends Migration
 
             $table->foreign('Persona_idPersona')
                 ->references('idPersona')
-                ->on('persona');
+                ->on('persona')
+                ->cascadeOnDelete();
             $table->foreign('Evento_idEvento')
                 ->references('idEvento')
-                ->on('evento');
+                ->on('evento')
+                ->onDelete('set null');
         });
     }
 

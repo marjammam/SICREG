@@ -19,7 +19,8 @@ return new class extends Migration
 
             $table->foreign('Evento_idEvento')
                 ->references('idEvento')
-                ->on('evento');
+                ->on('evento')
+                ->cascadeOnDelete();
         });
     }
 
