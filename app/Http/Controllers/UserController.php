@@ -5,22 +5,33 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UserPatchRequest;
 use App\Http\Requests\UserPostRequest;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    public function list()
+    public function list(Request $request)
     {
-        $users = User::select([
+        $query = User::select([
             'idUsuario',
             'nombreApellido',
             'email',
             'usuario',
             'rol',
             'estado',
-        ])->get();
+        ]);
 
-        return view('user.user', ['users' => $users]);
+        if ($request->isMethod('post')) {
+            $nombre = $request->input('nombre');
+
+            if ($nombre) {
+                $query->where('nombreApellido', 'like', '%' . $nombre . '%')
+                    ->orWhere('email', 'like', '%' . $nombre . '%')
+                    ->orWhere('usuario', 'like', '%' . $nombre . '%');
+            }
+        }
+
+        return view('user.user', ['users' => $query->get()]);
     }
 
     public function store(UserPostRequest $request)

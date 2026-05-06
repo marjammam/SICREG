@@ -5,15 +5,24 @@ namespace App\Http\Controllers;
 use App\Http\Requests\SubEventPatchRequest;
 use App\Http\Requests\SubEventPostRequest;
 use App\Models\SubEvent;
+use Illuminate\Http\Request;
 
 class SubEventController extends Controller
 {
-    public function listByEventId(int $eventId)
+    public function listByEventId(int $eventId, Request $request)
     {
-        $subEvents = SubEvent::where('Evento_idEvento', $eventId)->get();
+        $query = SubEvent::where('Evento_idEvento', $eventId);
+
+        if ($request->isMethod('post')) {
+            $nombreSE = $request->input('nombreSE');
+
+            if ($nombreSE) {
+                $query->where('nombreSE', 'like', '%' . $nombreSE . '%');
+            }
+        }
 
         return view('sub-event.sub-event', [
-            'subEvents' => $subEvents,
+            'subEvents' => $query->get(),
             'eventId' => $eventId,
         ]);
     }

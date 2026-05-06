@@ -10,10 +10,11 @@
     <div class="tabla-clientes">
 
         <div class="barra-superior">
-            <div class="buscador">
-                <input type="text" placeholder="Escriba aquí el nombre del cliente">
-                <button class="btn-buscar"><i class="fas fa-search"></i></button>
-            </div>
+            <form class="buscador" method="POST" action="/cliente">
+                @csrf
+                <input type="text" name="nombre" placeholder="Escriba aquí el nombre del cliente">
+                <button class="btn-buscar" type="submit"><i class="fas fa-search"></i></button>
+            </form>
             <div class="acciones-superior">
                 <button class="btn-registrar"onclick="abrirModal()"><i class="fa fa-plus"></i> Registrar</button>
                 <button class="btn-imprimir" onclick="Credenciales()"> Generar Credenciales</button>
@@ -75,7 +76,7 @@
             <form
                 id="formCliente"
                 class="form-cliente"
-                action="{{ old('personaId') ? '/cliente/' . old('personaId') : '/cliente' }}"
+                action="{{ old('personaId') ? '/cliente/' . old('personaId') : '/cliente/store' }}"
                 method="POST"
                 enctype="multipart/form-data"
             >
@@ -300,7 +301,7 @@
             document.getElementById('tipoInstitucion').value = null;
             document.getElementById('foto').value = null;
 
-            form.action = '/cliente';
+            form.action = '/cliente/store';
             formMethod.disabled = true;
             personaIdInput.value = null;
             personaIdInput.disabled = true;

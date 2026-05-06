@@ -237,12 +237,13 @@
     <h3>Registro de Subeventos</h3>
 
     <div class="top-actions">
-        <div class="search">
-            <input type="search" placeholder="Escriba aquí el nombre del subevento">
-            <button class="btn-ingresar">
+        <form class="search" method="POST" action="/subeventos/evento/{{ $eventId }}">
+            @csrf
+            <input id="nombreSE" name="nombreSE" type="search" placeholder="Escriba aquí el nombre del subevento">
+            <button class="btn-ingresar" type="submit">
                 <i class="fa-solid fa-magnifying-glass"></i>
             </button>
-        </div>
+        </form>
 
         <button class="btn-ingresar" onclick="openModal(event, 'subevent-modal')">
             <i class="fa-solid fa-circle-plus"></i>

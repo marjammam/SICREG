@@ -114,10 +114,11 @@
 
 <div class="v-asist-container">
     <div class="v-asist-barra">
-        <div class="v-asist-buscador">
-            <input type="text" id="input-scanner" class="v-asist-input" placeholder="Escanee el QR o busque por nombre..." autocomplete="off">
-            <button class="v-asist-btn-buscar"><i class="fas fa-search"></i></button>
-        </div>
+        <form class="v-asist-buscador" method="POST" action="{{ route('asistencia.index', ['id' => $subevento->idSubevento]) }}">
+            @csrf
+            <input type="text" name="search" class="v-asist-input" placeholder="Buscar por nombre, CI..." value="{{ request('search') }}">
+            <button class="v-asist-btn-buscar" type="submit"><i class="fas fa-search"></i></button>
+        </form>
         <div class="v-asist-acciones">
             <button class="btn v-asist-btn-add"><i class="fa fa-plus"></i> Agregar</button>
             <button class="btn v-asist-btn-print" onclick="exportToExcel(event)">Exportar Asistencia</button>

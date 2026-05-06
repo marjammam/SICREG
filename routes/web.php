@@ -38,6 +38,7 @@ Route::middleware(['auth', 'role:ADMINISTRADOR,MODERADOR'])->group(function () {
         Route::post('subeventos', 'store');
         Route::patch('subeventos/{subEventId}', 'update');
         Route::delete('subeventos/{subEventId}', 'delete');
+        Route::post('subeventos/evento/{eventId}', 'listByEventId');
     });
 
     Route::get('/credencial', function () {
@@ -49,21 +50,21 @@ Route::middleware(['auth', 'role:ADMINISTRADOR,MODERADOR'])->group(function () {
     })->name('cliente');
 
 
-    Route::get('/cliente', [PersonaController::class,'index'])->name('cliente');
+    Route::match(['get', 'post'], '/cliente', [PersonaController::class,'index'])->name('cliente');
     Route::get('/buscar-persona/{ci}', [PersonaController::class,'buscar'])->name('buscar-persona');
-    Route::post('/cliente', [PersonaController::class, 'store']);
+    Route::post('/cliente/store', [PersonaController::class, 'store']);
     Route::patch('/cliente/{personaId}', [PersonaController::class, 'update']);
     Route::delete('/cliente/{personaId}', [PersonaController::class, 'delete']);
 
     Route::post('/credenciales/preview', [CredencialController::class, 'preview']);
 
     Route::get('/buscar-cliente/{ci}', [AsistenciaController::class, 'buscarCliente']);
-    
+
     // Registrar asistencia (POST)
     Route::post('/registrar-asistencia', [AsistenciaController::class, 'registrar'])->name('asistencia.registrar');
 
     // Ruta para mostrar la lista de asistencia
-    Route::get('/asistencia/{id}', [AsistenciaController::class, 'index'])->name('asistencia.index');
+    Route::match(['get', 'post'], '/asistencia/{id}', [AsistenciaController::class, 'index'])->name('asistencia.index');
 
     // Ruta para procesar el registro (la que usará el botón "Aceptar" de tu modal)
     Route::post('/asistencia/registrar', [AsistenciaController::class, 'registrar'])->name('asistencia.registrar');
@@ -74,7 +75,8 @@ Route::middleware(['auth', 'role:ADMINISTRADOR,MODERADOR'])->group(function () {
 Route::middleware(['auth', 'role:ADMINISTRADOR'])->group(function () {
     Route::controller(UserController::class)->group(function () {
         Route::get('usuarios', 'list')->name('usuarios');
-        Route::post('usuarios', 'store');
+        Route::post('usuarios', 'list');
+        Route::post('usuarios/store', 'store')->name('usuarios.store');
         Route::patch('usuarios/{userId}', 'update');
     });
 });

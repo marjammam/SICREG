@@ -10,16 +10,28 @@ use App\Models\SubEvent; // Ajusta según tu modelo de subeventos
 use Illuminate\Support\Facades\Auth;
 
 class AsistenciaController extends Controller {
-    public function index($id)
+    public function index(int $id, Request $request)
     {
         // 1. Buscamos el subevento
         $subevento = SubEvent::findOrFail($id);
 
         // 2. Usamos el nombre correcto del Modelo: Asistencia
-        $asistencias = Asistencia::where('Subevento_idSubevento', $id)
+        $query = Asistencia::where('Subevento_idSubevento', $id)
                         ->with('persona')
-                        ->orderBy('fechahoraIngreso', 'desc')
-                        ->get();
+                        ->orderBy('fechahoraIngreso', 'desc');
+
+        if ($request->isMethod('post')) {
+            $searchTerm = $request->input('search');
+            if ($searchTerm) {
+                $query->whereHas('persona', function ($q) use ($searchTerm) {
+                    $q->where('nombre', 'like', '%' . $searchTerm . '%')
+                      ->orWhere('apellidos', 'like', '%' . $searchTerm . '%')
+                      ->orWhere('ci', 'like', '%' . $searchTerm . '%');
+                });
+            }
+        }
+
+        $asistencias = $query->get();
 
         // 3. Retornamos la vista
         return view('registro.asistencia', compact('subevento', 'asistencias'));

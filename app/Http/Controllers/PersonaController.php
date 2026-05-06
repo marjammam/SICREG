@@ -6,14 +6,28 @@ use App\Http\Requests\PersonaPatchRequest;
 use App\Http\Requests\PersonaPostRequest;
 use App\Models\Persona;
 use App\Models\Event;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 
 class PersonaController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $personas = Persona::paginate(50);
-        // return view('cliente.cliente', compact('personas'));
+        $query = Persona::query();
+
+        if ($request->isMethod('post')) {
+            $nombre = $request->input('nombre');
+
+            if ($nombre) {
+                $query->where(function ($q) use ($nombre) {
+                    $q->where('nombre', 'like', '%' . $nombre . '%')
+                        ->orWhere('apellidos', 'like', '%' . $nombre . '%')
+                        ->orWhere('ci', 'like', '%' . $nombre . '%');
+                });
+            }
+        }
+
+        $personas = $query->paginate(50);
         $eventos = Event::all();
         return view('cliente.cliente', compact('personas', 'eventos'));
     }

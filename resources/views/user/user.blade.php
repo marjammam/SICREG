@@ -130,12 +130,13 @@
         <h3>Usuarios del Sistema</h3>
 
         <div class="top-actions">
-            <div class="search">
-                <input type="search">
-                <button class="btn-ingresar">
+            <form class="search" method="POST" action="{{ route('usuarios') }}">
+                @csrf
+                <input id="nombre" name="nombre" type="search" placeholder="Escriba aquí el nombre, email o usuario">
+                <button class="btn-ingresar" type="submit">
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </button>
-            </div>
+            </form>
 
             <button class="btn-ingresar" onclick="openModal(event, 'user-modal')">
                 <i class="fa-solid fa-circle-plus"></i>
@@ -182,7 +183,7 @@
 
             <form
                 id="user-form"
-                action="{{ old('userId') ? '/usuarios/' . old('userId') : '/usuarios' }}"
+                action="{{ old('userId') ? '/usuarios/' . old('userId') : '/usuarios/store' }}"
                 method="POST"
             >
                 @csrf
@@ -360,7 +361,7 @@
             document.getElementById('password_confirmation').disabled = false;
             document.getElementById('enablePFcheck').checked = false;
 
-            form.action = '/usuarios';
+            form.action = '/usuarios/store';
             formMethod.disabled = true;
             userIdInput.value = null;
             userIdInput.disabled = true;
