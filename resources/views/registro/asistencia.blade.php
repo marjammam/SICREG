@@ -148,7 +148,7 @@
                     <td>{{ date('H:i:s', strtotime($asist->fechahoraIngreso)) }}</td>
                     <td><span class="v-asist-badge">{{ $asist->estadoR }}</span></td>
                     <td>
-                        <span class="v-asist-delete" onclick="quitarAsistencia({{ $asist->idregistroAsistencia }})">🗑</span>
+                        <span class="v-asist-delete" onclick="quitarAsistencia(event, {{ $asist->idregistroAsistencia }})">🗑</span>
                     </td>
                 </tr>
                 @empty
@@ -291,6 +291,32 @@ function exportToExcel(e) {
     const exportUrl = `/asistencia/exportar/{{ $subevento->idSubevento }}`;
 
     window.location.href = exportUrl;
+}
+
+function quitarAsistencia(e, asistenciaId) {
+    e.preventDefault();
+
+    const url = `{{ url("asistencia") }}/${asistenciaId}`;
+    const formData = new FormData();
+
+    formData.append('_method', 'DELETE');
+    formData.append('_token', '{{ csrf_token() }}');
+
+    fetch(url, {
+        method: 'post',
+        credentials: 'same-origin',
+        body: formData,
+    })
+    .then((response) => {
+        if (response.redirected) {
+            window.location.href = response.url;
+        }
+
+        return response;
+    })
+    .catch((error) => {
+        console.log(error);
+    });
 }
 </script>
 @endsection

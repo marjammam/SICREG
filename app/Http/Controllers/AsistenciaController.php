@@ -122,4 +122,13 @@ class AsistenciaController extends Controller {
 
         return (new AsistenciaExport($subEventId))->download('registro_asistencia_' . $subevent->nombreSE . '.xlsx');
     }
+
+    public function delete(int $asistenciaId)
+    {
+        $asistencia = Asistencia::findOrFail($asistenciaId);
+
+        $asistencia->delete();
+
+        return redirect()->back();
+    }
 }

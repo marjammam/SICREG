@@ -70,6 +70,8 @@ Route::middleware(['auth', 'role:ADMINISTRADOR,MODERADOR'])->group(function () {
     Route::post('/asistencia/registrar', [AsistenciaController::class, 'registrar'])->name('asistencia.registrar');
 
     Route::get('/asistencia/exportar/{subEventId}', [AsistenciaController::class, 'exportToExcel']);
+
+    Route::delete('/asistencia/{asistenciaId}', [AsistenciaController::class, 'delete']);
 });
 
 Route::middleware(['auth', 'role:ADMINISTRADOR'])->group(function () {
