@@ -30,4 +30,9 @@ class Persona extends Model
     {
         return $this->hasMany(Credencial::class, 'Persona_idPersona');
     }
+
+    public function credencialPersonas()
+    {
+        return $this->hasMany(CredencialPersona::class, 'Persona_idPersona', 'idPersona');
+    }
 }

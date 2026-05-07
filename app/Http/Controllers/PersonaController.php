@@ -42,7 +42,7 @@ class PersonaController extends Controller
         $nombreFoto = null;
         if ($request->hasFile('foto')) {
             $nombreFoto = time() . '.' . $request->foto->extension();
-            $request->foto->move(public_path('fotos'), $nombreFoto);
+            $request->foto->move(storage_path('app/private/fotos'), $nombreFoto);
         }
         Persona::create([
             'nombre' => $request->nombre,
@@ -62,10 +62,10 @@ class PersonaController extends Controller
 
         if ($request->hasFile('foto')) {
             $nombreFoto = time() . '.' . $request->foto->extension();
-            $request->foto->move(public_path('fotos'), $nombreFoto);
+            $request->foto->move(storage_path('app/private/fotos'), $nombreFoto);
 
             if ($persona->foto) {
-                $this->deleteFile(public_path('fotos/' . $persona->foto));
+                $this->deleteFile(storage_path('app/private/fotos/' . $persona->foto));
             }
         }
 
@@ -93,11 +93,25 @@ class PersonaController extends Controller
         $persona = Persona::findOrFail($personaId);
 
         if ($persona->foto) {
-            $this->deleteFile(public_path('fotos/' . $persona->foto));
+            $this->deleteFile(storage_path('app/private/fotos/' . $persona->foto));
         }
 
         $persona->delete();
 
         return redirect('cliente');
+    }
+
+    public function obtenerFoto($filename)
+    {
+        $path = storage_path('app/private/fotos/' . $filename);
+
+        if (!File::exists($path)) {
+            abort(404);
+        }
+
+        $file = File::get($path);
+        $type = File::mimeType($path);
+
+        return response($file, 200)->header("Content-Type", $type);
     }
 }

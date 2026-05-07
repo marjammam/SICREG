@@ -8,6 +8,7 @@ use App\Http\Controllers\PersonaController;
 use App\Http\Controllers\CredencialController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AsistenciaController;
+use App\Http\Controllers\CredencialPersonaController;
 
 Route::controller(AuthController::class)->group(function () {
     Route::post('login', 'login');
@@ -55,8 +56,10 @@ Route::middleware(['auth', 'role:ADMINISTRADOR,MODERADOR'])->group(function () {
     Route::post('/cliente/store', [PersonaController::class, 'store']);
     Route::patch('/cliente/{personaId}', [PersonaController::class, 'update']);
     Route::delete('/cliente/{personaId}', [PersonaController::class, 'delete']);
+    Route::get('/cliente/fotos/{filename}', [PersonaController::class, 'obtenerFoto'])->name('fotos.obtener');
 
     Route::post('/credenciales/preview', [CredencialController::class, 'preview']);
+    Route::post('/credencial-persona', [CredencialPersonaController::class, 'store']);
 
     Route::get('/buscar-cliente/{ci}', [AsistenciaController::class, 'buscarCliente']);
 

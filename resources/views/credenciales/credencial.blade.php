@@ -126,6 +126,8 @@
 
 
 <script>
+let personaActualId = null;
+
 function buscarPersona(){
     let ci = document.getElementById("buscar_ci").value.trim();
     if(ci === ""){
@@ -139,12 +141,33 @@ function buscarPersona(){
             alert("Persona no encontrada");
             return;
         }
+        personaActualId = data.idPersona;
+
         document.getElementById("nombre").value = data.nombre;
         document.getElementById("apellidos").value = data.apellidos;
         document.getElementById("ci").value = data.ci;
         document.getElementById("institucion").value = data.tipoInstitucion;
         document.getElementById("distrito").value = data.distrito;
         document.getElementById("ue").checked = true;
+
+        let fotoCredencial = document.getElementById("fotoCredencial");
+
+        if (data.foto) {
+            fetch(`/cliente/fotos/${data.foto}`)
+                .then(response => {
+                    if (response.ok) {
+                        fotoCredencial.style.backgroundImage = `url('/cliente/fotos/${data.foto}')`;
+                    } else {
+                        fotoCredencial.style.backgroundImage = `url('/image/perfil.png')`;
+                    }
+                })
+                .catch(error => {
+                    console.error(error);
+                    fotoCredencial.style.backgroundImage = `url('/image/perfil.png')`;
+                });
+        } else {
+            fotoCredencial.style.backgroundImage = `url('/image/perfil.png')`;
+        }
     })
     .catch(error => console.error(error));
 }
@@ -202,6 +225,25 @@ text: datosQR,
 width:150,
 height:150
 });
+
+fetch('/credencial-persona', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+    },
+    body: JSON.stringify({
+        codigoQR: datosQR,
+        Persona_idPersona: personaActualId
+    })
+})
+.then(response => response.json())
+.then(data => {
+    if(data.success) {
+        console.log('Credencial registrada correctamente en CredencialPersona');
+    }
+})
+.catch(error => console.error('Error al registrar credencial:', error));
 }
 </script>
 
