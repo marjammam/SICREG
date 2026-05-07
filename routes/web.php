@@ -59,7 +59,9 @@ Route::middleware(['auth', 'role:ADMINISTRADOR,MODERADOR'])->group(function () {
     Route::get('/cliente/fotos/{filename}', [PersonaController::class, 'obtenerFoto'])->name('fotos.obtener');
 
     Route::post('/credenciales/preview', [CredencialController::class, 'preview']);
+    
     Route::post('/credencial-persona', [CredencialPersonaController::class, 'store']);
+    Route::get('/credencial-persona/exportar', [CredencialPersonaController::class, 'exportToExcel'])->name('credenciales.exportar');
 
     Route::get('/buscar-cliente/{ci}', [AsistenciaController::class, 'buscarCliente']);
 

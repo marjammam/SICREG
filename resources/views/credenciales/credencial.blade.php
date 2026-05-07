@@ -7,6 +7,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/qz-tray/qz-tray.js"></script>
 
+<div style="text-align: right; margin-right: 10px;">
+    <a href="{{ route('credenciales.exportar') }}" class="btn-generar" style="text-decoration: none; display: inline-block; text-align: center; width: fit-content;">EXPORTAR EXCEL</a>
+</div>
 
 <div class="contenedor">
 <!-- COLUMNA FORMULARIO -->
