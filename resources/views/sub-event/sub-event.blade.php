@@ -102,6 +102,16 @@
             align-items: center;
             justify-content: center;
             z-index: 1000;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .modal .login-box {
+            box-sizing: border-box;
+            max-height: 90vh;
+            overflow-y: auto;
+            width: 100%;
+            max-width: 430px;
         }
 
         .subevent-row-controls {
@@ -137,6 +147,14 @@
                 const modal = document.getElementById('subevent-modal');
                 modal.classList.remove('hidden');
             @endif
+
+            const subeventIdInput = document.getElementById('subeventId');
+            const modalTitle = document.getElementById('modal-title');
+            if (subeventIdInput && subeventIdInput.value) {
+                if (modalTitle) modalTitle.textContent = 'Editar Subevento';
+            } else {
+                if (modalTitle) modalTitle.textContent = 'Registro de Subevento';
+            }
         });
 
         function openModal(e, modalName) {
@@ -154,6 +172,11 @@
             const formMethod = document.getElementById('form-method');
             const subeventIdInput = document.getElementById('subeventId');
             const modal = document.getElementById(modalName);
+            const modalTitle = document.getElementById('modal-title');
+
+            if (modalTitle) {
+                modalTitle.textContent = 'Registro de Subevento';
+            }
 
             form.querySelectorAll('.alert-msg').forEach(alert => alert.remove());
 
@@ -181,6 +204,11 @@
             const form = document.getElementById('subevent-form');
             const formMethod = document.getElementById('form-method');
             const subeventIdInput = document.getElementById('subeventId');
+            const modalTitle = document.getElementById('modal-title');
+
+            if (modalTitle) {
+                modalTitle.textContent = 'Editar Subevento';
+            }
 
             form.action = `/subeventos/${subeventData.idSubevento}`;
             formMethod.disabled = false;
@@ -320,7 +348,7 @@
                 name="eventId"
                 value="{{ $eventId }}"
             >
-            <h3 style="color: #656061;">Registro de Subevento</h3>
+            <h3 id="modal-title" style="color: #656061;">Registro de Subevento</h3>
 
             <label for="subevent-name">Nombre del subevento:</label>
             <input

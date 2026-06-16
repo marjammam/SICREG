@@ -10,10 +10,12 @@ trait PersonaRequestMessages
             'nombre.required' => 'El nombre es obligatorio.',
             'nombre.string' => 'El nombre debe ser una cadena de texto.',
             'nombre.max' => 'El nombre no puede tener más de 60 caracteres.',
+            'nombre.regex' => 'El nombre/apellido solo puede contener letras y espacios.',
 
             'apellidos.required' => 'Los apellidos son obligatorios.',
             'apellidos.string' => 'Los apellidos deben ser una cadena de texto.',
             'apellidos.max' => 'Los apellidos no pueden tener más de 60 caracteres.',
+            'apellidos.regex' => 'El nombre/apellido solo puede contener letras y espacios.',
 
             'ci.required' => 'El CI es obligatorio.',
             'ci.integer' => 'El CI solo debe contener números.',

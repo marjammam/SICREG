@@ -12,7 +12,7 @@
         <div class="barra-superior">
             <form class="buscador" method="POST" action="/cliente">
                 @csrf
-                <input type="text" name="nombre" placeholder="Escriba aquí el nombre del cliente">
+                <input type="text" name="nombre" placeholder="Buscar por nombre o C.I.">
                 <button class="btn-buscar" type="submit"><i class="fas fa-search"></i></button>
             </form>
             <div class="acciones-superior">
@@ -25,7 +25,7 @@
             <table>
                 <thead>
                     <tr>
-                        <th><input type="checkbox" id="checkAll"></th>
+                        <th><input type="checkbox" id="checkAll" style="background: white;"></th>
                         <th>Nro</th>
                         <th>C.I.</th>
                         <th>Nombres</th>
@@ -70,7 +70,7 @@
     <div id="modalCliente" class="modal">
         <div class="modal-card">
             <div class="modal-header">
-                <h2>Registrar Cliente</h2>
+                <h2 id="modal-title">Registrar Cliente</h2>
                 <button class="cerrar" onclick="cerrarModal()">✕</button>
             </div>
             <form
@@ -120,6 +120,8 @@
                             placeholder="Nombres"
                             value="{{ old('nombre') }}"
                             class="@error('nombre') is-invalid @enderror"
+                            pattern="^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s]+$"
+                            title="El nombre solo puede contener letras y espacios"
                         >
                         @error('nombre')
                             <div class="alert-msg">{{ $message }}</div>
@@ -134,6 +136,8 @@
                             placeholder="Apellidos"
                             value="{{ old('apellidos') }}"
                             class="@error('apellidos') is-invalid @enderror"
+                            pattern="^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s]+$"
+                            title="Los apellidos solo pueden contener letras y espacios"
                         >
                         @error('apellidos')
                             <div class="alert-msg">{{ $message }}</div>
@@ -270,10 +274,106 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            const checkAll = document.getElementById('checkAll');
+            if (checkAll) {
+                checkAll.addEventListener('change', function() {
+                    const checkboxes = document.querySelectorAll('.check-item');
+                    checkboxes.forEach(cb => {
+                        cb.checked = checkAll.checked;
+                    });
+                });
+
+                const checkboxes = document.querySelectorAll('.check-item');
+                checkboxes.forEach(cb => {
+                    cb.addEventListener('change', function() {
+                        const checkboxes = document.querySelectorAll('.check-item');
+                        const allChecked = checkboxes.length > 0 && Array.from(checkboxes).every(c => c.checked);
+                        checkAll.checked = allChecked;
+                    });
+                });
+            }
+
             @if ($errors->any())
                 const modal = document.getElementById('modalCliente');
                 modal.style.display = 'flex';
             @endif
+
+            const personaIdInput = document.getElementById('personaId');
+            const modalTitle = document.getElementById('modal-title');
+            if (personaIdInput && personaIdInput.value) {
+                if (modalTitle) modalTitle.textContent = 'Editar Cliente';
+            } else {
+                if (modalTitle) modalTitle.textContent = 'Registrar Cliente';
+            }
+
+            const nombreInput = document.getElementById('nombre');
+            const apellidosInput = document.getElementById('apellidos');
+            const form = document.getElementById('formCliente');
+
+            function validateInput(input) {
+                const parent = input.parentElement;
+                
+                // Remove existing alert messages in this field
+                const existingErrors = parent.querySelectorAll('.alert-msg');
+                existingErrors.forEach(err => err.remove());
+
+                const originalValue = input.value;
+                const filteredValue = originalValue.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s]/g, '');
+                
+                if (originalValue !== filteredValue || (originalValue.length > 0 && /[^a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s]/.test(originalValue))) {
+                    input.value = filteredValue;
+                    
+                    const errorDiv = document.createElement('div');
+                    errorDiv.className = 'alert-msg';
+                    if (input.id === 'nombre') {
+                        errorDiv.textContent = 'El nombre solo puede contener letras y espacios.';
+                    } else if (input.id === 'apellidos') {
+                        errorDiv.textContent = 'Los apellidos solo pueden contener letras y espacios.';
+                    }
+                    
+                    parent.appendChild(errorDiv);
+                    
+                    input.classList.add('is-invalid');
+                    return false;
+                } else {
+                    input.classList.remove('is-invalid');
+                    return true;
+                }
+            }
+
+            if (nombreInput && apellidosInput) {
+                nombreInput.addEventListener('input', function() {
+                    validateInput(this);
+                });
+
+                apellidosInput.addEventListener('input', function() {
+                    validateInput(this);
+                });
+            }
+
+            if (form) {
+                form.addEventListener('submit', function(e) {
+                    let isNombreValid = true;
+                    let isApellidosValid = true;
+                    
+                    if (nombreInput) {
+                        if (/[^a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s]/.test(nombreInput.value)) {
+                            validateInput(nombreInput);
+                            isNombreValid = false;
+                        }
+                    }
+                    if (apellidosInput) {
+                        if (/[^a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s]/.test(apellidosInput.value)) {
+                            validateInput(apellidosInput);
+                            isApellidosValid = false;
+                        }
+                    }
+                    
+                    if (!isNombreValid || !isApellidosValid) {
+                        e.preventDefault();
+                    }
+                });
+            }
         });
 
         /*modal registro cliente*/
@@ -287,6 +387,11 @@
             const form = document.getElementById('formCliente');
             const formMethod = document.getElementById('form-method');
             const personaIdInput = document.getElementById('personaId');
+            const modalTitle = document.getElementById('modal-title');
+
+            if (modalTitle) {
+                modalTitle.textContent = 'Registrar Cliente';
+            }
 
             form.querySelectorAll('.alert-msg').forEach(alert => alert.remove());
 
@@ -322,6 +427,11 @@
             const form = document.getElementById('formCliente');
             const formMethod = document.getElementById('form-method');
             const personaIdInput = document.getElementById('personaId');
+            const modalTitle = document.getElementById('modal-title');
+
+            if (modalTitle) {
+                modalTitle.textContent = 'Editar Cliente';
+            }
 
             form.action = `/cliente/${personaData.idPersona}`;
             formMethod.disabled = false;

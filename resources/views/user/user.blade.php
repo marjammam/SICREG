@@ -97,6 +97,16 @@
             align-items: center;
             justify-content: center;
             z-index: 1000;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .modal .login-box {
+            box-sizing: border-box;
+            max-height: 90vh;
+            overflow-y: auto;
+            width: 100%;
+            max-width: 430px;
         }
 
         .row-controls {
@@ -156,7 +166,7 @@
             </thead>
 
             <tbody>
-                @foreach ($users as $user)
+                @forelse ($users as $user)
                     <tr>
                         <td>{{ $user->nombreApellido }}</td>
                         <td>{{ $user->email }}</td>
@@ -170,7 +180,13 @@
                             </div>
                         </td>
                     </tr>
-                @endforeach
+                @empty
+                    <tr>
+                        <td colspan="5" style="text-align: center; padding: 20px; color: #656061;">
+                            No se encontraron usuarios con los criterios de búsqueda
+                        </td>
+                    </tr>
+                @endforelse
             </tbody>
         </table>
     </div>
@@ -201,7 +217,7 @@
                     value="{{ old('userId') }}"
                     {{ old('userId') ? '' : 'disabled' }}
                 >
-                <h3 style="color: #656061;">Registro de Usuario</h3>
+                <h3 id="modal-title" style="color: #656061;">Registro de Usuario</h3>
 
                 <label for="name">Nombre:</label>
                 <input
@@ -211,6 +227,8 @@
                     placeholder="Ingrese el nombre completo"
                     value="{{ old('name') }}"
                     class="@error('name') is-invalid @enderror"
+                    pattern="^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s]+$"
+                    title="El nombre solo permite letras y espacios"
                 >
                 @error('name')
                     <div class="alert-msg">{{ $message }}</div>
@@ -219,7 +237,7 @@
                 <label for="email">Correo electr&oacute;nico:</label>
                 <input
                     id="email"
-                    type="text"
+                    type="email"
                     name="email"
                     placeholder="Ingrese el correo electr&oacute;nico"
                     value="{{ old('email') }}"
@@ -237,6 +255,8 @@
                     placeholder="Ingrese el usuario"
                     value="{{ old('username') }}"
                     class="@error('username') is-invalid @enderror"
+                    pattern="^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ_]+$"
+                    title="El nombre de usuario solo permite letras y '_'"
                 >
                 @error('username')
                     <div class="alert-msg">{{ $message }}</div>
@@ -286,27 +306,33 @@
                 </span>
 
                 <label for="password">Contrase&ntilde;a:</label>
-                <input
-                    id="password"
-                    type="password"
-                    name="password"
-                    placeholder="Ingrese la contrase&ntilde;a"
-                    value="{{ old('password') }}"
-                    class="@error('password') is-invalid @enderror"
-                >
+                <div class="password-container">
+                    <input
+                        id="password"
+                        type="password"
+                        name="password"
+                        placeholder="Ingrese la contrase&ntilde;a"
+                        value="{{ old('password') }}"
+                        class="@error('password') is-invalid @enderror"
+                    >
+                    <i class="fa-solid fa-eye toggle-password" id="togglePassword"></i>
+                </div>
                 @error('password')
                     <div class="alert-msg">{{ $message }}</div>
                 @enderror
 
                 <label for="password_confirmation">Confirmar contrase&ntilde;a:</label>
-                <input
-                    id="password_confirmation"
-                    type="password"
-                    name="password_confirmation"
-                    placeholder="Confirme la contrase&ntilde;a"
-                    value="{{ old('password_confirmation') }}"
-                    class="@error('password_confirmation') is-invalid @enderror"
-                >
+                <div class="password-container">
+                    <input
+                        id="password_confirmation"
+                        type="password"
+                        name="password_confirmation"
+                        placeholder="Confirme la contrase&ntilde;a"
+                        value="{{ old('password_confirmation') }}"
+                        class="@error('password_confirmation') is-invalid @enderror"
+                    >
+                    <i class="fa-solid fa-eye toggle-password" id="togglePasswordConfirmation"></i>
+                </div>
                 @error('password_confirmation')
                     <div class="alert-msg">{{ $message }}</div>
                 @enderror
@@ -325,6 +351,14 @@
                 const modal = document.getElementById('user-modal');
                 modal.classList.remove('hidden');
             @endif
+
+            const userIdInput = document.getElementById('userId');
+            const modalTitle = document.getElementById('modal-title');
+            if (userIdInput && userIdInput.value) {
+                if (modalTitle) modalTitle.textContent = 'Editar Usuario';
+            } else {
+                if (modalTitle) modalTitle.textContent = 'Registro de Usuario';
+            }
         });
 
         function openModal(e, modalName) {
@@ -343,6 +377,11 @@
             const userIdInput = document.getElementById('userId');
             const modal = document.getElementById(modalName);
             const enablePFInput = document.getElementById('enablePFbtn');
+            const modalTitle = document.getElementById('modal-title');
+
+            if (modalTitle) {
+                modalTitle.textContent = 'Registro de Usuario';
+            }
 
             form.querySelectorAll('.alert-msg').forEach(alert => alert.remove());
 
@@ -357,9 +396,16 @@
             document.getElementById('state').value = 'ACTIVO';
             document.getElementById('password').value = null;
             document.getElementById('password').disabled = false;
+            document.getElementById('password').type = 'password';
             document.getElementById('password_confirmation').value = null;
             document.getElementById('password_confirmation').disabled = false;
+            document.getElementById('password_confirmation').type = 'password';
             document.getElementById('enablePFcheck').checked = false;
+
+            document.querySelectorAll('.toggle-password').forEach(icon => {
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            });
 
             form.action = '/usuarios/store';
             formMethod.disabled = true;
@@ -376,6 +422,11 @@
             const formMethod = document.getElementById('form-method');
             const userIdInput = document.getElementById('userId');
             const enablePFInput = document.getElementById('enablePFbtn');
+            const modalTitle = document.getElementById('modal-title');
+
+            if (modalTitle) {
+                modalTitle.textContent = 'Editar Usuario';
+            }
 
             form.action = `/usuarios/${userData.idUsuario}`;
             formMethod.disabled = false;
@@ -401,5 +452,172 @@
             document.getElementById('password').disabled = !enabled;
             document.getElementById('password_confirmation').disabled = !enabled;
         }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const togglePassword = document.querySelector('#togglePassword');
+            const togglePasswordConfirmation = document.querySelector('#togglePasswordConfirmation');
+            const passwordInput = document.querySelector('#password');
+            const passwordConfirmInput = document.querySelector('#password_confirmation');
+
+            function toggleBothPasswords() {
+                if (!passwordInput || !passwordConfirmInput) return;
+
+                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+
+                passwordInput.setAttribute('type', type);
+                passwordConfirmInput.setAttribute('type', type);
+
+                const toggles = [togglePassword, togglePasswordConfirmation];
+                toggles.forEach(toggle => {
+                    if (toggle) {
+                        if (type === 'password') {
+                            toggle.classList.remove('fa-eye-slash');
+                            toggle.classList.add('fa-eye');
+                        } else {
+                            toggle.classList.remove('fa-eye');
+                            toggle.classList.add('fa-eye-slash');
+                        }
+                    }
+                });
+            }
+
+            if (togglePassword) {
+                togglePassword.addEventListener('click', toggleBothPasswords);
+            }
+            if (togglePasswordConfirmation) {
+                togglePasswordConfirmation.addEventListener('click', toggleBothPasswords);
+            }
+
+            const nameInput = document.getElementById('name');
+            const emailInput = document.getElementById('email');
+            const usernameInput = document.getElementById('username');
+            const form = document.getElementById('user-form');
+
+            function removeFieldError(input) {
+                let sibling = input.nextElementSibling;
+                while (sibling && sibling.classList.contains('alert-msg')) {
+                    sibling.remove();
+                    sibling = input.nextElementSibling;
+                }
+                input.classList.remove('is-invalid');
+            }
+
+            function showFieldError(input, message) {
+                removeFieldError(input);
+                const errorDiv = document.createElement('div');
+                errorDiv.className = 'alert-msg';
+                errorDiv.textContent = message;
+                input.after(errorDiv);
+                input.classList.add('is-invalid');
+            }
+
+            function validateName(input) {
+                const originalValue = input.value;
+                const filteredValue = originalValue.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s]/g, '');
+                
+                if (originalValue !== filteredValue) {
+                    input.value = filteredValue;
+                    showFieldError(input, 'El nombre solo permite letras y espacios.');
+                    return false;
+                }
+                
+                removeFieldError(input);
+                return true;
+            }
+
+            function validateUsername(input) {
+                const originalValue = input.value;
+                const filteredValue = originalValue.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑüÜ_]/g, '');
+                
+                if (originalValue !== filteredValue) {
+                    input.value = filteredValue;
+                    showFieldError(input, 'El nombre de usuario solo permite letras y "_".');
+                    return false;
+                }
+                
+                removeFieldError(input);
+                return true;
+            }
+
+            function validateEmail(input) {
+                const value = input.value.trim();
+                if (value === '') {
+                    removeFieldError(input);
+                    return true;
+                }
+                
+                const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+                if (!emailRegex.test(value)) {
+                    showFieldError(input, 'El correo electrónico debe ser una dirección válida.');
+                    return false;
+                }
+                
+                removeFieldError(input);
+                return true;
+            }
+
+            if (nameInput) {
+                nameInput.addEventListener('input', function() {
+                    validateName(this);
+                });
+            }
+
+            if (usernameInput) {
+                usernameInput.addEventListener('input', function() {
+                    validateUsername(this);
+                });
+            }
+
+            if (emailInput) {
+                emailInput.addEventListener('input', function() {
+                    removeFieldError(this);
+                });
+                emailInput.addEventListener('blur', function() {
+                    validateEmail(this);
+                });
+            }
+
+            if (form) {
+                form.addEventListener('submit', function(e) {
+                    let isValid = true;
+                    
+                    if (nameInput) {
+                        const val = nameInput.value.trim();
+                        if (val === '') {
+                            showFieldError(nameInput, 'El nombre es obligatorio.');
+                            isValid = false;
+                        } else if (/[^a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s]/.test(nameInput.value)) {
+                            validateName(nameInput);
+                            isValid = false;
+                        }
+                    }
+                    
+                    if (emailInput) {
+                        const val = emailInput.value.trim();
+                        if (val === '') {
+                            showFieldError(emailInput, 'El correo electrónico es obligatorio.');
+                            isValid = false;
+                        } else if (!validateEmail(emailInput)) {
+                            isValid = false;
+                        }
+                    }
+                    
+                    if (usernameInput) {
+                        const val = usernameInput.value.trim();
+                        if (val === '') {
+                            showFieldError(usernameInput, 'El nombre de usuario es obligatorio.');
+                            isValid = false;
+                        } else if (/[^a-zA-ZáéíóúÁÉÍÓÚñÑüÜ_]/.test(usernameInput.value)) {
+                            validateUsername(usernameInput);
+                            isValid = false;
+                        }
+                    }
+                    
+                    if (!isValid) {
+                        e.preventDefault();
+                    }
+                });
+            }
+        });
     </script>
 @endsection

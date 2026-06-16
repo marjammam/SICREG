@@ -101,6 +101,11 @@
             const form = document.getElementById('event-form');
             const formMethod = document.getElementById('form-method');
             const eventIdInput = document.getElementById('eventId');
+            const formTitle = document.getElementById('form-title');
+
+            if (formTitle) {
+                formTitle.textContent = 'Registro de Evento';
+            }
 
             form.querySelectorAll('.alert-msg').forEach(alert => alert.remove());
 
@@ -126,6 +131,11 @@
             const form = document.getElementById('event-form');
             const formMethod = document.getElementById('form-method');
             const eventIdInput = document.getElementById('eventId');
+            const formTitle = document.getElementById('form-title');
+
+            if (formTitle) {
+                formTitle.textContent = 'Editar Evento';
+            }
 
             form.action = `/eventos/${eventData.idEvento}`;
             formMethod.disabled = false;
@@ -138,6 +148,16 @@
             document.getElementById('event-date1').value = eventData.fechaInicioE;
             document.getElementById('event-date2').value = eventData.fechaFinE;
         }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const eventIdInput = document.getElementById('eventId');
+            const formTitle = document.getElementById('form-title');
+            if (eventIdInput && eventIdInput.value) {
+                if (formTitle) formTitle.textContent = 'Editar Evento';
+            } else {
+                if (formTitle) formTitle.textContent = 'Registro de Evento';
+            }
+        });
     </script>
 @endpush
 
@@ -165,7 +185,7 @@
                 value="{{ old('eventId') }}"
                 {{ old('eventId') ? '' : 'disabled' }}
             >
-            <h3 style="color: #656061;">Registro de Evento</h3>
+            <h3 id="form-title" style="color: #656061;">Registro de Evento</h3>
 
             <label for="name">Nombre del evento:</label>
             <input

@@ -172,75 +172,92 @@
     </div>
 </div>
 
+<div id="delete-modal" class="modal-logout hidden-logout">
+    <div class="logout-box">
+        <h3 style="color: #656061; margin-bottom: 25px;">¿Está seguro de que desea eliminar este registro?</h3>
+        <div style="display: flex; justify-content: space-evenly; gap: 5px;">
+            <button class="clean-btn" onclick="closeDeleteModal(event)">Cancelar</button>
+            <button class="btn-ingresar" onclick="confirmDelete(event)">Eliminar</button>
+        </div>
+    </div>
+</div>
+
 <script>
 let procesando = false;
+let asistenciaIdAEliminar = null;
 
 document.addEventListener('DOMContentLoaded', function() {
     const scannerInput = document.getElementById('input-scanner');
     const btnAceptar = document.getElementById('btn-aceptar-asistencia');
 
-    scannerInput.focus();
-    document.addEventListener('click', () => scannerInput.focus());
+    if (scannerInput) {
+        scannerInput.focus();
+        document.addEventListener('click', () => scannerInput.focus());
+    }
 
-    scannerInput.addEventListener('keydown', async function(e) {
-        if (e.key === 'Enter') {
-            e.preventDefault();
+    if (scannerInput) {
+        scannerInput.addEventListener('keydown', async function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
 
-            if (procesando) return;
+                if (procesando) return;
 
-            let textoQR = this.value.trim();
-            console.log("Escaneado:", textoQR);
+                let textoQR = this.value.trim();
+                console.log("Escaneado:", textoQR);
 
-            let match = textoQR.match(/CI:?\s*(\d+)/i);
+                let match = textoQR.match(/CI:?\s*(\d+)/i);
 
-            let ci = null;
+                let ci = null;
 
-            if (match && match[1]) {
-                ci = match[1];
-            } else {
-                let backupMatch = textoQR.match(/\d{7,8}/);
-                if (backupMatch) {
-                    ci = backupMatch[0];
+                if (match && match[1]) {
+                    ci = match[1];
+                } else {
+                    let backupMatch = textoQR.match(/\d{7,8}/);
+                    if (backupMatch) {
+                        ci = backupMatch[0];
+                    }
+                }
+
+                if (ci) {
+                    await procesarEscaneo(ci);
+                    this.value = ""; // 🔥 SOLO limpia después de procesar
+                } else {
+                    alert("Código no reconocido: " + textoQR);
                 }
             }
+        });
+    }
 
-            if (ci) {
-                await procesarEscaneo(ci);
-                this.value = ""; // 🔥 SOLO limpia después de procesar
-            } else {
-                alert("Código no reconocido: " + textoQR);
+    if (btnAceptar) {
+        btnAceptar.onclick = async function() {
+            const ci = this.dataset.ci;
+
+            try {
+                const response = await fetch("{{ route('asistencia.registrar') }}", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    body: JSON.stringify({
+                        ci: ci,
+                        subevento_id: "{{ $subevento->idSubevento }}"
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.status === 'success') {
+                    location.reload();
+                } else {
+                    alert(result.message);
+                }
+
+            } catch (error) {
+                console.error(error);
             }
-        }
-    });
-
-    btnAceptar.onclick = async function() {
-        const ci = this.dataset.ci;
-
-        try {
-            const response = await fetch("{{ route('asistencia.registrar') }}", {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                },
-                body: JSON.stringify({
-                    ci: ci,
-                    subevento_id: "{{ $subevento->idSubevento }}"
-                })
-            });
-
-            const result = await response.json();
-
-            if (result.status === 'success') {
-                location.reload();
-            } else {
-                alert(result.message);
-            }
-
-        } catch (error) {
-            console.error(error);
-        }
-    };
+        };
+    }
 });
 
 
@@ -294,9 +311,28 @@ function exportToExcel(e) {
 }
 
 function quitarAsistencia(e, asistenciaId) {
-    e.preventDefault();
+    if (e) e.preventDefault();
+    asistenciaIdAEliminar = asistenciaId;
+    const modal = document.getElementById('delete-modal');
+    if (modal) {
+        modal.classList.remove('hidden-logout');
+    }
+}
 
-    const url = `{{ url("asistencia") }}/${asistenciaId}`;
+function closeDeleteModal(e) {
+    if (e) e.preventDefault();
+    asistenciaIdAEliminar = null;
+    const modal = document.getElementById('delete-modal');
+    if (modal) {
+        modal.classList.add('hidden-logout');
+    }
+}
+
+function confirmDelete(e) {
+    if (e) e.preventDefault();
+    if (!asistenciaIdAEliminar) return;
+
+    const url = `{{ url("asistencia") }}/${asistenciaIdAEliminar}`;
     const formData = new FormData();
 
     formData.append('_method', 'DELETE');
