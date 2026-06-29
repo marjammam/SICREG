@@ -17,9 +17,9 @@ class UserPostRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:60', 'not_regex:/^\s*$/'],
+            'name' => ['required', 'string', 'max:60', 'not_regex:/^\s*$/', 'regex:/^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s]+$/'],
             'email' => ['required', 'email', 'max:60', 'not_regex:/^\s*$/'],
-            'username' => ['required', 'alpha_dash', 'max:45', 'not_regex:/^\s*$/'],
+            'username' => ['required', 'max:45', 'not_regex:/^\s*$/', 'regex:/^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ_]+$/'],
             'role' => ['required', 'string', 'in:ADMINISTRADOR,MODERADOR,INVITADO'],
             'state' => ['required', 'string', 'in:ACTIVO,INACTIVO'],
             'password' => [

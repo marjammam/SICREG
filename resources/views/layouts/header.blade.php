@@ -5,6 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+<<<<<<< HEAD
+=======
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+>>>>>>> origin/fix/correcciones
     @stack('styles')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
@@ -53,7 +59,12 @@
                 <a href="{{ route('credencial') }}">Credencial</a>
                 <a href="{{ route('cliente') }}">Clientes</a>
             @endif
+<<<<<<< HEAD
             <a onclick="logout(event)">Cerrar sesión</a>
+=======
+
+            <a onclick="openLogoutModal(event)" style="cursor: pointer;">Cerrar sesión</a>
+>>>>>>> origin/fix/correcciones
         @endauth
 
         @guest
@@ -62,6 +73,18 @@
     </nav>
 
 </header>
+
+@auth
+<div id="logout-modal" class="modal-logout hidden-logout">
+    <div class="logout-box">
+        <h3 style="color: #656061; margin-bottom: 25px;">¿Confirmas que quieres cerrar sesión?</h3>
+        <div style="display: flex; justify-content: space-evenly; gap: 5px;">
+            <button class="clean-btn" onclick="closeLogoutModal(event)">Cancelar</button>
+            <button class="btn-ingresar" onclick="confirmLogout(event)">Cerrar sesión</button>
+        </div>
+    </div>
+</div>
+@endauth
 
 <main>
     @yield('content')
@@ -89,6 +112,7 @@
 </body>
 
 <script>
+<<<<<<< HEAD
 
 function toggleMenu() {
     const nav = document.getElementById('nav-menu');
@@ -134,10 +158,28 @@ document.querySelectorAll('.nav-dropdown > a').forEach(function(link) {
 
 
     function logout(e) {
+=======
+    function openLogoutModal(e) {
+>>>>>>> origin/fix/correcciones
         e.preventDefault();
+        const modal = document.getElementById('logout-modal');
+        if (modal) {
+            modal.classList.remove('hidden-logout');
+        }
+    }
+
+    function closeLogoutModal(e) {
+        if (e) e.preventDefault();
+        const modal = document.getElementById('logout-modal');
+        if (modal) {
+            modal.classList.add('hidden-logout');
+        }
+    }
+
+    function confirmLogout(e) {
+        if (e) e.preventDefault();
 
         const formData = new FormData();
-
         formData.append('_token', '{{ csrf_token() }}');
 
         fetch('{{ url("logout") }}', {

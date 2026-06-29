@@ -16,8 +16,8 @@ class PersonaPostRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nombre' => ['required', 'string', 'max:60'],
-            'apellidos' => ['required', 'string', 'max:60'],
+            'nombre' => ['required', 'string', 'max:60', 'regex:/^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s]+$/'],
+            'apellidos' => ['required', 'string', 'max:60', 'regex:/^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s]+$/'],
             'ci' => ['required', 'integer', 'digits_between:0,20', 'unique:persona,ci'],
             'tipoInstitucion' => ['required', 'string', 'max:100'],
             'distrito' => ['required', 'not_in:Seleccionar'],

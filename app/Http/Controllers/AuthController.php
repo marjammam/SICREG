@@ -26,7 +26,7 @@ class AuthController extends Controller
             || !Hash::check($request->password, $user->password))
         {
             throw ValidationException::withMessages([
-                'username' => ['Credenciales inválidas.'],
+                'username' => ['Usuario o contraseña incorrectos'],
             ]);
         }
 

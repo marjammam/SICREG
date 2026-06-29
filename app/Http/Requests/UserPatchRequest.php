@@ -17,9 +17,9 @@ class UserPatchRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['sometimes', 'string', 'max:60', 'not_regex:/^\s*$/'],
+            'name' => ['sometimes', 'string', 'max:60', 'not_regex:/^\s*$/', 'regex:/^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s]+$/'],
             'email' => ['sometimes', 'email', 'max:60', 'not_regex:/^\s*$/'],
-            'username' => ['sometimes', 'alpha_dash', 'max:45', 'not_regex:/^\s*$/'],
+            'username' => ['sometimes', 'max:45', 'not_regex:/^\s*$/', 'regex:/^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ_]+$/'],
             'role' => ['sometimes', 'string', 'in:ADMINISTRADOR,MODERADOR,INVITADO'],
             'state' => ['sometimes', 'string', 'in:ACTIVO,INACTIVO'],
             'password' => [

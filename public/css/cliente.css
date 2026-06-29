@@ -1,64 +1,66 @@
-.tabla-clientes{
-width:90%;
-margin:auto;
-font-family:Arial;
+.tabla-clientes {
+    width: 90%;
+    margin: auto;
+    font-family: Arial;
 }
 
 /* BARRA SUPERIOR */
 
-.barra-superior{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
+.barra-superior {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     /* reduce space above/below para que quede mas cerca de la tabla */
-    margin-top:20px;     /* separa del header */
-    margin-bottom:10px;  /* acerca a la tabla */
+    margin-top: 20px;
+    /* separa del header */
+    margin-bottom: 10px;
+    /* acerca a la tabla */
 }
 
 
 /* CONTENEDOR BUSCADOR */
 
-.buscador{
-display:flex;
-align-items:stretch;
+.buscador {
+    display: flex;
+    align-items: stretch;
 }
 
 /* INPUT */
 
-.buscador input{
-height:38px;
-width:400px;
-padding:0 12px;
-border:1px solid #ccc;
-border-right:none;
-font-size:14px;
-box-sizing:border-box;
-margin:0;
+.buscador input {
+    height: 38px;
+    width: 400px;
+    padding: 0 12px;
+    border: 1px solid #ccc;
+    border-right: none;
+    font-size: 14px;
+    box-sizing: border-box;
+    margin: 0;
 }
 
 /* BOTON BUSCAR */
 
-.btn-buscar{
-height:39px;
-width:40px;
-border:1px solid #ccc;
-background:#eee;
-cursor:pointer;
-box-sizing:border-box;
-display:flex;
-align-items:center;
-justify-content:center;
+.btn-buscar {
+    height: 39px;
+    width: 40px;
+    border: 1px solid #ccc;
+    background: #eee;
+    cursor: pointer;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-box-sizing:border-box;
-margin:0;
+    box-sizing: border-box;
+    margin: 0;
 }
 
 
 /* BOTONES DERECHA */
 
-.acciones-superior{
-display:flex;
-gap:8px;
+.acciones-superior {
+    display: flex;
+    gap: 8px;
 }
 
 /* BOTON REGISTRAR */
@@ -95,31 +97,32 @@ cursor:pointer;
 
 /* TABLA */
 
-table{
-width:100%;
-border-collapse:collapse;
-font-size:13px;
-user-select: none;
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    user-select: none;
 }
 
 /* ENCABEZADO */
 
-thead{
-background:#b33b35;
-color:white;
+thead {
+    background: #b33b35;
+    color: white;
 }
 
-th{
-padding:4px 6px;
-text-align:left;
-font-size:13px;
+th {
+    padding: 4px 6px;
+    text-align: left;
+    font-size: 13px;
 }
 
-td{
-padding:3px 6px;
-border-bottom:1px solid #eee;
-font-size:13px;
+td {
+    padding: 3px 6px;
+    border-bottom: 1px solid #eee;
+    font-size: 13px;
 }
+
 /* ACCIONES */
 /* Botones de acción */
 .btn-accion {
@@ -164,214 +167,222 @@ font-size:13px;
 /* ocultar checkbox original */
 
 .check-item,
-#checkAll{
-appearance:none;
--webkit-appearance:none;
-width:15px;
-height:15px;
-border:2px solid #b33b35;
-border-radius:4px;
-cursor:pointer;
-position:relative;
+#checkAll {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 15px;
+    height: 15px;
+    border: 2px solid #b33b35;
+    border-radius: 4px;
+    cursor: pointer;
+    position: relative;
 }
 
 /* cuando está marcado */
 
 .check-item:checked,
-#checkAll:checked{
-background:#b33b35;
+#checkAll:checked {
+    background: #b33b35;
 }
 
 /* icono check */
 
 .check-item:checked::after,
-#checkAll:checked::after{
-content:"✔";
-color:white;
-font-size:12px;
-position:absolute;
-top:-2px;
-left:2px;
+#checkAll:checked::after {
+    content: "✔";
+    color: white;
+    font-size: 12px;
+    position: absolute;
+    top: -2px;
+    left: 2px;
+}
+
+#checkAll:checked::after {
+    color: black;
 }
 
 /* fondo modal */
 
-.modal{
-display:none;
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.45);
-justify-content:center;
-align-items:center;
-z-index:1000;
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.45);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
 }
 
 /* tarjeta modal */
 
-.modal-card{
-background:white;
-width:500px;
-border-radius:8px;
-padding:20px;
-box-shadow:0 5px 20px rgba(0,0,0,0.3);
-animation:aparecer .2s ease;
+.modal-card {
+    background: white;
+    width: 500px;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+    animation: aparecer .2s ease;
 }
 
 /* animacion */
 
-@keyframes aparecer{
-from{
-transform:scale(.9);
-opacity:0;
-}
-to{
-transform:scale(1);
-opacity:1;
-}
+@keyframes aparecer {
+    from {
+        transform: scale(.9);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
 }
 
 /* header */
 
-.modal-header{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:15px;
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
 }
 
-.modal-header h2{
-font-size:18px;
+.modal-header h2 {
+    font-size: 18px;
 }
 
-.cerrar{
-border:none;
-background:none;
-font-size:20px;
-cursor:pointer;
+.cerrar {
+    border: none;
+    background: none;
+    font-size: 20px;
+    cursor: pointer;
 }
 
 /* grid formulario */
 
-.grid-form{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:12px;
+.grid-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
 }
 
 /* campos */
 
-.campo label{
-font-size:13px;
-display:block;
-margin-bottom:5px;
+.campo label {
+    font-size: 13px;
+    display: block;
+    margin-bottom: 5px;
 }
 
 .campo input,
-.campo select{
-width:90%;
-height:36px;
-border:1px solid #ccc;
-padding:0 10px;
-border-radius:4px;
+.campo select {
+    width: 90%;
+    height: 36px;
+    border: 1px solid #ccc;
+    padding: 0 10px;
+    border-radius: 4px;
 }
 
 /* botones */
 
-.acciones-modal{
-display:flex;
-justify-content:flex-end;
-gap:10px;
-margin-top:15px;
+.acciones-modal {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 15px;
 }
 
-.btn-guardar{
-background:#b33b35;
-color:white;
-border:none;
-padding:8px 16px;
-cursor:pointer;
-border-radius:4px;
+.btn-guardar {
+    background: #b33b35;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    cursor: pointer;
+    border-radius: 4px;
 }
 
-.btn-cancelar{
-background:#777;
-color:white;
-border:none;
-padding:8px 16px;
-cursor:pointer;
-border-radius:4px;
+.btn-cancelar {
+    background: #777;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    cursor: pointer;
+    border-radius: 4px;
 }
 
-.tabla-scroll{
-max-height:500px;   /* alto de la tabla */
-overflow-y:auto;    /* scroll vertical */
-border:1px solid #ddd;
+.tabla-scroll {
+    max-height: 500px;
+    /* alto de la tabla */
+    overflow-y: auto;
+    /* scroll vertical */
+    border: 1px solid #ddd;
 }
-thead{
-background:#b33b35;
-color:white;
-position:sticky;
-top:0;
-z-index:2;
+
+thead {
+    background: #b33b35;
+    color: white;
+    position: sticky;
+    top: 0;
+    z-index: 2;
 }
 
 /* MODAL */
 
-.modaleve{
-display:none;
-position:fixed;
-z-index:1000;
-left:0;
-top:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.5);
+.modaleve {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
 }
 
 /* CONTENIDO MODAL */
 
-.modal-contenidoeve{
+.modal-contenidoeve {
 
-background:white;
-width:350px;
-padding:20px;
-border-radius:6px;
+    background: white;
+    width: 350px;
+    padding: 20px;
+    border-radius: 6px;
 
-position:absolute;
-top:50%;
-left:50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
 
-transform:translate(-50%,-50%);
-text-align:center;
+    transform: translate(-50%, -50%);
+    text-align: center;
 
-box-shadow:0 3px 10px rgba(0,0,0,0.3);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
 
 }
 
 /* SELECT */
 
-.modaleve select{
+.modaleve select {
 
-width:100%;
-padding:8px;
-margin-top:10px;
-margin-bottom:15px;
+    width: 100%;
+    padding: 8px;
+    margin-top: 10px;
+    margin-bottom: 15px;
 
 }
 
 /* BOTON */
 
-.btn-modaleve{
+.btn-modaleve {
 
-padding:10px 20px;
-background:#a53b37;
-color:white;
-border:none;
-cursor:pointer;
-border-radius:4px;
+    padding: 10px 20px;
+    background: #a53b37;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
 
 }
 

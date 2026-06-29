@@ -17,8 +17,8 @@ class PersonaPatchRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nombre' => ['sometimes', 'string', 'max:60'],
-            'apellidos' => ['sometimes', 'string', 'max:60'],
+            'nombre' => ['sometimes', 'string', 'max:60', 'regex:/^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s]+$/'],
+            'apellidos' => ['sometimes', 'string', 'max:60', 'regex:/^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s]+$/'],
             'ci' => [
                 'sometimes',
                 'integer',

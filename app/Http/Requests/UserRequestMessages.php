@@ -11,6 +11,7 @@ trait UserRequestMessages
             'name.string' => 'El nombre debe ser una cadena de texto.',
             'name.max' => 'El nombre no puede tener más de 60 caracteres.',
             'name.not_regex' => 'El nombre no puede estar en blanco.',
+            'name.regex' => 'El nombre solo permite letras y espacios.',
 
             'email.required' => 'El correo electrónico es obligatorio.',
             'email.email' => 'El correo electrónico debe ser una dirección válida.',
@@ -21,6 +22,7 @@ trait UserRequestMessages
             'username.alpha_dash' => 'El nombre de usuario solo puede contener letras, números, guiones y guiones bajos.',
             'username.max' => 'El nombre de usuario no puede tener más de 45 caracteres.',
             'username.not_regex' => 'El nombre de usuario no puede estar en blanco.',
+            'username.regex' => 'El nombre de usuario solo permite letras y "_".',
 
             'role.required' => 'El rol es obligatorio.',
             'role.string' => 'El rol debe ser una cadena de texto.',
