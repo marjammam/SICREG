@@ -46,9 +46,9 @@ Route::middleware(['auth', 'role:ADMINISTRADOR,MODERADOR'])->group(function () {
         return view('credenciales.credencial');
     })->name('credencial');
 
-    Route::get('/cliente', function () {
+    /*Route::get('/cliente', function () {
         return view('cliente.cliente');
-    })->name('cliente');
+    })->name('cliente');*/
 
 
     Route::match(['get', 'post'], '/cliente', [PersonaController::class,'index'])->name('cliente');
@@ -58,25 +58,34 @@ Route::middleware(['auth', 'role:ADMINISTRADOR,MODERADOR'])->group(function () {
     Route::delete('/cliente/{personaId}', [PersonaController::class, 'delete']);
     Route::get('/cliente/fotos/{filename}', [PersonaController::class, 'obtenerFoto'])->name('fotos.obtener');
 
+
     Route::post('/credenciales/preview', [CredencialController::class, 'preview']);
-    
-    Route::post('/credencial-persona', [CredencialPersonaController::class, 'store']);
-    Route::get('/credencial-persona/exportar', [CredencialPersonaController::class, 'exportToExcel'])->name('credenciales.exportar');
+    //Route::post('/credencial-persona', [CredencialPersonaController::class, 'store']);
+    Route::get('/credenciales/excel', [CredencialController::class, 'exportToExcel'])->name('credenciales.excel');
+   // Route::get('/credencial-persona/exportar', [CredencialPersonaController::class, 'exportToExcel'])->name('credenciales.exportar');
+    //ruta registro de credencial al imprimir
+    Route::post('/credencial-persona', [CredencialController::class, 'store']);
+    Route::get('/credenciales/lista', [CredencialController::class, 'index'])->name('credenciales.lista');
 
+
+
+    // Rutas para asistencia
+    Route::get('/asistencia/verificar', [AsistenciaController::class, 'verificar'])->name('asistencia.verificar');
+    Route::get('/asistencia/buscar-ci', [AsistenciaController::class, 'buscarPorCI'])->name('asistencia.buscarPorCI');
     Route::get('/buscar-cliente/{ci}', [AsistenciaController::class, 'buscarCliente']);
-
-    // Registrar asistencia (POST)
+    Route::get('/asistencia/exportar/{subEventId}', [AsistenciaController::class, 'exportToExcel']);
+    Route::delete('/asistencia/{asistenciaId}', [AsistenciaController::class, 'delete']);
+    Route::match(['get', 'post'], '/asistencia/{id}', [AsistenciaController::class, 'index'])->name('asistencia.index');
     Route::post('/registrar-asistencia', [AsistenciaController::class, 'registrar'])->name('asistencia.registrar');
 
-    // Ruta para mostrar la lista de asistencia
-    Route::match(['get', 'post'], '/asistencia/{id}', [AsistenciaController::class, 'index'])->name('asistencia.index');
+    Route::get('/subeventos/listas', [SubEventController::class, 'listaSubevento'])->name('subeventos.listas');
+    Route::get('/subeventos/exportar', [SubEventController::class, 'exportarExcel'])->name('subeventos.exportar');
 
-    // Ruta para procesar el registro (la que usará el botón "Aceptar" de tu modal)
-    Route::post('/asistencia/registrar', [AsistenciaController::class, 'registrar'])->name('asistencia.registrar');
 
-    Route::get('/asistencia/exportar/{subEventId}', [AsistenciaController::class, 'exportToExcel']);
 
-    Route::delete('/asistencia/{asistenciaId}', [AsistenciaController::class, 'delete']);
+
+
+
 });
 
 Route::middleware(['auth', 'role:ADMINISTRADOR'])->group(function () {
@@ -87,3 +96,5 @@ Route::middleware(['auth', 'role:ADMINISTRADOR'])->group(function () {
         Route::patch('usuarios/{userId}', 'update');
     });
 });
+
+ 

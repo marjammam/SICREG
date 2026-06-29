@@ -17,7 +17,7 @@ class SubEventPostRequest extends FormRequest
     {
         return [
             'subevent-name' => ['required', 'string', 'max:100', 'not_regex:/^\s*$/'],
-            'subevent-type' => ['required', 'string', 'in:Delegados,Congreso'],
+            'description' => ['nullable', 'string', 'max:255', 'not_regex:/^\s*$/'],
             'subevent-date' => ['required', 'date'],
             'subevent-time1' => ['required', 'date_format:H:i,H:i:s'],
             'subevent-time2' => ['required', 'date_format:H:i,H:i:s'],

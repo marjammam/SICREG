@@ -4,13 +4,19 @@ body {
     background-color: #f4f4f4;
 }
 
+/* ===== HEADER ===== */
 header {
     background-color: #850B0B;
     color: white;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 40px;
+    padding: 10px 40px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    flex-wrap: wrap;
 }
 
 .logo-area {
@@ -20,21 +26,256 @@ header {
 }
 
 .logo-area img {
-    height: 60px;
+    height: 50px;
+}
+
+.logo-area h2 {
+    margin: 0;
+    font-size: 1.2rem;
+    color: white;
+}
+
+/* ===== BOTÓN HAMBURGUESA ===== */
+.menu-toggle {
+    display: none;
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.5);
+    color: white;
+    font-size: 1.2rem;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+/* ===== NAV ===== */
+nav {
+    display: flex;
+    align-items: center;
+    gap: 5px;
 }
 
 nav a {
     color: white;
     text-decoration: none;
-    margin-left: 25px;
     font-weight: bold;
+    padding: 8px 14px;
+    border-radius: 6px;
+    transition: background 0.2s;
+    font-size: 14px;
+    margin-left: 0;
+    cursor: pointer;
 }
 
 nav a:hover {
-    text-decoration: underline;
+    background: rgba(255,255,255,0.15);
 }
 
+/* ===== DROPDOWN ===== */
+.nav-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    background: #6a0909;
+    border-radius: 8px;
+    min-width: 170px;
+    z-index: 999;
+    box-shadow: 0px 6px 16px rgba(0,0,0,0.25);
+    overflow: hidden;
+}
+
+.dropdown-menu a {
+    display: block;
+    padding: 10px 16px;
+    color: white !important;
+    font-size: 14px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    margin-left: 0;
+    border-radius: 0;
+}
+
+.dropdown-menu a:last-child {
+    border-bottom: none;
+}
+
+.dropdown-menu a:hover {
+    background: rgba(255,255,255,0.15);
+}
+
+.nav-dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+    .menu-toggle {
+        display: block; /* 👈 mostrar hamburguesa en móvil */
+    }
+
+    nav {
+        display: none;  /* 👈 oculto por defecto en móvil */
+        flex-direction: column;
+        align-items: flex-start;
+        width: 100%;
+        padding: 10px 0;
+        gap: 2px;
+    }
+
+    nav.open {
+        display: flex; /* 👈 se muestra al hacer click */
+    }
+
+    nav a {
+        width: 100%;
+        padding: 10px 14px;
+    }
+
+    .nav-dropdown {
+        width: 100%;
+    }
+
+    .nav-dropdown > a {
+        width: 100%;
+        display: block;
+    }
+
+    .dropdown-menu {
+        position: static;  /* 👈 no flota, empuja el contenido */
+        box-shadow: none;
+        border-radius: 0;
+        background: #5a0808;
+        padding-left: 15px;
+    }
+
+    .nav-dropdown:hover .dropdown-menu {
+        display: none; /* 👈 en móvil no funciona hover */
+    }
+
+    .nav-dropdown.open .dropdown-menu {
+        display: block; /* 👈 en móvil funciona con click */
+    }
+}
+
+
+/* FONDO COMPLETO */
 .login-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #3d1919 0%, #391515 40%, #292943 100%);
+    margin-top: -80px;   /* cancela el margin-top si tu header lo agrega */
+    padding: 2rem;
+}
+
+/* CAJA */
+.login-box {
+    background: rgba(255, 255, 255, 0.20);
+    border: 0.5px solid rgba(255, 255, 255, 0.18);
+    border-radius: 14px;
+    padding: 2.5rem 2rem;
+    width: 320px;
+    text-align: center;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
+}
+
+/* ÍCONO AVATAR */
+
+.user-icon {
+    margin: -85px auto 1rem; 
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    background: #850B0B;
+    border: 2px solid rgba(255, 255, 255, 0.134);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 50px;
+    color: #fff;
+}
+
+/* TÍTULO */
+.login-box h3 {
+    font-size: 20px;
+    color: #fff;
+    margin: 0 0 1.5rem;
+    font-family: 'Segoe UI', Tahoma;
+    font-weight: bold;
+}
+
+/* LABELS */
+.login-box label {
+    display: block;
+    text-align: left;
+    font-size: 11px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.764);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+    margin-top: 1rem;
+    font-weight: bold;
+}
+
+/* INPUT CON ÍCONO */
+.input-wrap {
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.08);
+    border: 0.5px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 4px;
+}
+
+.input-wrap i {
+    font-size: 20px;
+    color: rgba(255, 255, 255, 0.703);
+    padding: 0 10px;
+    flex-shrink: 0;
+}
+
+.input-wrap input {
+    background: rgba(255, 255, 255, 0.08);
+    border: none;
+    outline: none;
+    color: #fff;
+    font-size: 14px;
+    padding: 10px 10px 10px 0;
+    width: 100%;
+    margin: 0;  /* cancela el margin global de inputs */
+}
+
+.input-wrap input::placeholder {
+    color: rgba(255, 255, 255, 0.35);
+}
+
+/* BOTÓN */
+.btn-ingresar {
+    width: 100%;
+    padding: 11px;
+    background: #850B0B;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    margin-top: 1.25rem;
+    letter-spacing: 0.5px;
+}
+
+.btn-ingresar:hover {
+    background: #6a0808;
+}
+
+/*.login-container {
     margin-top: 80px;
     display: flex;
     justify-content: center;
@@ -53,7 +294,7 @@ nav a:hover {
     font-size: 90px;
     color: #656061;
     margin-top: -30px;
-    /* lo sube */
+   
     margin-bottom: 10px;
 }
 
@@ -74,6 +315,7 @@ select {
     padding: 10px;
     margin: 10px 0px 20px 0;
 }
+
 
 textarea {
     field-sizing: content;
@@ -136,4 +378,4 @@ textarea {
 
 .btn:hover {
     opacity: 0.8;
-}
+}*/

@@ -17,7 +17,7 @@ class EventPostRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:100', 'not_regex:/^\s*$/'],
-            'description' => ['nullable', 'string', 'max:255', 'not_regex:/^\s*$/'],
+            'subevent-type' => ['required', 'string', 'in:Delegados,Congreso,Talleres,Conferencias,Otros'],
             'event-date1' => ['required', 'date'],
             'event-date2' => ['nullable', 'date'],
             'state' => ['required', 'string', 'in:Activo,Inactivo,Finalizado'],

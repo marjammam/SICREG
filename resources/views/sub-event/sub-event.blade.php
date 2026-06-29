@@ -2,15 +2,110 @@
 
 @push('styles')
     <style>
-        .subevent-container {
-            margin-top: 2%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 16px;
-            width: 100%;
+        .div-container {
+            background: white;
+            padding: 40px;
+            width: 350px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
         }
 
+        label {
+            display: block;
+            text-align: left;
+            margin-top: 10px;
+            font-weight: bold;
+            color: #850B0B
+        }
+
+
+        input,
+        textarea,
+        select {
+            box-sizing: border-box;
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0px 20px 0;
+        }
+
+
+        textarea {
+            field-sizing: content;
+            min-height: 3rem;
+            resize: vertical;
+        }
+
+
+        .btn-guardar {
+            width: 60%;
+            padding: 10px;
+            background-color: #850B0B;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-guardar:hover {
+            background-color: #5f0808;
+        }
+
+        .clean-btn {
+            width: 60%;
+            padding: 10px;
+            background-color: #656061;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .clean-btn:hover {
+            background-color: #454142;
+        }
+
+        .is-invalid {
+            border-color: red !important;
+            outline: none;
+            margin-bottom: 0;
+        }
+
+        .alert-msg {
+            margin: 0;
+            padding: 0;
+            font-size: 0.8rem;
+            color: red;
+            align-self: flex-start;
+        }
+
+
+
+        .subevent-container {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* Caja del título + buscador + botón */
+        .subevent-header-box {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .subevent-header-box h3 {
+        font-size: 18px;
+        font-weight: bold;
+        color: black;
+         text-align: center;
+         margin: 0;
+        }
         .subevent-container button {
             width: auto;
         }
@@ -32,29 +127,48 @@
             border-radius: 7px;
         }
 
-        .search {
-            display: flex;
-            align-items: center;
-            width: 60%;
+        
+      
+        /* Caja de la tabla */
+        .subevent-table-box {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px 25px;
+            overflow-x: auto;
         }
 
-        .search input {
-            background: #d9d9d9;
-            color: #656061;
-            border: none;
-            outline: none;
-            margin: unset;
-        }
-
-        .search button {
-            background: #e6e6e6;
-            color: black;
-            border: none;
-        }
-
-        table {
-            width: 80%;
+        .subevent-table-box table {
+            width: 100%;
             border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        .subevent-table-box thead tr {
+            background-color: #b30d0d;
+            color: white;
+        }
+
+        .subevent-table-box th {
+            padding: 12px 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .subevent-table-box td {
+            padding: 10px 15px;
+            border-bottom: 1px solid #f0f0f0;
+            color: #333;
+        }
+
+        .subevent-table-box tbody tr:hover {
+            background-color: #fdf0f0;
+        }
+
+        .element-actions {
+            display: flex;
+            gap: 8px;
+            align-items: center;
         }
 
         thead {
@@ -78,20 +192,69 @@
             border-bottom: 1px solid #e6e6e6;
         }
 
-        .element-actions {
-            display: flex;
-            gap: 8px;
-            align-items: center;
-        }
 
-        .element-actions a,
-        .element-actions a:visited {
-            color: black;
-        }
 
-        .icon-btn {
-            background: transparent;
+        /* ACCIONES */
+        /* Botones de acción */
+        .btn-accion {
             cursor: pointer;
+            font-size: 1rem;
+            padding: 6px 8px;
+            border-radius: 6px;
+            border: 0.5px solid;
+            transition: background-color 0.2s, transform 0.1s;
+        }
+
+         .btn-ingresar {
+            color: white;
+            background-color: #185FA5;
+            border-radius: 6px;
+        }
+
+         .btn-ingresar:hover {
+            background-color: #0d4278;
+        }
+
+        .btn-editar {
+            color: #a58618;
+            background-color: #fbf6e6;
+            border-color: #dad549;
+            margin-right: 6px;
+        }
+        
+
+        .btn-editar:hover {
+            background-color: #f4e2b5;
+        }
+        .btn-play {
+            color: #282829;
+            background-color: #c6cace;
+            border-color: #4b4b4b;
+            margin-right: 6px;
+        }
+        
+
+        .btn-play:hover {
+            background-color: #a0a2a4;
+        }
+
+        .btn-eliminar {
+            color: #A32D2D;
+            background-color: #FCEBEB;
+            border-color: #F09595;
+        }
+
+        .btn-eliminar:hover {
+            background-color: #F7C1C1;
+        }
+
+        .btn-accion:active {
+            transform: scale(0.95);
+        }
+
+        .element-actions {
+            text-align: center;
+            white-space: nowrap;
         }
 
         .modal {
@@ -162,7 +325,7 @@
             });
 
             document.getElementById('subevent-name').value = null;
-            document.getElementById('subevent-type').value = 'Delegados';
+            document.getElementById('description').value = null;
             document.getElementById('subevent-date').value = '{{ date("Y-m-d") }}';
             document.getElementById('subevent-time1').value = '{{ date("H:i") }}';
             document.getElementById('subevent-time2').value = '{{ date("H:i") }}';
@@ -188,7 +351,7 @@
             subeventIdInput.disabled = false;
 
             document.getElementById('subevent-name').value = subeventData.nombreSE;
-            document.getElementById('subevent-type').value = subeventData.tipoEvento;
+            document.getElementById('description').value = subeventData.descripcionSE;
             document.getElementById('subevent-date').value = subeventData.fechaSE;
             document.getElementById('subevent-time1').value = subeventData.horaInicio;
             document.getElementById('subevent-time2').value = subeventData.horaFin;
@@ -197,7 +360,35 @@
             openModal(e, 'subevent-modal');
         }
 
-        function deleteById(e, subeventId) {
+         function deleteById(e, subeventId) {
+            e.preventDefault();
+
+            confirmarEliminar(function () {
+                console.log('Ejecutando delete con id:', subeventId);
+                const url = `{{ url("subeventos") }}/${subeventId}`;
+                const formData = new FormData();
+                formData.append('_method', 'DELETE');
+                formData.append('_token', '{{ csrf_token() }}');
+
+                fetch(url, {
+                    method: 'post',
+                    credentials: 'same-origin',
+                    body: formData,
+                })
+                .then((response) => {
+                    console.log('Response status:', response.status);
+                    if (response.redirected) {
+                        window.location.href = response.url;
+                    }
+                    return response;
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+            });
+        }
+
+       /* function deleteById(e, subeventId) {
             e.preventDefault();
 
             const url = `{{ url("subeventos") }}/${subeventId}`;
@@ -221,75 +412,70 @@
             .catch((error) => {
                 console.log(error);
             });
-        }
+        }*/
     </script>
 @endpush
 
 @section('content')
-<div style="padding: 20px 0 0 10px">
-    <a href="{{ route('eventos') }}" class="btn btn-back" style="text-decoration: none;">
-        <i class="fa-solid fa-arrow-left"></i>
-        <span>VOLVER A EVENTOS</span>
-    </a>
-</div>
+
 
 <div class="subevent-container">
-    <h3>Registro de Subeventos</h3>
-
-    <div class="top-actions">
-        <form class="search" method="POST" action="/subeventos/evento/{{ $eventId }}">
-            @csrf
-            <input id="nombreSE" name="nombreSE" type="search" placeholder="Escriba aquí el nombre del subevento">
-            <button class="btn-ingresar" type="submit">
-                <i class="fa-solid fa-magnifying-glass"></i>
-            </button>
-        </form>
+    <div class="subevent-header-box">
+        <div style="flex: 1;">
+            <h3 style="text-align: center;">REGISTRO DE SUBEVENTOS</h3>
+        
+            <p style="margin:4px 0 0; font-size:0.9rem;"><span style="color:#656061;">Evento: </span>{{ $evento->nombreE }}</p>
+            <p style="margin:4px 0 0; font-size:0.9rem;"><span style="color:#656061;">Tipo de Evento: </span>{{ $evento->tipoEvento }}</p>
+        </div>
 
         <button class="btn-ingresar" onclick="openModal(event, 'subevent-modal')">
             <i class="fa-solid fa-circle-plus"></i>
             <span>REGISTRAR</span>
         </button>
-    </div>
+    </div>  
 
-    <table>
-        <thead>
-            <tr>
-                <th>NOMBRE</th>
-                <th>TIPO EVENTO</th>
-                <th>FECHA INICIO</th>
-                <th>ESTADO</th>
-                <th>&nbsp;</th>
-            </tr>
-        </thead>
+    <div class="subevent-table-box">
+        <table>
+            <thead>
+                <tr>
+                    <th>NOMBRE</th>
+                    <th>FECHA INICIO</th>
+                    <th>HORA INICIO</th>
+                    <th>HORA FIN</th>
+                    <th>ESTADO</th>
+                    <th>&nbsp;</th>
+                </tr>
+            </thead>
 
-        <tbody>
-            @forelse ($subEvents as $subEvent)
-            <tr>
-                <td>{{ $subEvent->nombreSE }}</td>
-                <td>{{ $subEvent->tipoEvento }}</td>
-                <td>{{ date('d/m/Y', strtotime($subEvent->fechaSE)) }}</td>
-                <td>{{ $subEvent->estadoSE }}</td>
-                <td>
-                    <div class="element-actions">
-                        <i class="fa-solid fa-pen-to-square icon-btn" onclick="edit(event, {{ $subEvent }})"></i>
-                        <i class="fa-solid fa-trash icon-btn" onclick="deleteById(event, {{ $subEvent->idSubevento }})"></i>
-                        <a href="{{ route('asistencia.index', ['id' => $subEvent->idSubevento]) }}" class="btn-accion">
-                            <i class="fa-solid fa-play icon-btn"></i>
-                        </a>
-                    </div>
-                </td>
-            </tr>
-            @empty
-            <tr>
-                <td colspan="5" style="text-align: center; padding: 20px;">No hay subeventos registradas para este evento.</td>
-            </tr>
-            @endforelse
-        </tbody>
-    </table>
+            <tbody>
+                @forelse ($subEvents as $subEvent)
+                <tr>
+                    <td>{{ $subEvent->nombreSE }}</td>
+                    <td>{{ date('d/m/Y', strtotime($subEvent->fechaSE)) }}</td>
+                    <td>{{ date($subEvent->horaInicio) }}</td>
+                    <td>{{ date($subEvent->horaFin) }}</td>
+                    <td>{{ $subEvent->estadoSE }}</td>
+                    <td>
+                        <div class="element-actions">
+                            <i class="fa-solid fa-pen-to-square btn-accion btn-editar" onclick="edit(event, {{ $subEvent }})"></i>
+                            <i class="fa-solid fa-trash btn-accion btn-eliminar" onclick="deleteById(event, {{ $subEvent->idSubevento }})"></i>
+                           <a href="{{ route('asistencia.index', ['id' => $subEvent->idSubevento]) }}"><i class="fa-solid fa-play btn-accion btn-play"></i>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+                @empty
+                <tr>
+                    <td colspan="5" style="text-align: center; padding: 20px;">No hay subeventos registradas para este evento.</td>
+                </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>    
 </div>
 
 <div id="subevent-modal" class="modal hidden">
-    <div class="login-box">
+    <div class="div-container">
         <a style="float: right; cursor: pointer;" onclick="closeModal(event, 'subevent-modal')">
             <i class="fa-solid fa-circle-xmark"></i>
         </a>
@@ -328,6 +514,7 @@
                 type="text"
                 name="subevent-name"
                 placeholder="Ingrese el nombre del subevento"
+                oninput="this.value = this.value.toUpperCase()"
                 value="{{ old('subevent-name') }}"
                 class="@error('subevent-name') is-invalid @enderror"
             >
@@ -335,22 +522,18 @@
                 <div class="alert-msg">{{ $message }}</div>
             @enderror
 
-            <div class="subevent-row-controls">
-                <div>
-                    <label for="subevent-type">Tipo de evento:</label>
-                    <select
-                        id="subevent-type"
-                        name="subevent-type"
-                        class="@error('subevent-type') is-invalid @enderror"
-                    >
-                        <option value="Delegados" {{ old('subevent-type') == 'Delegados' ? 'selected' : '' }}>Delegados</option>
-                        <option value="Congreso" {{ old('subevent-type') == 'Congreso' ? 'selected' : '' }}>Congreso</option>
-                    </select>
-                    @error('subevent-type')
-                        <div class="alert-msg">{{ $message }}</div>
-                    @enderror
-                </div>
-                <div>
+            <label for="description">Descripci&oacute;n:</label>
+                <textarea
+                    id="description"
+                    name="description"
+                    placeholder="Ingrese la descripción del evento"
+                    class="@error('description') is-invalid @enderror"
+                >{{ old('description') }}</textarea>
+                @error('description')
+                    <div class="alert-msg">{{ $message }}</div>
+                @enderror
+                
+            <div>
                     <label for="subevent-date">Fecha:</label>
                     <input
                         id="subevent-date"
@@ -362,12 +545,11 @@
                     @error('subevent-date')
                         <div class="alert-msg">{{ $message }}</div>
                     @enderror
-                </div>
             </div>
 
             <div class="subevent-row-controls">
                 <div>
-                    <label for="subevent-time1">Hora de inicio:</label>
+                    <label for="subevent-time1">Hora Inicio:</label>
                     <input
                         id="subevent-time1"
                         type="time"
@@ -380,7 +562,7 @@
                     @enderror
                 </div>
                 <div>
-                    <label for="subevent-time2">Hora de Finalizaci&oacute;n:</label>
+                    <label for="subevent-time2">Hora Fin:</label>
                     <input
                         id="subevent-time2"
                         type="time"
@@ -409,7 +591,7 @@
             @enderror
 
             <div class="subevent-form-buttons">
-                <button class="btn-ingresar" type="submit">Guardar</button>
+                <button class="btn-guardar" type="submit">Guardar</button>
                 <button class="clean-btn" onclick="closeModal(event, 'subevent-modal')">Cancelar</button>
             </div>
         </form>

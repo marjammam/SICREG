@@ -17,7 +17,7 @@ class SubEventPatchRequest extends FormRequest
     {
         return [
             'subevent-name' => ['sometimes', 'string', 'max:100', 'not_regex:/^\s*$/'],
-            'subevent-type' => ['sometimes', 'string', 'in:Delegados,Congreso'],
+            'description' => ['sometimes', 'nullable', 'string', 'max:255', 'not_regex:/^\s*$/'],
             'subevent-date' => ['sometimes', 'date'],
             'subevent-time1' => ['sometimes', 'date_format:H:i,H:i:s'],
             'subevent-time2' => ['sometimes', 'date_format:H:i,H:i:s'],

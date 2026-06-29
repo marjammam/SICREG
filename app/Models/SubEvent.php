@@ -13,7 +13,7 @@ class SubEvent extends Model
 
     protected $fillable = [
         'nombreSE',
-        'tipoEvento',
+        'descripcionSE',
         'fechaSE',
         'horaInicio',
         'horaFin',
@@ -26,8 +26,13 @@ class SubEvent extends Model
         return $this->belongsTo(Event::class, 'Evento_idEvento', 'idEvento');
     }
 
-    public function asistencias()
+   /* public function asistencias()
     {
         return $this->hasMany(Asistencia::class, 'Subevento_idSubevent');
+    }*/
+
+    public function asistencias()
+    {
+        return $this->hasMany(Asistencia::class, 'Subevento_idSubevento', 'idSubevento');
     }
 }

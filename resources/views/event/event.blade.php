@@ -2,6 +2,76 @@
 
 @push('styles')
     <style>
+        .div-container {
+            background: white;
+            padding: 40px;
+            width: 350px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            text-align: left;
+            margin-top: 10px;
+            font-weight: bold;
+            color: #850B0B
+        }
+
+
+        input,
+        select {
+            box-sizing: border-box;
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0px 20px 0;
+        }
+
+
+        .btn-guardar {
+            width: 50%;
+            padding: 10px;
+            background-color: #850B0B;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-guardar:hover {
+            background-color: #5f0808;
+        }
+
+        .clean-btn {
+            width: 50%;
+            padding: 10px;
+            background-color: #656061;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .clean-btn:hover {
+            background-color: #454142;
+        }
+
+        .is-invalid {
+            border-color: red !important;
+            outline: none;
+            margin-bottom: 0;
+        }
+
+        .alert-msg {
+            margin: 0;
+            padding: 0;
+            font-size: 0.8rem;
+            color: red;
+            align-self: flex-start;
+        }
+
+
+
+
         .event-container {
             margin-top: 2%;
             display: flex;
@@ -34,33 +104,67 @@
             border-radius: 7px;
         }
 
+        
+
+
+
         .list {
-            width: 50%;
+
+
+            width: 60%;
             display: flex;
             flex-direction: column;
-            height: 100%;
+            height: 80vh;
+            background: white;           /* 👈 fondo blanco como el formulario */
+            border-radius: 10px;         /* 👈 bordes redondeados */
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1); /* 👈 sombra como el formulario */
+            padding: 20px;               /* 👈 espacio interno */
+            box-sizing: border-box;
         }
 
         .list h3 {
             align-self: center;
             color: #850B0B;
+            margin-bottom: 15px;
         }
 
         .list-events {
             flex-grow: 1;
             overflow-y: auto;
+            max-height: 70vh;
             padding: 10px;
+            padding-right: 15px;
             box-sizing: border-box;
         }
+
+        /* scroll personalizado */
+        .list-events::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .list-events::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        .list-events::-webkit-scrollbar-thumb {
+            background: #850B0B;
+            border-radius: 10px;
+        }
+
+        .list-events::-webkit-scrollbar-thumb:hover {
+            background: #6a0909;
+        }
+
 
         .element {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: white;
+            background: #f6f2f2;
             padding: 10px 15px;
             border-radius: 10px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
             margin-bottom: 10px;
             min-height: 60px;
         }
@@ -101,6 +205,7 @@
             const form = document.getElementById('event-form');
             const formMethod = document.getElementById('form-method');
             const eventIdInput = document.getElementById('eventId');
+            
 
             form.querySelectorAll('.alert-msg').forEach(alert => alert.remove());
 
@@ -109,7 +214,7 @@
             });
 
             document.getElementById('name').value = null;
-            document.getElementById('description').value = null;
+            document.getElementById('subevent-type').value = 'Delegados';
             document.getElementById('state').value = 'Activo';
             document.getElementById('event-date1').value = '{{ date("Y-m-d") }}';
             document.getElementById('event-date2').value = '{{ date("Y-m-d") }}';
@@ -133,7 +238,7 @@
             eventIdInput.disabled = false;
 
             document.getElementById('name').value = eventData.nombreE;
-            document.getElementById('description').value = eventData.descripcionE;
+            document.getElementById('subevent-type').value = eventData.tipoEvento;
             document.getElementById('state').value = eventData.estadoE;
             document.getElementById('event-date1').value = eventData.fechaInicioE;
             document.getElementById('event-date2').value = eventData.fechaFinE;
@@ -144,7 +249,7 @@
 @section('content')
 
 <div class="event-container">
-    <div class="login-box">
+    <div class="div-container">
         <form
             id="event-form"
             action="{{ old('eventId') ? '/eventos/' . old('eventId') : '/eventos' }}"
@@ -165,7 +270,7 @@
                 value="{{ old('eventId') }}"
                 {{ old('eventId') ? '' : 'disabled' }}
             >
-            <h3 style="color: #656061;">Registro de Evento</h3>
+            <h3 style="color: #850B0B;">Registro de Evento</h3>
 
             <label for="name">Nombre del evento:</label>
             <input
@@ -174,26 +279,34 @@
                 name="name"
                 placeholder="Ingrese el nombre del evento"
                 value="{{ old('name') }}"
+                oninput="this.value = this.value.toUpperCase()"
                 class="@error('name') is-invalid @enderror"
             >
             @error('name')
                 <div class="alert-msg">{{ $message }}</div>
             @enderror
 
-            <label for="description">Descripci&oacute;n:</label>
-            <textarea
-                id="description"
-                name="description"
-                placeholder="Ingrese la descripción del evento"
-                class="@error('description') is-invalid @enderror"
-            >{{ old('description') }}</textarea>
-            @error('description')
-                <div class="alert-msg">{{ $message }}</div>
-            @enderror
+            <div>
+                <label for="subevent-type">Tipo de evento:</label>
+                    <select
+                        id="subevent-type"
+                        name="subevent-type"
+                        class="@error('subevent-type') is-invalid @enderror"
+                    >
+                        <option value="Delegados" {{ old('subevent-type') == 'Delegados' ? 'selected' : '' }}>Delegados</option>
+                        <option value="Congreso" {{ old('subevent-type') == 'Congreso' ? 'selected' : '' }}>Congreso</option>
+                        <option value="Talleres" {{ old('subevent-type') == 'Talleres' ? 'selected' : '' }}>Talleres</option>
+                        <option value="Conferencias" {{ old('subevent-type') == 'Conferencias' ? 'selected' : '' }}>Conferencias</option>
+                        <option value="Otros" {{ old('subevent-type') == 'Otros' ? 'selected' : '' }}>Otros</option>
+                    </select>
+                    @error('subevent-type')
+                        <div class="alert-msg">{{ $message }}</div>
+                    @enderror
+            </div>
 
             <div class="event-row-controls">
                 <div>
-                    <label for="event-date1">Fecha de inicio:</label>
+                    <label for="event-date1">Fecha inicio:</label>
                     <input
                         id="event-date1"
                         type="date"
@@ -206,7 +319,7 @@
                     @enderror
                 </div>
                 <div>
-                    <label for="event-date2">Fecha de Finalizaci&oacute;n:</label>
+                    <label for="event-date2">Fecha fin:</label>
                     <input
                         id="event-date2"
                         type="date"
@@ -235,14 +348,14 @@
             @enderror
 
             <div class="buttons">
-                <button class="btn-ingresar submit-btn" type="submit">Guardar</button>
+                <button class="btn-guardar submit-btn" type="submit">Guardar</button>
                 <button class="clean-btn" onclick="clean(event)">Limpiar</button>
             </div>
         </form>
     </div>
 
     <div class="list">
-        <h3>Eventos Registrados</h3>
+        <h3>EVENTOS RESGISTRADOS</h3>
 
         <div class="list-events">
             @forelse ($events as $event)

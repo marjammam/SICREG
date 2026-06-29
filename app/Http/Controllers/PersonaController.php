@@ -13,7 +13,7 @@ class PersonaController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Persona::query();
+        $query = Persona::where('estadoP', 'ACTIVO'); 
 
         if ($request->isMethod('post')) {
             $nombre = $request->input('nombre');
@@ -49,8 +49,9 @@ class PersonaController extends Controller
             'apellidos' => $request->apellidos,
             'ci' => $request->ci,
             'tipoInstitucion' => $request->tipoInstitucion,
-            'distrito' => $request->distrito,
-            'foto' => $nombreFoto
+            'distrito' => $request->distrito === 'OTRO' ? strtoupper($request->distrito_otro) : $request->distrito,
+            'foto' => $nombreFoto,
+            'estadoP' => 'ACTIVO'
         ]);
         return redirect('cliente');
     }
@@ -90,15 +91,16 @@ class PersonaController extends Controller
 
     public function delete(int $personaId)
     {
-        $persona = Persona::findOrFail($personaId);
 
+        $persona = Persona::findOrFail($personaId);
+        $persona->update(['estadoP' => 'INACTIVO']);
+        return redirect('cliente');
+       /* $persona = Persona::findOrFail($personaId);
         if ($persona->foto) {
             $this->deleteFile(storage_path('app/private/fotos/' . $persona->foto));
         }
-
         $persona->delete();
-
-        return redirect('cliente');
+        return redirect('cliente');*/
     }
 
     public function obtenerFoto($filename)

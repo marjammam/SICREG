@@ -2,6 +2,96 @@
 
 @push('styles')
     <style>
+
+        .div-container {
+            background: white;
+            padding: 40px;
+            width: 350px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            text-align: left;
+            margin-top: 10px;
+            font-weight: bold;
+            color: #850B0B
+        }
+
+
+        input,
+        textarea,
+        select {
+            box-sizing: border-box;
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0px 20px 0;
+        }
+
+
+        textarea {
+            field-sizing: content;
+            min-height: 3rem;
+            resize: vertical;
+        }
+
+
+        .btn-guardar {
+            width: 60%;
+            padding: 10px;
+            background-color: #850B0B;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-guardar:hover {
+            background-color: #5f0808;
+        }
+        .btn-registrar {
+            width: 60%;
+            padding: 10px;
+            background-color: #185FA5;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-registrar:hover {
+            background-color: #0d4278;
+            color: white;
+        }
+
+
+        .clean-btn {
+            width: 60%;
+            padding: 10px;
+            background-color: #656061;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .clean-btn:hover {
+            background-color: #454142;
+        }
+
+        .is-invalid {
+            border-color: red !important;
+            outline: none;
+            margin-bottom: 0;
+        }
+
+        .alert-msg {
+            margin: 0;
+            padding: 0;
+            font-size: 0.8rem;
+            color: red;
+            align-self: flex-start;
+        }
+
         .user-container {
             margin-top: 2%;
             display: flex;
@@ -133,12 +223,12 @@
             <form class="search" method="POST" action="{{ route('usuarios') }}">
                 @csrf
                 <input id="nombre" name="nombre" type="search" placeholder="Escriba aquí el nombre, email o usuario">
-                <button class="btn-ingresar" type="submit">
+                <button class="btn-guardar" type="submit">
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </button>
             </form>
 
-            <button class="btn-ingresar" onclick="openModal(event, 'user-modal')">
+            <button class="btn-registrar" onclick="openModal(event, 'user-modal')">
                 <i class="fa-solid fa-circle-plus"></i>
                 <span>REGISTRAR</span>
             </button>
@@ -176,7 +266,7 @@
     </div>
 
     <div id="user-modal" class="modal hidden">
-        <div class="login-box">
+        <div class="div-container">
             <a style="float: right; cursor: pointer;" onclick="closeModal(event, 'user-modal')">
                 <i class="fa-solid fa-circle-xmark"></i>
             </a>
@@ -312,7 +402,7 @@
                 @enderror
 
                 <div class="form-buttons">
-                    <button class="btn-ingresar" type="submit">Guardar</button>
+                    <button class="btn-guardar" type="submit">Guardar</button>
                     <button class="clean-btn" onclick="closeModal(event, 'user-modal')">Cancelar</button>
                 </div>
             </form>

@@ -13,7 +13,7 @@ class Event extends Model
 
     protected $fillable = [
         'nombreE',
-        'descripcionE',
+        'tipoEvento',
         'fechaInicioE',
         'fechaFinE',
         'estadoE',

@@ -10,7 +10,7 @@ return new class extends Migration
         Schema::create('subevento', function (Blueprint $table) {
             $table->id('idSubevento');
             $table->string('nombreSE', 100)->nullable();
-            $table->string('tipoEvento', 100)->nullable();
+            $table->string('descripcionSE', 100)->nullable();
             $table->date('fechaSE')->nullable();
             $table->time('horaInicio')->nullable();
             $table->time('horaFin')->nullable();

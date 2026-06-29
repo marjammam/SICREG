@@ -68,50 +68,46 @@ class AsistenciaController extends Controller {
     public function registrar(Request $request)
     {
         try {
-            // 1. Buscar persona por CI
             $persona = Persona::where('ci', $request->ci)->first();
 
             if (!$persona) {
                 return response()->json([
-                    'status' => 'error',
-                    'message' => 'Persona no encontrada'
+                    'status'  => 'error',
+                    'message' => 'Persona no encontrada con CI: ' . $request->ci
                 ]);
             }
 
-            // 2. Validar si ya existe registro (evitar duplicados)
+            // ✅ Duplicado por subevento completo, no solo por día
             $existe = Asistencia::where('Persona_idPersona', $persona->idPersona)
                 ->where('Subevento_idSubevento', $request->subevento_id)
-                ->whereDate('fechahoraIngreso', now()->toDateString())
                 ->exists();
 
             if ($existe) {
                 return response()->json([
-                    'status' => 'error',
-                    'message' => 'Ya registró asistencia hoy'
+                    'status'  => 'duplicado',
+                    'message' => $persona->nombre . ' ' . $persona->apellidos . ' ya está registrado en este subevento.'
                 ]);
             }
 
-            // 3. Registrar asistencia
             Asistencia::create([
-                'codigoQRleido' => $request->ci,
-                'fechahoraIngreso' => now(),
-                'estadoR' => 'INGRESO', // puedes ajustar según tu lógica
+                'codigoQRleido'         => $request->ci,
+                'fechahoraIngreso'      => now(),
+                'estadoR'               => 'INGRESO',
                 'Subevento_idSubevento' => $request->subevento_id,
-                'Persona_idPersona' => $persona->idPersona,
-                'Usuario_idUsuario' => Auth::id() ?? 1 // opcional
+                'Persona_idPersona'     => $persona->idPersona,
+                'Usuario_idUsuario'     => Auth::id() ?? 1
             ]);
 
             return response()->json([
-                'status' => 'success',
-                'message' => 'Asistencia registrada'
+                'status'  => 'success',
+                'message' => 'Asistencia registrada: ' . $persona->nombre . ' ' . $persona->apellidos
             ]);
 
         } catch (\Exception $e) {
             return response()->json([
-                'status' => 'error',
-                'message' => 'Error en servidor',
-                'error' => $e->getMessage()
-            ]);
+                'status'  => 'error',
+                'message' => 'Error en servidor: ' . $e->getMessage()
+            ], 500);
         }
     }
 
@@ -130,5 +126,58 @@ class AsistenciaController extends Controller {
         $asistencia->delete();
 
         return redirect()->back();
+    }
+
+    // En AsistenciaController.php
+
+    public function buscarPorCI(Request $request)
+    {
+        try {
+            $ci = $request->input('ci');
+
+            if (!$ci) {
+                return response()->json(['error' => 'Ingrese un carnet de identidad'], 400);
+            }
+
+            $persona = Persona::where('ci', $ci)->first();
+
+            if (!$persona) {
+                return response()->json(['error' => 'No se encontró ninguna persona con ese carnet'], 404);
+            }
+
+            $asistencias = Asistencia::where('Persona_idPersona', $persona->idPersona)
+                ->with(['subevento', 'subevento.event'])
+                ->orderBy('fechahoraIngreso', 'desc')
+                ->get();
+
+            return response()->json([
+                'persona' => [
+                    'ci'              => $persona->ci,
+                    'nombre_completo' => $persona->nombre . ' ' . $persona->apellidos,
+                ],
+                'total_asistencias' => $asistencias->count(), 
+                'asistencias' => $asistencias->map(function ($a) {
+                    return [
+                        'evento'    => optional($a->subevento)->event->nombreE ?? ' ',
+                        'subevento' => optional($a->subevento)->nombreSE        ?? ' ',
+                        'fecha'     => optional($a->subevento)->fechaSE
+                                        ? \Carbon\Carbon::parse($a->subevento->fechaSE)->format('d/m/Y')
+                                        : '—',
+                        'hora'      => optional($a->fechahoraIngreso)->format('H:i:s') ?? ' ',
+                    ];
+                }),
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'error'   => $e->getMessage(),
+                'linea'   => $e->getLine(),
+                'archivo' => class_basename($e->getFile()),
+            ], 500);
+        }
+    }
+    public function verificar()
+    {
+        return view('registro.verificarAsistencia'); // o la vista que uses
     }
 }

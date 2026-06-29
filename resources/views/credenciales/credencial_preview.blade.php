@@ -21,79 +21,57 @@
 
 <div id="hoja" class="page">
 
-@foreach($personas as $p)
+    @foreach($personas as $p)
 
-<div class="credencial">
+    <div class="credencial">
 
-<img src="{{ asset('image/credencialM.png') }}" class="fondo">
+        <img src="{{ asset('image/CREDENCIAL.png') }}" class="fondo">
 
-<img src="{{ asset('image/logoF.png') }}" class="logo">
+        <img src="{{ asset('image/logoF.png') }}" class="logo">
 
-<div class="titulo">{{ $evento }}</div>
-<div class="qr" id="qr-{{ $p->idPersona }}"></div>
+        <div class="titulo">{{ $evento }}</div>
+        <div class="qr" id="qr-{{ $p->idPersona }}"></div>
 
-<div class="datos">
+        <div class="datos">
 
-<div class="nombre">
-{{ $p->nombre }} {{ $p->apellidos }}
-</div>
+            <div class="nombre">{{ $p->nombre }} {{ $p->apellidos }}</div>
 
-<div class="info">
-<p> {{ $p->tipoInstitucion }}</p>
-<p> {{ $p->distrito }}</p>
-<p><b>C.I.:</b> {{ $p->ci }}</p>
-</div>
+            <div class="info">
+            <p> {{ $p->tipoInstitucion }}</p>
+            <p> {{ $p->distrito }}</p>
+            </div>
 
-</div>
-
-</div>
-
-@endforeach
+        </div>
+    </div>
+    @endforeach
 
 </div>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function(){
+
+document.addEventListener("DOMContentLoaded", function() {
     @foreach($personas as $p)
+    // ✅ QR con nombre completo, CI, distrito y U.E.
     new QRCode(document.getElementById("qr-{{ $p->idPersona }}"), {
-        text: "CI: {{ $p->ci }}",
-        width: 120,
-        height: 120
+        text: [
+            "CI: {{ $p->ci }}",
+            "NOMBRE: {{ $p->nombre }} {{ $p->apellidos }}",
+            "DISTRITO: {{ $p->distrito }}",
+            "U.E.: {{ $p->tipoInstitucion }}"
+        ].join("\n"),
+        width: 125,   // ✅ más pequeño para que quepan los datos abajo
+        height: 125,
+        correctLevel: QRCode.CorrectLevel.M
     });
-
     @endforeach
+});
 
-    });
+// ✅ Imprimir directo sin html2canvas — mantiene tamaño PVC exacto
+function imprimirPDF() {
+    window.print();
+}
 
-    async function esperarQR(){
 
-    return new Promise(resolve=>{
-    setTimeout(resolve, 500); // espera a que renderice QR
-    });
-
-    }
-    async function imprimirPDF(){
-
-    await esperarQR();
-
-    const { jsPDF } = window.jspdf;
-
-    let hoja=document.getElementById("hoja");
-
-    let canvas=await html2canvas(hoja,{scale:2});
-
-    let img=canvas.toDataURL("image/png");
-
-    let pdf=new jsPDF('p','mm','a4');
-
-    pdf.addImage(img,'PNG',0,0,210,297);
-
-    let blobUrl = pdf.output('bloburl');
-
-    window.open(blobUrl);
-
-    }
-    
 
 </script>
 

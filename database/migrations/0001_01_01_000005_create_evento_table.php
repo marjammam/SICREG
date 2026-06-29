@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('evento', function (Blueprint $table) {
             $table->id('idEvento');
             $table->string('nombreE', 100)->nullable();
-            $table->string('descripcionE', 255)->nullable();
+            $table->string('tipoEvento', 255)->nullable();
             $table->date('fechaInicioE')->nullable();
             $table->date('fechaFinE')->nullable();
             $table->string('estadoE', 30)->nullable();

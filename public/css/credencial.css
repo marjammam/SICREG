@@ -6,7 +6,40 @@ gap:40px;
 padding:30px;
 align-items:flex-start;
 }
+.credenciales-header h2 {
+    text-align: center;
+    color: #000 ;
+    font-size: 15px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+.credenciales-header {
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    position: relative;        
+    margin-bottom: 8px;
+}
 
+.btn-excel {
+    position: absolute;        
+    right: 0;
+    background: #2e7d32;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: bold;
+    text-decoration: none;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.btn-excel:hover {
+    background: #1b5e20;
+    color: white;
+}
 /* FORMULARIO */
 
 .formulario{
@@ -18,10 +51,11 @@ border-radius:6px;
 box-shadow:0 2px 6px rgba(0,0,0,0.1);
 }
 
+
 .formulario label{
 color:#b30000;
 font-weight:bold;
-margin-top:10px;
+margin-top:5px;
 display:block;
 }
 
@@ -34,52 +68,71 @@ margin-bottom:5px;
 border-radius:4px;
 }
 
-/* BUSCADOR */
 
-.buscador{
-display:flex;
-align-items:stretch;
-}
-.buscador input{
-height:38px;
-width:250px;
-padding:0 12px;
-border:1px solid #ccc;
-border-right:none;
-font-size:14px;
-box-sizing:border-box;
-margin:0;
+
+/* ============================
+   BUSCADOR
+   ============================ */
+.buscador {
+    display: flex;
+    align-items: stretch;
+    margin-bottom: 8px;
 }
 
-/* BOTON BUSCAR */
-
-.btn-buscar{
-height:39px;
-width:40px;
-border:1px solid #ccc;
-background:#eee;
-cursor:pointer;
-box-sizing:border-box;
-display:flex;
-align-items:center;
-justify-content:center;
-
-box-sizing:border-box;
-margin:0;
+.buscador input {
+    flex: 1;
+    height: 36px;
+    padding: 0 10px;
+    border: 1px solid #ccc;
+    border-right: none;
+    border-radius: 4px 0 0 4px;
+    font-size: 13px;
+    box-sizing: border-box;
+    margin: 0;
 }
 
-/* RADIO */
-.radio{
-display:flex;
-gap:20px;
-align-items:center;
+.btn-buscar {
+    height: 36px;
+    width: 40px;
+    border: 1px solid #ccc;
+    border-radius: 0 4px 4px 0;
+    background: #eee;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
 }
 
-/* SUBIR ARCHIVO */
+.btn-buscar:hover {
+    background: #ddd;
+}
 
-.upload{
-display:flex;
-gap:5px;
+.radio {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    margin: 4px 0;
+}
+
+.radio-label {
+    display: flex;
+    align-items: center;
+    gap: 5px;        /* espacio entre el circulito y el texto */
+    font-size: 13px;
+    font-weight: normal;
+    cursor: pointer;
+}
+.formulario .radio-label {
+    color: #626060 !important;
+    font-weight: bold !important;
+}
+
+.radio-label input[type="radio"] {
+    width: auto;
+    height: auto;
+    margin: 0;
+    cursor: pointer;
 }
 
 /* BOTONES FORMULARIO */
@@ -106,140 +159,171 @@ cursor:pointer;
 border-radius:4px;
 }
 
-/* COLUMNA CREDENCIALES */
-
-.credenciales{
-flex:1;
-border:1px solid #ccc;
-padding:20px;
-background:#f8f8f8;
-border-radius:6px;
-box-shadow:0 2px 6px rgba(0,0,0,0.1);
+/* ============================
+   COLUMNA CREDENCIALES
+   ============================ */
+.credenciales {
+    flex: 1;
+    border: 1px solid #ccc;
+    padding: 20px;
+    background: #f8f8f8;
+    border-radius: 6px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 
-/* CONTENEDOR DE LAS TARJETAS */
-
-
-.cards{
-display:flex;
-justify-content:center;
-gap:80px;
-margin-top:20px;
-}
-.credencial-box{
-display:flex;
-flex-direction:column;
-align-items:center;
-}
-/* TARJETA CREDENCIAL */
-
-.credencial{   
-width:260px;
-height:420px;
-position:relative;
-background-size:100% 100%;
-/*background-size:cover;*/
-background-position:center;
-border:1px solid #ddd;
-border-radius:6px;
-overflow:hidden;
+/* ============================
+   CONTENEDOR DE LAS TARJETAS
+   ============================ */
+.cards {
+    display: flex;
+    justify-content: center;
+    gap: 80px;
+    margin-top: 20px;
 }
 
-
-.bg{
-    position:absolute;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    object-fit:fill;   /* 🔥 CLAVE */
-    z-index:0;
-}
-/* FONDOS DE CANVA */
-
-/*.frente{
-background-image:url("/image/FRENTE.png");
-}*/
-
-.atras{
-background-image:url("/image/19.png");
+.credencial-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-
-.foto{
-background-image: url("/image/perfil.png");
-position:absolute;
-top:110px;
-left:70px;
-width:120px;
-height:130px;
-border-radius:15px;
-border:3px solid rgb(85, 84, 84);
-background-size: cover;
-background-position: center;
-background-repeat: no-repeat;
+/* ============================
+   TARJETA BASE (frente y atrás)
+   ============================ */
+.credencial {
+    width: 260px;
+    height: 420px;
+    position: relative;        /* 🔑 padre de todos los absolute internos */
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    overflow: hidden;
 }
 
-/* DATOS */
-
-.datos{
-position:absolute;
-top:250px;
-left:20px;
-font-size:14px;
-line-height:10px;
-}
-.datos p{
-margin:6px 0;
-font-size:14px;
-line-height:1.3;
-word-break:break-word;
+/* ============================
+   IMAGEN DE FONDO - FRENTE
+   ============================ */
+.bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+    z-index: 0;               /* base */
 }
 
-/* PARTE ATRAS */
-
-.credencial-atras{
-display:flex;
-flex-direction:column;
-align-items:center;
-text-align:center;
-padding:20px;
+/* ============================
+   IMAGEN DE FONDO - ATRÁS
+   ============================ */
+.bg-atras {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+    z-index: 0;               /* base, igual que .bg */
 }
 
+/* ============================
+   FOTO (frente)
+   ============================ */
+.foto {
+    background-image: url("/image/perfil.png");
+    position: absolute;
+    top: 110px;
+    left: 70px;
+    width: 120px;
+    height: 130px;
+    border-radius: 10px;
+    border: 3px solid rgba(0,0,0,0.5);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: 1;   
 
-.titulo{
-width:100%;
-text-align:center;
-font-weight:bold;
-font-size:16px;
-margin-top:60px;
-margin-bottom:15px;
 }
 
-.qr{
-display:flex;
-justify-content:center;
-align-items:center;
-margin-top:10px;
+/* ============================
+   DATOS (frente)
+   ============================ */
+#etiqueta-sindicato {
+    position: absolute;
+    top: 235px;        /* justo debajo de la foto (110px + 130px + 5px) */
+    left: 72px;
+    width: 120px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+    color: #ce0707;
+    background: #dad9d6;
+    border-radius: 10px;
+    padding: 2px 0;
+    z-index: 2;
+}
+.datos {
+    position: absolute;
+    top: 250px;
+    left: 20px;
+    z-index: 1;               /* encima del .bg */
 }
 
-.qr canvas{
-width:150px !important;
-height:150px !important;
+.datos p {
+    margin: 6px 0;
+    font-size: 13px;
+    line-height: 1.3;
+    word-break: break-word;
 }
 
-/* SECCIÓN DE FIRMAS - Subimos la posición general */
+/* ============================
+   CONTENIDO SUPERIOR (atrás)
+   ============================ */
+.contenido-superior {
+    position: absolute;       /* 🔑 esto faltaba */
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 1;               /* encima del .bg-atras */
+}
+
+.titulo {
+    width: 100%;
+    text-align: center;
+    font-weight: bold;
+    font-size: 16px;
+    margin-top: 50px;
+    margin-bottom: 15px;
+    color: #000;
+}
+
+.qr {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 3px;
+}
+
+.qr canvas {
+    width: 150px !important;
+    height: 150px !important;
+}
+
+/* ============================
+   FIRMAS (atrás)
+   ============================ */
 .seccion-firmas {
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
     width: 100%;
     position: absolute;
-    /* Subimos el bloque: de 15px a 35px para que no tape las franjas amarillas */
-    bottom: 55px; 
+    bottom: 55px;
     padding: 0 10px;
     box-sizing: border-box;
-    z-index: 10;
+    z-index: 1;               /* encima del .bg-atras */
 }
 
 .firma-col {
@@ -252,34 +336,48 @@ height:150px !important;
 
 .img-firma {
     width: 90%;
-    max-height: 70px; /* Aumentamos un poco el tamaño de la firma */
+    max-height: 70px;
     object-fit: contain;
-    /* Esto permite que el nombre se acerque a la firma */
-    margin-bottom: -1px; 
-    position: relative;
-    z-index: 11;
+    margin-bottom: -1px;
 }
 
 .nombre-firma {
     font-size: 8px;
     font-weight: bold;
     color: #5b5b5b;
-    /* Margen negativo para eliminar el hueco y que la firma toque el nombre */
-    margin: -2px 0 0 0; 
-    position: relative;
-    z-index: 10;
+    margin: -2px 0 0 0;
     line-height: 1;
 }
 
 .cargo-firma {
     font-size: 8.5px;
     font-weight: bold;
-    color: #000; /* Un poco más oscuro para que se note que es parte de la firma */
+    color: #000;
     margin: 2px 0 0 0;
     line-height: 1;
     text-transform: uppercase;
 }
 
+/* ============================
+   MODO IMPRESIÓN
+   ============================ */
+.print-mode .credencial {
+    width: 638px !important;
+    height: 1011px !important;
+}
+
+.print-mode .foto {
+    top: 260px !important;
+    left: 170px !important;
+    width: 300px !important;
+    height: 320px !important;
+}
+
+.print-mode .datos {
+    top: 600px !important;
+    left: 50px !important;
+    font-size: 32px !important;
+}
 /* BOTONES IMPRIMIR */
 
 .botones{
@@ -299,14 +397,15 @@ border-radius:4px;
 .btn-print {
     width: 100%;
     padding: 10px;
-    background-color: #aaa;
-    color: black;
+    background-color: #6b6868;
+    color: white;
+    font-weight: bold;
     border: none;
     cursor: pointer;
 }
 
 .btn-print:hover {
-    background-color: #6b6868;
+    background-color: #484646;
 }
 
 

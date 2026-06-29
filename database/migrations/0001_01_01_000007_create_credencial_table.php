@@ -6,26 +6,21 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    public function up(): void
+
+    public function up()
     {
         Schema::create('credencial', function (Blueprint $table) {
             $table->id('idCredencial');
-            $table->string('tipoCredencial', 45)->nullable();
-            $table->string('codigoQR', 120)->nullable();
-            $table->timestamp('fechaEmision')->nullable();
             $table->unsignedBigInteger('Persona_idPersona');
-            $table->unsignedBigInteger('Evento_idEvento')->nullable();
-
-            $table->foreign('Persona_idPersona')
-                ->references('idPersona')
-                ->on('persona')
-                ->cascadeOnDelete();
-            $table->foreign('Evento_idEvento')
-                ->references('idEvento')
-                ->on('evento')
-                ->onDelete('set null');
+            $table->string('carnet', 20);
+            $table->string('tipo_institucion', 20);
+            $table->string('cargo', 100)->nullable();
+            $table->timestamp('fecha_emision')->useCurrent();
+            $table->foreign('Persona_idPersona')->references('idPersona')->on('persona')->onDelete('cascade');
+            
         });
     }
+    
 
     public function down(): void
     {

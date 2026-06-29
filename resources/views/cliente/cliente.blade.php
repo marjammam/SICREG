@@ -1,11 +1,15 @@
 @extends('layouts.header')
+@push('styles')
+<link rel="stylesheet" href="{{ asset('css/cliente.css') }}">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+@endpush
 
 @section('content')
-    <link rel="stylesheet" href="{{ asset('css/cliente.css') }}">
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+   
 
     <div class="tabla-clientes">
 
@@ -48,8 +52,8 @@
                             <td>{{ $p->distrito }}</td>
                             <td>{{ $p->tipoInstitucion }}</td>
                             <td class="acciones">
-                                <i class="fa-solid fa-pen-to-square icon-btn" onclick="edit(event, {{ $p }})"></i>
-                                <i class="fa-solid fa-trash icon-btn" onclick="deleteById(event, {{ $p->idPersona }})"></i>
+                                <i class="fa-solid fa-pen-to-square btn-accion btn-editar" onclick="edit(event, {{ $p }})"></i>
+                                <i class="fa-solid fa-trash btn-accion btn-eliminar" onclick="deleteById(event, {{ $p->idPersona }})"></i>
                             </td>
                         </tr>
 
@@ -70,7 +74,7 @@
     <div id="modalCliente" class="modal">
         <div class="modal-card">
             <div class="modal-header">
-                <h2>Registrar Cliente</h2>
+                <h2>Registrar Nuevo Profesor</h2>
                 <button class="cerrar" onclick="cerrarModal()">✕</button>
             </div>
             <form
@@ -105,6 +109,7 @@
                             name="ci"
                             placeholder="Carnet de identidad"
                             value="{{ old('ci') }}"
+                            oninput="this.value = this.value.toUpperCase()"
                             class="@error('ci') is-invalid @enderror"
                         >
                         @error('ci')
@@ -119,6 +124,7 @@
                             name="nombre"
                             placeholder="Nombres"
                             value="{{ old('nombre') }}"
+                            oninput="this.value = this.value.toUpperCase()"
                             class="@error('nombre') is-invalid @enderror"
                         >
                         @error('nombre')
@@ -133,6 +139,7 @@
                             name="apellidos"
                             placeholder="Apellidos"
                             value="{{ old('apellidos') }}"
+                            oninput="this.value = this.value.toUpperCase()"
                             class="@error('apellidos') is-invalid @enderror"
                         >
                         @error('apellidos')
@@ -144,12 +151,69 @@
                         <select
                             id="distrito"
                             name="distrito"
+                            onchange="toggleOtroDistrito(this.value)"
                             class="@error('distrito') is-invalid @enderror"
                         >
-                            <option>Seleccionar</option>
-                            <option value="1" {{ old('distrito') == '1' ? 'selected' : '' }}>1</option>
-                            <option value="2" {{ old('distrito') == '2' ? 'selected' : '' }}>2</option>
+
+                        <option value="">Seleccionar</option>
+                            <option value="ANZALDO" {{ old('distrito') == 'ANZALDO' ? 'selected' : '' }}>ANZALDO</option>
+                            <option value="ARANI" {{ old('distrito') == 'ARANI' ? 'selected' : '' }}>ARANI</option>
+                            <option value="ARBIETO" {{ old('distrito') == 'ARBIETO' ? 'selected' : '' }}>ARBIETO</option>
+                            <option value="ARQUE" {{ old('distrito') == 'ARQUE' ? 'selected' : '' }}>ARQUE</option>
+                            <option value="AYOPAYA" {{ old('distrito') == 'AYOPAYA' ? 'selected' : '' }}>AYOPAYA</option>
+                            <option value="CAPINOTA" {{ old('distrito') == 'CAPINOTA' ? 'selected' : '' }}>CAPINOTA</option>
+                            <option value="CHIMORE" {{ old('distrito') == 'CHIMORE' ? 'selected' : '' }}>CHIMORE</option>
+                            <option value="CLIZA" {{ old('distrito') == 'CLIZA' ? 'selected' : '' }}>CLIZA</option>
+                            <option value="COCHABAMBA 1" {{ old('distrito') == 'COCHABAMBA 1' ? 'selected' : '' }}>COCHABAMBA 1</option>
+                            <option value="COCHABAMBA 2" {{ old('distrito') == 'COCHABAMBA 2' ? 'selected' : '' }}>COCHABAMBA 2</option>
+                            <option value="COLCAPIRHUA" {{ old('distrito') == 'COLCAPIRHUA' ? 'selected' : '' }}>COLCAPIRHUA</option>
+                            <option value="COLOMI" {{ old('distrito') == 'COLOMI' ? 'selected' : '' }}>COLOMI</option>
+                            <option value="ENTRE RIOS" {{ old('distrito') == 'ENTRE RIOS' ? 'selected' : '' }}>ENTRE RIOS</option>
+                            <option value="MIZQUE" {{ old('distrito') == 'MIZQUE' ? 'selected' : '' }}>MIZQUE</option>
+                            <option value="MOROCHATA" {{ old('distrito') == 'MOROCHATA' ? 'selected' : '' }}>MOROCHATA</option>
+                            <option value="OMEREQUE" {{ old('distrito') == 'OMEREQUE' ? 'selected' : '' }}>OMEREQUE</option>
+                            <option value="PASORAPA" {{ old('distrito') == 'PASORAPA' ? 'selected' : '' }}>PASORAPA</option>
+                            <option value="POJO" {{ old('distrito') == 'POJO' ? 'selected' : '' }}>POJO</option>
+                            <option value="PUERTO VILLARROEL" {{ old('distrito') == 'PUERTOVILLARROEL' ? 'selected' : '' }}>PUERTO VILLARROEL</option>
+                            <option value="PUNATA" {{ old('distrito') == 'PUNATA' ? 'selected' : '' }}>PUNATA</option>
+                            <option value="QUILLACOLLO" {{ old('distrito') == 'QUILLACOLLO' ? 'selected' : '' }}>QUILLACOLLO</option>
+                            <option value="SACABA" {{ old('distrito') == 'SACABA' ? 'selected' : '' }}>SACABA</option>
+                            <option value="SAN BENITO" {{ old('distrito') == 'SAN BENITO' ? 'selected' : '' }}>SAN BENITO</option>
+                            <option value="SANTIVANIEZ" {{ old('distrito') == 'SANTIVANIEZ' ? 'selected' : '' }}>SANTIVANIEZ</option>
+                            <option value="SHINAHOTA" {{ old('distrito') == 'SHINAHOTA' ? 'selected' : '' }}>SHINAHOTA</option>
+                            <option value="SIPE SIPE" {{ old('distrito') == 'SIPE SIPE' ? 'selected' : '' }}>SIPE SIPE</option>
+                            <option value="TAPACARI" {{ old('distrito') == 'TAPACARI' ? 'selected' : '' }}>TAPACARI</option>
+                            <option value="TARATA" {{ old('distrito') == 'TARATA' ? 'selected' : '' }}>TARATA</option>
+                            <option value="TIQUIPAYA" {{ old('distrito') == 'TIQUIPAYA' ? 'selected' : '' }}>TIQUIPAYA</option>
+                            <option value="TIRAQUE" {{ old('distrito') == 'TIRAQUE' ? 'selected' : '' }}>TIRAQUE</option>
+                            <option value="TOKO" {{ old('distrito') == 'TOKO' ? 'selected' : '' }}>TOKO</option>
+                            <option value="TOLATA" {{ old('distrito') == 'TOLATA' ? 'selected' : '' }}>TOLATA</option>
+                            <option value="TOTORA" {{ old('distrito') == 'TOTORA' ? 'selected' : '' }}>TOTORA</option>
+                            <option value="VILA VILA" {{ old('distrito') == 'VILA VILA' ? 'selected' : '' }}>VILA VILA</option>
+                            <option value="VILLA RIVERO" {{ old('distrito') == 'VILLA RIVERO' ? 'selected' : '' }}>VILLA RIVERO</option>
+                            <option value="VILLA TUNARI" {{ old('distrito') == 'VILLA TUNARI' ? 'selected' : '' }}>VILLA TUNARI</option>
+                            <option value="VINTO" {{ old('distrito') == 'VINTO' ? 'selected' : '' }}>VINTO</option>
+                            <option value="OTRO" {{ old('distrito') == 'OTRO' ? 'selected' : '' }}>OTRO</option>
                         </select>
+
+                        {{-- Campo que aparece solo si se selecciona OTRO --}}
+                        <div id="campo-otro-distrito" style="display: {{ old('distrito') == 'OTRO' ? 'block' : 'none' }}; margin-top: 8px;">
+                            <input
+                                type="text"
+                                id="distrito_otro"
+                                name="distrito_otro"
+                                placeholder="Ingrese el distrito"
+                                value="{{ old('distrito_otro') }}"
+                                style="text-transform: uppercase;"
+                                oninput="this.value = this.value.toUpperCase()"
+                                class="@error('distrito_otro') is-invalid @enderror"
+                            />
+                            @error('distrito_otro')
+                                <div class="alert-msg">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+
                         @error('distrito')
                             <div class="alert-msg">{{ $message }}</div>
                         @enderror
@@ -162,6 +226,7 @@
                             name="tipoInstitucion"
                             placeholder="Unidad Educativa"
                             value="{{ old('tipoInstitucion') }}"
+                            oninput="this.value = this.value.toUpperCase()"
                             class="@error('tipoInstitucion') is-invalid @enderror"
                         >
                         @error('tipoInstitucion')
@@ -209,6 +274,20 @@
 
 
     <script>
+    function toggleOtroDistrito(value) {
+        const campoOtro = document.getElementById('campo-otro-distrito');
+        const inputOtro = document.getElementById('distrito_otro');
+
+        if (value === 'OTRO') {
+            campoOtro.style.display = 'block';
+            inputOtro.required = true;
+        } else {
+            campoOtro.style.display = 'none';
+            inputOtro.required = false;
+            inputOtro.value = '';
+        }
+    }
+
         function cerrarModalEvento() {
             document.getElementById("modalEvento").style.display = "none";
         }
@@ -337,7 +416,37 @@
             abrirModal();
         }
 
+
+
         function deleteById(e, personaId) {
+            e.preventDefault();
+
+            confirmarEliminar(function () {
+                console.log('Ejecutando delete con id:', personaId);
+                const url = `{{ url("cliente") }}/${personaId}`;
+                const formData = new FormData();
+                formData.append('_method', 'DELETE');
+                formData.append('_token', '{{ csrf_token() }}');
+
+                fetch(url, {
+                    method: 'post',
+                    credentials: 'same-origin',
+                    body: formData,
+                })
+                .then((response) => {
+                    console.log('Response status:', response.status);
+                    if (response.redirected) {
+                        window.location.href = response.url;
+                    }
+                    return response;
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+            });
+        }
+
+      /*  function deleteById(e, personaId) {
             e.preventDefault();
 
             const url = `{{ url("cliente") }}/${personaId}`;
@@ -360,6 +469,6 @@
             .catch((error) => {
                 console.log(error);
             });
-        }
+        }*/
     </script>
 @endsection

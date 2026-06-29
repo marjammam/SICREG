@@ -18,7 +18,7 @@ class Persona extends Model
         'tipoInstitucion',
         'distrito',
         'foto',
-        'estado'
+        'estadoP'
     ];
 
     public function asistencias()

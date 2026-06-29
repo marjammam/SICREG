@@ -64,19 +64,27 @@ gap:8px;
 /* BOTON REGISTRAR */
 
 .btn-registrar{
-background:#8f8f8f;
+background:#185FA5;
 color:white;
 border:none;
 height:38px;
 padding:0 18px;
 font-size:14px;
 cursor:pointer;
+border-radius: 6px;
 }
+
+
+.btn-registrar:hover {
+background-color: #0d4278;
+}
+
 
 /* BOTON IMPRIMIR */
 
 .btn-imprimir{
-background:green;
+background:#8f8f8f;
+border-radius: 6px;
 color:white;
 border:none;
 height:38px;
@@ -113,19 +121,44 @@ border-bottom:1px solid #eee;
 font-size:13px;
 }
 /* ACCIONES */
-
-.acciones span{
-cursor:pointer;
-font-size:16px;
-transition:0.2s;
+/* Botones de acción */
+.btn-accion {
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 6px 8px;
+    border-radius: 6px;
+    border: 0.5px solid;
+    transition: background-color 0.2s, transform 0.1s;
 }
 
-.acciones .editar:hover{
-color:#2b7cff;
+.btn-editar {
+    color: #a58618;
+    background-color: #fbf6e6;
+    border-color: #ebeb85;
+    margin-right: 6px;
+}
+        
+
+.btn-editar:hover {
+    background-color: #f4e2b5;
+}
+.btn-eliminar {
+    color: #A32D2D;
+    background-color: #FCEBEB;
+    border-color: #F09595;
 }
 
-.acciones .eliminar:hover{
-color:#e53935;
+.btn-eliminar:hover {
+    background-color: #F7C1C1;
+}
+
+.btn-accion:active {
+    transform: scale(0.95);
+}
+
+.acciones {
+    text-align: center;
+    white-space: nowrap;
 }
 
 /* ocultar checkbox original */
@@ -344,7 +377,6 @@ border-radius:4px;
 
 
 .btn-cancelareve{
-
 padding:10px 20px;
 background:#777;;
 color:white;
@@ -354,3 +386,20 @@ border-radius:4px;
 
 }
 
+/* Fix header con Bootstrap */
+header input,
+header select,
+header textarea,
+nav input,
+nav select {
+    width: auto !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none !important;
+    background: transparent !important;
+}
+
+.dropdown-menu {
+    z-index: 9999 !important;
+    background: #6a0909 !important;
+}

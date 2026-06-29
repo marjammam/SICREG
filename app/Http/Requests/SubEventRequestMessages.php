@@ -12,9 +12,9 @@ trait SubEventRequestMessages
             'subevent-name.max' => 'El nombre no puede tener más de 100 caracteres.',
             'subevent-name.not_regex' => 'El nombre no puede estar en blanco.',
 
-            'subevent-type.required' => 'El tipo es obligatorio.',
-            'subevent-type.string' => 'El tipo debe ser una cadena de texto.',
-            'subevent-type.in' => 'El tipo debe ser uno de los siguientes valores: Delegados, Congreso.',
+            'description.string' => 'La descripción debe ser una cadena de texto.',
+            'description.max' => 'La descripción no puede tener más de 255 caracteres.',
+            'description.not_regex' => 'La descripción no puede estar en blanco.',
 
             'subevent-date.required' => 'La fecha es obligatoria.',
             'subevent-date.date' => 'La fecha debe ser una fecha válida.',
